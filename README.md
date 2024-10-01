@@ -1,0 +1,2 @@
+# SILAB
+Sistem Inventaris Laboratorium
