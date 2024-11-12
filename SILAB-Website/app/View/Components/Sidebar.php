@@ -25,18 +25,18 @@ class Sidebar extends Component
         [
             'name' => 'Dashboard',
             'route' => 'admin.dashboard',
-            'icon' => 'fas fa-box'
+            'icon' => 'fas fa-tachometer-alt'
         ],
         [
             'name' => 'Inventaris Barang',
-            'route' => 'admin.inventaris',
+            'route' => 'admin.barang.index',
             'icon' => 'fas fa-box'
         ],
         [
             'name' => 'Peminjaman',
             'route' => 'profile.edit',
-            'icon' => 'fas fa-hand-holding-hand',
-            'children' => [ // Menambahkan submenu
+            'icon' => 'fas fa-handshake',
+            'children' => [
                 [
                     'name' => 'Peminjaman Baru',
                     'route' => 'admin.barangDipinjam',
@@ -50,9 +50,9 @@ class Sidebar extends Component
             ]
         ],
         [
-            'name' => 'Profil',
+            'name' => 'Manajemen User',
             'route' => 'profile.edit',
-            'icon' => 'fas fa-user',
+            'icon' => 'fas fa-users',
         ]
     ];
 

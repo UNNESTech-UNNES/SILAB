@@ -28,4 +28,20 @@
             </form>
         </div>
     </div>
+
+    <form action="{{ route('peminjam.kepemilikan.ajukan') }}" method="POST">
+        @csrf
+        <label for="tipe_kepemilikan">Pilih Tipe Kepemilikan:</label>
+        <select name="tipe_kepemilikan" id="tipe_kepemilikan" class="border rounded p-2">
+            @foreach ($tipeKepemilikan as $type)
+                <option value="{{ $type->id }}">{{ $type->nama }}</option>
+            @endforeach
+        </select>
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Ajukan</button>
+    </form>
+
+    @if(Auth::user()->bisa_jadi_pemilik && Auth::user()->role === 'peminjam')
+    <a href="{{ route('ganti.ke.pemilik') }}" class="btn btn-primary">Ganti ke Pemilik</a>
+    @endif
+
 </nav>

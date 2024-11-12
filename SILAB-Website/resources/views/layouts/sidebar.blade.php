@@ -2,10 +2,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="{{ route('admin.dashboard') }}" class="brand-link">
-        <!-- <img src="{{ asset('dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> -->
-        <!-- tshirt icon -->
         <i class="fas fa-tshirt brand-image img-circle" style="font-size: 25px; margin-top: 5px;"></i>
-        <!-- <i class="fas fa-graduation-cap brand-image img-circle" style="opacity: .8; font-size: 25px;"></i> -->
         <span class="brand-text font-weight-light">{{ config('app.name') }}</span>
     </a>
 
@@ -14,19 +11,13 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <!-- <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image"> -->
-                <!-- profile image from name -->
-                <div class="img-circle elevation-2" style="background-color: #3c8dbc; width: 35px; height: 35px; text-align: center; line-height: 35px; font-size: 18px; color: #fff;">
+                <div class="img-circle elevation-2" style="background-color: #ff7207; width: 35px; height: 35px; text-align: center; line-height: 35px; font-size: 18px; color: #fff;">
                     {{ substr(auth()->user()->name, 0, 1) }}
                 </div>
             </div>
             <div class="info">
                 <a href="#" class="d-block">
                     {{ auth()->user()->name }}
-                    <!-- ({{ auth()->user()->role_name }}) -->
-                    <!-- <br> -->
-
-                    <!-- ({{ str(auth()->user()->role_name)->title() }}) -->
                 </a>
             </div>
         </div>
@@ -34,12 +25,15 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <!-- Add icons to the links using the .nav-icon class
-                with font-awesome or any other icon font library -->
                 @foreach ($menus as $menu)
                 @if (isset($menu["children"]))
-                <li class="nav-item has-treeview">
-                    <a href="{{ route($menu['route']) }}" class="nav-link {{ request()->routeIs($menu['route']) ? 'active' : '' }}">
+                @php
+                    $isActive = request()->routeIs($menu['route']) || collect($menu['children'])->pluck('route')->contains(function ($route) {
+                        return request()->routeIs($route);
+                    });
+                @endphp
+                <li class="nav-item has-treeview {{ $isActive ? 'menu-open' : '' }}">
+                    <a href="{{ route($menu['route']) }}" class="nav-link {{ $isActive ? 'active' : '' }}">
                         <i class="nav-icon {{ $menu['icon'] }}"></i>
                         <p>
                             {{ $menu["name"] }}
@@ -62,8 +56,7 @@
                 </li>
                 @else
                 <li class="nav-item">
-                    <a href="{{ route($menu['route']) }}" class="nav-link {{ request()->routeIs($menu['route']) ? 'active' : '' }}
-                    ">
+                    <a href="{{ route($menu['route']) }}" class="nav-link {{ request()->routeIs($menu['route']) ? 'active' : '' }}">
                         <i class="nav-icon {{ $menu['icon'] }}"></i>
                         <p>
                             {{ $menu["name"] }}
@@ -78,12 +71,10 @@
                         <i class="nav-icon fas fa-sign-out-alt"></i>
                         <p>
                             {{ __('Logout') }}
-
                         </p>
                     </a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
-
                     </form>
                 </li>
             </ul>
