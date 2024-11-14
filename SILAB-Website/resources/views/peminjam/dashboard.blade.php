@@ -1,47 +1,26 @@
-<nav class="bg-biru-0 fixed top-0 w-full shadow-xl">
-    <div class="mx-auto max-w-7xl px-6 py-4 flex justify-between items-center">
-        <div class="flex items-center gap-3">
-            @php
-            $user = Auth::user();
-            $initials = strtoupper(substr($user->name, 0, 1));
-            $colors = ['bg-red-500', 'bg-green-500', 'bg-blue-500', 'bg-yellow-500', 'bg-purple-500'];
-            $randomColor = $colors[array_rand($colors)];
-            @endphp
-            <div class="text-white w-12 h-12 rounded-full font-medium text-base flex items-center justify-center {{ $randomColor }}">
-                {{ $initials }}
-            </div>
-            <div class="text-white thic">
-                <h1 class="text-sm">Selamat Datang,</h1>
-                <h1 class="font-bold text-lg"> {{ Auth::user()->name }}</h1>
+<div class="container">
+    <h1>Dashboard Peminjam</h1>
+    <div class="row">
+        @foreach($barangs as $barang)
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">{{ $barang->nama_barang }}</h5>
+                    <p class="card-text">
+                        <img src="{{ asset('storage/' . $barang->gambar) }}" alt="Gambar Barang" style="width: 100px; height: 100px;">
+                    </p>
+                    <p class="card-text">Letak: {{ $barang->letak_barang }}</p>
+                    <p class="card-text">Tersedia: {{ $barang->available_quantity }}/{{ $barang->total }}</p>
+                    <form action="{{ route('peminjam.keranjang.tambah') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="nama_barang" value="{{ $barang->nama_barang }}">
+                        <input type="hidden" name="letak_barang" value="{{ $barang->letak_barang }}">
+                        <button type="submit" class="btn btn-primary" {{ $barang->available_quantity <= 0 ? 'disabled' : '' }}>Pinjam</button>
+                    </form>
+                </div>
             </div>
         </div>
-        <div class="nav-item bg-white text-biru-0 py-2 px-4 rounded-3xl flex items-center justify-center text-sm">
-            <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                <i class="nav-icon fas fa-sign-out-alt"></i>
-                <p>
-                    {{ __('Logout') }}
-                </p>
-            </a>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                @csrf
-
-            </form>
-        </div>
+        @endforeach
     </div>
-
-    <form action="{{ route('peminjam.kepemilikan.ajukan') }}" method="POST">
-        @csrf
-        <label for="tipe_kepemilikan">Pilih Tipe Kepemilikan:</label>
-        <select name="tipe_kepemilikan" id="tipe_kepemilikan" class="border rounded p-2">
-            @foreach ($tipeKepemilikan as $type)
-                <option value="{{ $type->id }}">{{ $type->nama }}</option>
-            @endforeach
-        </select>
-        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Ajukan</button>
-    </form>
-
-    @if(Auth::user()->bisa_jadi_pemilik && Auth::user()->role === 'peminjam')
-    <a href="{{ route('ganti.ke.pemilik') }}" class="btn btn-primary">Ganti ke Pemilik</a>
-    @endif
-
-</nav>
+    <a href="{{ route('peminjam.keranjang.index') }}" class="btn btn-primary">Lihat Keranjang</a>
+</div>

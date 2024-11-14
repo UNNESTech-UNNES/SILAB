@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Barang;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class BarangController extends Controller
 {
@@ -119,7 +120,7 @@ class BarangController extends Controller
                     substr($request->jenis_barang, 0, 3) . '-' . 
                     substr($request->letak_barang, 0, 3) . '-' . 
                     $barang->id;
-    
+ 
         $barang->update([
             'nama_barang' => $request->nama_barang,
             'jenis_barang' => $request->jenis_barang,
@@ -136,15 +137,19 @@ class BarangController extends Controller
         $barang->delete();
         return redirect()->route('admin.barang.index')->with('success', 'Barang berhasil dihapus.');
     }
-    public function barangDipinjam()
-    {
-        // Logika untuk menampilkan barang yang dipinjam
-        return view('admin.barang.barangDipinjam');
-    }
 
-    public function riwayatPeminjaman()
+    public function showCard()
     {
-        // Logika untuk menampilkan riwayat peminjaman
-        return view('admin.barang.riwayatPeminjaman');
+        $barangs = Barang::select(
+            DB::raw('MIN(gambar) as gambar'),
+            'nama_barang',
+            'letak_barang',
+            DB::raw('COUNT(*) as total'),
+            DB::raw('COUNT(*) - SUM(CASE WHEN status = "dipinjam" THEN 1 ELSE 0 END) as available_quantity')
+        )
+        ->groupBy('nama_barang', 'letak_barang')
+        ->get();
+    
+        return view('peminjam.dashboard', compact('barangs'));
     }
 }

@@ -78,6 +78,7 @@
                             <th>Jenis Barang</th>
                             <th>Gambar</th>
                             <th>Kondisi Barang</th>
+                            <th>Status Barang</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -92,6 +93,7 @@
                                     <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama_barang }}" class="w-20 h-20 object-cover">
                                 </td>
                                 <td>{{ $item->kondisi_barang }}</td>
+                                <td>{{ $item->status }}</td>
                                 <td>
                                     <a href="{{ route('admin.barang.edit', $item->id) }}" class="btn btn-sm btn-primary">Edit</a>
                                     <form action="{{ route('admin.barang.destroy', $item->id) }}" method="POST" class="d-inline">

@@ -39,19 +39,19 @@ class Sidebar extends Component
             'children' => [
                 [
                     'name' => 'Peminjaman Baru',
-                    'route' => 'admin.barangDipinjam',
+                    'route' => 'admin.peminjaman.index',
                     'icon' => 'fas fa-plus'
                 ],
                 [
                     'name' => 'Riwayat Peminjaman',
-                    'route' => 'admin.riwayatPeminjaman',
+                    'route' => 'admin.peminjaman.index',
                     'icon' => 'fas fa-history'
                 ]
             ]
         ],
         [
             'name' => 'Manajemen User',
-            'route' => 'profile.edit',
+            'route' => 'admin.peminjaman.index',
             'icon' => 'fas fa-users',
         ]
     ];
