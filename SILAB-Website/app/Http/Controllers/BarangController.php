@@ -152,4 +152,21 @@ class BarangController extends Controller
     
         return view('peminjam.dashboard', compact('barangs'));
     }
+
+    public function welcomeCard()
+    {
+        $barangs = Barang::select(
+            DB::raw('MIN(gambar) as gambar'),
+            'nama_barang',
+            'letak_barang',
+            DB::raw('COUNT(*) as total'),
+            DB::raw('COUNT(*) - SUM(CASE WHEN status = "dipinjam" THEN 1 ELSE 0 END) as available_quantity')
+        )
+        ->groupBy('nama_barang', 'letak_barang')
+        ->get();
+    
+        return view('welcome', compact('barangs'));
+    }
+
+
 }

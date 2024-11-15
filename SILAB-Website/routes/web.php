@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Barang;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BarangController;
@@ -7,9 +8,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\KeranjangPeminjamanController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [BarangController::class, 'welcomeCard']);
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
