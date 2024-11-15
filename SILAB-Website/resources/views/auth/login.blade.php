@@ -12,7 +12,7 @@
             </div>
 
             <!-- Session Status -->
-            <x-auth-session-status class="mb-4" :status="session('status')" />
+            <x-auth-session-status class="mb-4 " :status="session('status')" />
 
             <form class="mt-8 space-y-6" method="POST" action="{{ route('login') }}">
                 @csrf

@@ -48,7 +48,6 @@
                         <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
                       </li>
 
-<<<<<<< HEAD
                     </ul>
                     <div class="py-2 text-white text-sm px-4">
                             <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -208,25 +207,3 @@
         </script>
     </body>
 </html> 
-=======
-            </form>
-        </div>
-    </div>
-
-    <form action="{{ route('peminjam.kepemilikan.ajukan') }}" method="POST">
-        @csrf
-        <label for="tipe_kepemilikan">Pilih Tipe Kepemilikan:</label>
-        <select name="tipe_kepemilikan" id="tipe_kepemilikan" class="border rounded p-2">
-            @foreach ($tipeKepemilikan as $type)
-                <option value="{{ $type->id }}">{{ $type->nama }}</option>
-            @endforeach
-        </select>
-        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Ajukan</button>
-    </form>
-
-    @if(Auth::user()->bisa_jadi_pemilik && Auth::user()->role === 'peminjam')
-    <a href="{{ route('ganti.ke.pemilik') }}" class="btn btn-primary">Ganti ke Pemilik</a>
-    @endif
-
-</nav>
->>>>>>> 968e2e82aac8041dc9ff8ec06c7740e650a6833e
