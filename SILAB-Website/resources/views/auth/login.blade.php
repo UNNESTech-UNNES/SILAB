@@ -1,9 +1,8 @@
 <x-guest-layout>
-    {{-- <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">--}}
         <div class="max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-lg">
             <!-- Logo/Header -->
             <div>
-                <h2 class="mt-2 text-center text-3xl font-extrabold text-gray-900">
+                <h2 class="mt-2 text-center text-3xl font-bold text-unnes-blue">
                     {{ __('Welcome Back') }}
                 </h2>
                 <p class="mt-2 text-center text-sm text-gray-600">
@@ -16,7 +15,6 @@
 
             <form class="mt-8 space-y-6" method="POST" action="{{ route('login') }}">
                 @csrf
-
                 <!-- Email Address -->
                 <div>
                     <x-input-label for="email" :value="__('Email')" class="block text-sm font-medium text-gray-700"/>
@@ -50,23 +48,26 @@
                             type="checkbox" 
                             class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" 
                             name="remember">
-                        <span class="ml-2 block text-sm text-gray-900">{{ __('Remember me') }}</span>
+                        <span class="ml-2 block text-sm text-gray-900">{{ __('Ingat Saya') }}</span>
                     </div>
 
                     @if (Route::has('password.request'))
                         <div class="text-sm">
                             <a class="font-medium text-indigo-600 hover:text-indigo-500" 
                                 href="{{ route('password.request') }}">
-                                {{ __('Forgot your password?') }}
+                                {{ __('Lupa Password?') }}
                             </a>
                         </div>
                     @endif
                 </div>
 
-                <div class="">
-                    <x-primary-button class="group relative w-full justify-center items-center flex">
+                <div class="flex flex-col justify-center items-center gap-4">
+                    <x-primary-button class="group relative w-full justify-center items-center flex bg-unnes-blue">
                         {{ __('Log in') }}
                     </x-primary-button>
+                    <a class="text-sm text-gray-600 hover:text-gray-900" href="{{ route('register') }}">
+                        {{ __('Belum Punya Akun?') }}
+                    </a>
                 </div>
             </form>
         </div>

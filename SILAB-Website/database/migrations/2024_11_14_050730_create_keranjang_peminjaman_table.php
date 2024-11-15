@@ -11,14 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('barangs', function (Blueprint $table) {
+        Schema::create('keranjang_peminjaman', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->string('kode_barang');
             $table->string('nama_barang');
-            $table->string('jenis_barang');
             $table->string('letak_barang');
-            $table->string('gambar')->nullable(); // Menyimpan path gambar, nullable jika tidak wajib
-            $table->enum('status', ['tersedia', 'dipinjam'])->default('tersedia');
+            $table->integer('jumlah')->default(1);
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('barangs');
+        Schema::dropIfExists('keranjang_peminjaman');
     }
 };
