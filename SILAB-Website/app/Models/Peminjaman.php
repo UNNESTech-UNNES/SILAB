@@ -16,14 +16,15 @@ class Peminjaman extends Model
         'kode_barang',
         'nama_barang',
         'letak_barang',
-        'jumlah',
-        'status',
+        'nama_peminjam', // Pastikan ini ada
+        'alamat_peminjam',
+        'nomor_handphone',
+        'surat_tugas',
         'tanggal_peminjaman',
         'tanggal_pengembalian',
-        'tanggal_disetujui',
-        'keterangan',
+        'status',
     ];
-    
+
     public function showBarang()
     {
         $barang = Barang::all();

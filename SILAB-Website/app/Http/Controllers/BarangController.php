@@ -138,35 +138,58 @@ class BarangController extends Controller
         return redirect()->route('admin.barang.index')->with('success', 'Barang berhasil dihapus.');
     }
 
-    public function showCard()
+    private function getBarangData($search = null, $filter = null)
     {
-        $barangs = Barang::select(
-            DB::raw('MIN(gambar) as gambar'),
-            'nama_barang',
-            'letak_barang',
-            DB::raw('COUNT(*) as total'),
-            DB::raw('COUNT(*) - SUM(CASE WHEN status = "dipinjam" THEN 1 ELSE 0 END) as available_quantity')
-        )
-        ->groupBy('nama_barang', 'letak_barang')
-        ->get();
-    
-        return view('peminjam.dashboard', compact('barangs'));
+        $query = DB::table('barangs')
+            ->select(
+                'nama_barang',
+                'letak_barang',
+                DB::raw('MIN(gambar) as gambar'),
+                DB::raw('COUNT(*) as total'),
+                DB::raw('SUM(CASE WHEN status != "dipinjam" OR status IS NULL THEN 1 ELSE 0 END) as available_quantity')
+            )
+            ->groupBy('nama_barang', 'letak_barang');
+
+        // Terapkan filter pencarian jika ada
+        if (!empty($search)) {
+            $query->where('nama_barang', 'like', '%' . $search . '%');
+        }
+
+        // Terapkan filter ruangan jika ada
+        if (!empty($filter)) {
+            $query->where('letak_barang', $filter);
+        }
+
+        return $query->get();
     }
 
-    public function welcomeCard()
+    public function showCard(Request $request)
     {
-        $barangs = Barang::select(
-            DB::raw('MIN(gambar) as gambar'),
-            'nama_barang',
-            'letak_barang',
-            DB::raw('COUNT(*) as total'),
-            DB::raw('COUNT(*) - SUM(CASE WHEN status = "dipinjam" THEN 1 ELSE 0 END) as available_quantity')
-        )
-        ->groupBy('nama_barang', 'letak_barang')
-        ->get();
-    
-        return view('welcome', compact('barangs'));
+        $search = $request->get('search');
+        $filter = $request->get('filter');
+        
+        $barangs = $this->getBarangData($search, $filter);
+
+        if ($request->ajax()) {
+            // Render partial view untuk AJAX request
+            return view('components.barang-items', ['barangs' => $barangs])->render();
+        }
+
+        return view('peminjam.dashboard', ['barangs' => $barangs]);
     }
 
+    public function welcomeCard(Request $request)
+    {
+        $search = $request->get('search');
+        $filter = $request->get('filter');
+        
+        $barangs = $this->getBarangData($search, $filter);
 
+        if ($request->ajax()) {
+            // Render partial view untuk AJAX request
+            return view('components.barang-items', ['barangs' => $barangs])->render();
+        }
+
+        return view('welcome', ['barangs' => $barangs]);
+    }
 }

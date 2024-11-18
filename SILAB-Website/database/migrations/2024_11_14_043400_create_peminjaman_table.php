@@ -17,14 +17,14 @@ return new class extends Migration
             $table->string('kode_barang');
             $table->string('nama_barang');
             $table->string('letak_barang');
-            $table->integer('jumlah');
-            $table->enum('status', ['menunggu persetujuan', 'disetujui', 'ditolak', 'selesai'])->default('menunggu persetujuan');
+            $table->string('nama_peminjam');
+            $table->string('alamat_peminjam');
+            $table->string('nomor_handphone');
+            $table->string('surat_tugas');
             $table->date('tanggal_peminjaman');
-            $table->date('tanggal_pengembalian')->nullable();
-            $table->timestamp('tanggal_disetujui')->nullable();
-            $table->text('keterangan')->nullable();
+            $table->date('tanggal_pengembalian');
+            $table->string('status')->default('menunggu persetujuan');
             $table->timestamps();
-
             // Foreign key constraint
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
