@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
+<<<<<<< HEAD
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>SILAB-WEB</title>
@@ -19,6 +20,10 @@
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>        
+=======
+        @include('components.links')
+    </head>
+>>>>>>> a99528c22b1fc5189c039d7386f956176dc46868
         <body class="font-[Poppins] bg-white">
             <main>
                 {{ $slot }}

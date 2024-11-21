@@ -45,8 +45,4 @@ class User extends Authenticatable
     /**
      * Get the ownership types associated with the user.
      */
-    public function tipeKepemilikan()
-    {
-        return $this->belongsToMany(TipeKepemilikan::class, 'pemilik_tipe_kepemilikans');
-    }
 }

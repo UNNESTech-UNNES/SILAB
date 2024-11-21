@@ -33,6 +33,7 @@
                 {{-- <a href="{{ route('peminjam.keranjang.index') }}" class="btn btn-primary">Lihat Keranjang</a> --}}
             </div>
         </section>
+<<<<<<< HEAD
         <script>
             document.getElementById('searchButton').addEventListener('click', function() {
                 const query = document.getElementById('searchInput').value;
@@ -54,3 +55,7 @@
             }
         </script>
 </x-app-layout>
+=======
+
+</x-app-layout>
+>>>>>>> a99528c22b1fc5189c039d7386f956176dc46868

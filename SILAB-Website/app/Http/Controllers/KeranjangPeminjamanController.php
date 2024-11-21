@@ -38,7 +38,7 @@ class KeranjangPeminjamanController extends Controller
                 'letak_barang' => $barang->letak_barang,
                 'jumlah' => 1,
             ]);
-            
+
             return redirect()->route('peminjam.dashboard')->with('success', 'Barang ditambahkan ke keranjang.');
         }
 
@@ -60,8 +60,19 @@ class KeranjangPeminjamanController extends Controller
         return redirect()->route('peminjam.keranjang.index')->with('success', 'Barang dihapus dari keranjang dan status dikembalikan ke tersedia.');
     }
 
-    public function finalisasi()
+    public function finalisasi(Request $request)
     {
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'alamat' => 'required|string|max:255',
+            'nomor_handphone' => 'required|string|max:15',
+            'surat_tugas' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'tanggal_dipinjam' => 'required|date',
+            'tanggal_dikembalikan' => 'required|date|after_or_equal:tanggal_dipinjam',
+        ]);
+
+        $path = $request->file('surat_tugas')->store('surat_tugas', 'public');
+
         $keranjangItems = KeranjangPeminjaman::where('user_id', Auth::id())->get();
 
         foreach ($keranjangItems as $item) {
@@ -70,10 +81,14 @@ class KeranjangPeminjamanController extends Controller
                 'kode_barang' => $item->kode_barang,
                 'nama_barang' => $item->nama_barang,
                 'letak_barang' => $item->letak_barang,
-                'jumlah' => $item->jumlah,
+                'nama_peminjam' => $request->nama,
+                'alamat_peminjam' => $request->alamat,
+                'nomor_handphone' => $request->nomor_handphone,
+                'surat_tugas' => $path,
+                'tanggal_peminjaman' => $request->tanggal_dipinjam,
+                'tanggal_pengembalian' => $request->tanggal_dikembalikan,
                 'status' => 'menunggu persetujuan',
-                'tanggal_peminjaman' => now(),
-            ]);
+            ]);    
 
             $item->delete();
         }
