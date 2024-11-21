@@ -1,85 +1,76 @@
-<!-- Main Sidebar Container -->
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
+<aside class="w-64 bg-white text-white h-full fixed left-0 top-0 overflow-y-auto">
     <!-- Brand Logo -->
-    <a href="{{ route('admin.dashboard') }}" class="brand-link">
-        <i class="fas fa-tshirt brand-image img-circle" style="font-size: 25px; margin-top: 5px;"></i>
-        <span class="brand-text font-weight-light">{{ config('app.name') }}</span>
+    <a href="{{ route('admin.dashboard') }}" class="flex items-center p-4 border-b border-gray-200">
+        <img class="h-12 w-auto" src="{{ asset('assets/Logo Silab.svg') }}" alt="Logo Silab">
     </a>
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <!-- Sidebar user panel (optional) -->
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <div class="image">
-                <div class="img-circle elevation-2" style="background-color: #ff7207; width: 35px; height: 35px; text-align: center; line-height: 35px; font-size: 18px; color: #fff;">
-                    {{ substr(auth()->user()->name, 0, 1) }}
-                </div>
-            </div>
-            <div class="info">
-                <a href="#" class="d-block">
-                    {{ auth()->user()->name }}
-                </a>
-            </div>
+    <!-- User Panel -->
+    <div class="p-4 flex items-center border-b border-gray-200">
+        <div class="w-10 h-10 rounded-full bg-unnes-blue text-white flex items-center justify-center mr-3">
+            {{ substr(auth()->user()->name, 0, 1) }}
         </div>
+        <div>
+            <a href="#" class="text-gray-500 font-semibold">{{ auth()->user()->name }}</a>
+        </div>
+    </div>
 
-        <!-- Sidebar Menu -->
-        <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                @foreach ($menus as $menu)
+    <!-- Sidebar Menu -->
+    <nav class="p-4 text-gray-700 text-sm">
+        <ul class="space-y-2">
+            @foreach ($menus as $menu)
                 @if (isset($menu["children"]))
-                @php
-                    $isActive = request()->routeIs($menu['route']) || collect($menu['children'])->pluck('route')->contains(function ($route) {
-                        return request()->routeIs($route);
-                    });
-                @endphp
-                <li class="nav-item has-treeview {{ $isActive ? 'menu-open' : '' }}">
-                    <a href="{{ route($menu['route']) }}" class="nav-link {{ $isActive ? 'active' : '' }}">
-                        <i class="nav-icon {{ $menu['icon'] }}"></i>
-                        <p>
-                            {{ $menu["name"] }}
-                            <i class="fas fa-angle-left right"></i>
-                            <span class="badge badge-info right">
+                    @php
+                        $isActive = request()->routeIs($menu['route']) || collect($menu['children'])->pluck('route')->contains(function ($route) {
+                            return request()->routeIs($route);
+                        });
+                    @endphp
+                    <li x-data="{ open: {{ $isActive ? 'true' : 'false' }} }">
+                        <div @click="open = !open" class="cursor-pointer flex items-center justify-between p-2 rounded {{ $isActive ? 'bg-[#E6E6F2] text-unnes-blue' : 'hover:bg-[#E6E6F2] hover:text-unnes-blue' }}">
+                            <div class="flex items-center">
+                                <i class="{{ $menu['icon'] }} mr-3"></i>
+                                <span class="{{ $isActive ? 'text-unnes-blue' : '' }}">{{ $menu["name"] }}</span>
+                            </div>
+                            <span class="bg-blue-500 text-white text-xs rounded-full px-2 py-1">
                                 {{ count($menu["children"]) }}
                             </span>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        @foreach ($menu["children"] as $child)
-                        <li class="nav-item">
-                            <a href="{{ route($child['route']) }}" class="nav-link {{ request()->routeIs($child['route']) ? 'active' : '' }}">
-                                <i class="nav-icon {{ $child['icon'] }}"></i>
-                                <p>{{ $child["name"] }}</p>
-                            </a>
-                        </li>
-                        @endforeach
-                    </ul>
-                </li>
+                        </div>
+                        
+                        <ul x-show="open" class="pl-6 mt-2 space-y-2">
+                            @foreach ($menu["children"] as $child)
+                                <li>
+                                    <a href="{{ route($child['route']) }}" class="block p-2 rounded {{ request()->routeIs($child['route']) ? 'bg-[#E6E6F2] text-unnes-blue' : 'hover:bg-[#E6E6F2] hover:text-unnes-blue' }}">
+                                        <i class="{{ $child['icon'] }} mr-3"></i>
+                                        {{ $child["name"] }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </li>
                 @else
-                <li class="nav-item">
-                    <a href="{{ route($menu['route']) }}" class="nav-link {{ request()->routeIs($menu['route']) ? 'active' : '' }}">
-                        <i class="nav-icon {{ $menu['icon'] }}"></i>
-                        <p>
-                            {{ $menu["name"] }}
-                        </p>
-                    </a>
-                </li>
+                    <li>
+                        <a href="{{ route($menu['route']) }}" class="flex items-center p-2 rounded {{ request()->routeIs($menu['route']) ? 'bg-[#E6E6F2] text-unnes-blue' : 'hover:bg-[#E6E6F2] hover:text-unnes-blue' }}">
+                            <i class="{{ $menu['icon'] }} mr-3"></i>
+                            <span class="{{ request()->routeIs($menu['route']) ? 'text-unnes-blue' : '' }}">{{ $menu["name"] }}</span>
+                        </a>
+                    </li>
                 @endif
-                @endforeach
-                <!-- logout button -->
-                <li class="nav-item">
-                    <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="nav-icon fas fa-sign-out-alt"></i>
-                        <p>
-                            {{ __('Logout') }}
-                        </p>
-                    </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                        @csrf
-                    </form>
-                </li>
-            </ul>
-        </nav>
-        <!-- /.sidebar-menu -->
-    </div>
-    <!-- /.sidebar -->
+            @endforeach
+
+            <!-- Logout Button -->
+            <li>
+                <a href="{{ route('logout') }}" 
+                class="flex items-center p-2 hover:bg-red-700 rounded text-red-400 hover:text-white"
+                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="fas fa-sign-out-alt mr-3"></i>
+                    <span>{{ __('Logout') }}</span>
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                    @csrf
+                </form>
+            </li>
+        </ul>
+    </nav>
 </aside>
+
+<!-- Add Alpine.js for dropdown functionality -->
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>

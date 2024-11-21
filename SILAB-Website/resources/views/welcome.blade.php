@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-navbar-header-user/>
-    <div class="container flex mx-auto px-32 py-8">
+    <div class="container flex mx-auto px-32 pb-8 pt-24">
         <div id="default-carousel" class="relative w-full" data-carousel="slide">
             <!-- Carousel wrapper -->
             <div class="relative h-56 overflow-hidden md:h-96 rounded-3xl">

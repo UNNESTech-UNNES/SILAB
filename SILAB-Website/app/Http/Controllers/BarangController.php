@@ -96,39 +96,34 @@ class BarangController extends Controller
         return view('admin.barang.edit', compact('barang'));
     }
 
-    public function update(Request $request, Barang $barang)
-    {
+    public function update(Request $request, $id) {
+        // Validasi data
         $request->validate([
             'nama_barang' => 'required|string|max:255',
             'jenis_barang' => 'required|string|max:255',
             'letak_barang' => 'required|string|max:255',
-            'kondisi_barang' => 'required|string|max:255', // Tambahkan validasi kondisi_barang
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
     
+        // Temukan barang berdasarkan ID
+        $barang = Barang::findOrFail($id);
+    
+        // Update data barang
+        $barang->nama_barang = $request->nama_barang;
+        $barang->jenis_barang = $request->jenis_barang;
+        $barang->letak_barang = $request->letak_barang;
+    
+        // Cek jika ada gambar yang diupload
         if ($request->hasFile('gambar')) {
-            // Hapus gambar lama jika ada
-            if ($barang->gambar) {
-                Storage::disk('public')->delete($barang->gambar);
-            }
+            // Proses upload gambar
             $path = $request->file('gambar')->store('images', 'public');
             $barang->gambar = $path;
         }
     
-        // Membuat kode barang unik dengan id
-        $kode_barang = substr($request->nama_barang, 0, 3) . '-' . 
-                    substr($request->jenis_barang, 0, 3) . '-' . 
-                    substr($request->letak_barang, 0, 3) . '-' . 
-                    $barang->id;
- 
-        $barang->update([
-            'nama_barang' => $request->nama_barang,
-            'jenis_barang' => $request->jenis_barang,
-            'letak_barang' => $request->letak_barang,
-            'kondisi_barang' => $request->kondisi_barang,
-            'kode_barang' => strtoupper($kode_barang), // Menambahkan kode barang dengan id
-        ]);
+        // Simpan perubahan
+        $barang->save();
     
+        // Redirect atau kembali dengan pesan sukses
         return redirect()->route('admin.barang.index')->with('success', 'Barang berhasil diperbarui.');
     }
 
@@ -187,7 +182,7 @@ class BarangController extends Controller
 
         if ($request->ajax()) {
             // Render partial view untuk AJAX request
-            return view('components.barang-items', ['barangs' => $barangs])->render();
+            return view('components.barang-items', ['barangs' => $barangs])->render(); 
         }
 
         return view('welcome', ['barangs' => $barangs]);
