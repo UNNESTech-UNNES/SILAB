@@ -3,10 +3,10 @@
             <!-- Logo/Header -->
             <div>
                 <h2 class="mt-2 text-center text-3xl font-bold text-unnes-blue">
-                    {{ __('Welcome Back') }}
+                    {{ __('Selamat Datang') }}
                 </h2>
                 <p class="mt-2 text-center text-sm text-gray-600">
-                    {{ __('Please sign in to your account') }}
+                    {{ __('Silahkan masuk ke akun Anda') }}
                 </p>
             </div>
 
@@ -62,10 +62,10 @@
                 </div>
 
                 <div class="flex flex-col justify-center items-center gap-4">
-                    <x-primary-button class="group relative w-full justify-center items-center flex bg-unnes-blue">
+                    <x-primary-button class="group relative w-full justify-center items-center flex bg-unnes-blue hover:bg-unnes-blue/80">
                         {{ __('Log in') }}
                     </x-primary-button>
-                    <a class="text-sm text-gray-600 hover:text-gray-900" href="{{ route('register') }}">
+                    <a class="text-sm text-gray-600 hover:bg-unnes-blue/80" href="{{ route('register') }}">
                         {{ __('Belum Punya Akun?') }}
                     </a>
                 </div>
