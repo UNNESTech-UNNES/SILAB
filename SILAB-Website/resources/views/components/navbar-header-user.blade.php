@@ -1,4 +1,4 @@
-<header class="shadow-lg flex justify-between items-center bg-white w-full py-2 fixed-top px-24">
+<header class="shadow-lg flex justify-between items-center bg-white w-full py-2 fixed top-0 px-24 z-50">
     <div class="flex items-center">
         <img class="h-12 w-auto" src="{{ asset('assets/Logo Silab.svg') }}" alt="Logo Silab">
         @auth

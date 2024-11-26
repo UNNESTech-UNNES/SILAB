@@ -20,9 +20,7 @@
                         <input type="hidden" name="nama_barang" value="{{ $barang->nama_barang }}">
                         <input type="hidden" name="letak_barang" value="{{ $barang->letak_barang }}">
                         <button type="submit" class="w-full py-1.5 px-3 bg-unnes-blue hover:bg-[#c3d1e6] hover:text-black text-white text-xs rounded-full transition-colors duration-200 font-semibold" {{ $barang->available_quantity <= 0 ? 'disabled' : '' }}>
-                            <a href="{{ route('peminjam.dashboard') }}">
                                 Tambahkan ke Keranjang
-                            </a>
                         </button>
                     </form>
                 </div>
