@@ -65,7 +65,7 @@
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="text-white">
                         <tr class="bg-unnes-blue">
-                            <th class="px-6 py-3 text-left text-sm font-medium tracking-wider ">Kode Barang</th>
+                            <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Kode Barang</th>
                             <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Nama Barang</th>
                             <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Letak Barang</th>
                             <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Jenis Barang</th>
