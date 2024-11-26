@@ -1,29 +1,29 @@
 <x-app-layout>
     <x-navbar-header-user/>
-        <section class="flex flex-col justify-center w-full mt-24">
-            <h1 class="font-[Poppins] text-unnes-blue text-2xl font-bold flex justify-center pb-3 filter group-hover:invert">Menu Layanan</h1>
-            <div class="flex justify-center space-x-3 pb-5 gap-3">
-                <div class="w-80 h-32 flex flex-row border-2 border-unnes-yellow rounded-lg shadow-md">
-                    <div class="w-[20%] bg-unnes-yellow flex justify-center items-center">
-                        <img class="h-32 bg-unnes-yellow" src="{{ asset('assets/Icon Keranjang.svg') }}" alt="Icon Keranjang">
+        <section class="container mx-auto px-32 flex flex-col justify-center pt-24">
+            <h1 class="font-[Poppins] text-unnes-blue text-2xl font-bold flex justify-center filter group-hover:invert pb-5">MENU</h1>
+            <div class="container mx-auto flex flex-wrap justify-center gap-8 pb-5">
+                <div class="w-80 h-32 flex flex-row border-2 border-slate-200 rounded-lg shadow-md">
+                    <div class="w-[33.3%] bg-unnes-blue flex justify-center items-center rounded-l-lg">
+                        <i class="fa-solid fa-cart-shopping items-center justify-center text-5xl text-white"></i>
                     </div>
-                    <div class="font-[Poppins] text-lg flex-1 text-center hover:text-gray-700">
+                    <div class="font-[Poppins] text-xl flex-1 flex flex-col justify-end text-start p-5  hover:text-gray-700">
                         <a href="{{ route('peminjam.keranjang.index') }}">Keranjang</a>
                     </div>
                 </div>
-                <div class="w-80 h-32 flex flex-row border-2 border-unnes-yellow rounded-lg shadow-md">
-                    <div class="w-[20%] bg-unnes-yellow flex justify-center items-center">
-                        <img class="h-12 w-auto bg-unnes-yellow" src="{{ asset('assets/icon-pinjam.png') }}" alt="Icon Barang Dipinjam">
+                <div class="w-80 h-32 flex flex-row border-2 border-slate-200 rounded-lg shadow-md">
+                    <div class="w-[33.3%] bg-unnes-blue flex justify-center items-center rounded-l-lg">
+                        <i class="fa-solid fa-clock-rotate-left items-center justify-center text-5xl text-white"></i>
                     </div>
-                    <div class="font-[Poppins] text-lg flex-1 text-center hover:text-gray-700">Riwayat Peminjaman
+                    <div class="font-[Poppins] text-xl flex-1 flex flex-col justify-end text-start p-5 hover:text-gray-700">Riwayat Peminjaman
                         {{-- <a href="{{ route('peminjam.barangpinjam.index') }}">Barang Dipinjam</a> --}}
                     </div>
                 </div>
-                <div class="w-80 h-32 flex flex-row border-2 border-unnes-yellow rounded-lg shadow-md">
-                    <div class="w-[20%] bg-unnes-yellow flex justify-center items-center">
-                        <img class="h-12 w-auto bg-unnes-yellow" src="{{ asset('assets/return-icon.png') }}" alt="Icon Pengembalian">
+                <div class="w-80 h-32 flex flex-row border-2 border-slate-200 rounded-xl shadow-md">
+                    <div class="w-[33.3%] bg-unnes-blue flex justify-center items-center rounded-l-lg">
+                        <i class="fa-solid fa-right-left items-center justify-center text-5xl text-white"></i>
                     </div>
-                    <div class="font-[Poppins] text-lg flex-1 text-center hover:text-gray-700">Pengembalian
+                    <div class="font-[Poppins] text-xl flex-1 flex flex-col justify-end text-start p-5 hover:text-gray-700">Pengembalian
                         {{-- <a href="{{ route('peminjam.pengembalian.index') }}">Pengembalian</a> --}}
                     </div>
                 </div>
