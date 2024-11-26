@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <div class="w-80 h-32 flex flex-row border-2 border-slate-200 rounded-xl shadow-md">
-                    <div class="w-[33.3%] bg-unnes-blue flex justify-center items-center rounded-l-lg">
+                    <div class="w-[33.3%] bg-unnes-blue flex justify-center items-center rounded-l-lg ">
                         <i class="fa-solid fa-right-left items-center justify-center text-5xl text-white"></i>
                     </div>
                     <div class="font-[Poppins] text-xl flex-1 flex flex-col justify-end text-start p-5 hover:text-gray-700">Pengembalian
