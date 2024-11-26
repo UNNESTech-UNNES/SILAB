@@ -77,7 +77,7 @@
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                         @foreach($barang as $item)
-                            <tr class="text-sm">
+                            <tr class="text-sm hover:bg-slate-100">
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $item->kode_barang }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $item->nama_barang }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $item->letak_barang }}</td>
@@ -99,15 +99,15 @@
                         @endforeach
                     </tbody>
                 </table>
-                <div class="flex justify-between items-center p-4">
+                <div class="flex justify-between items-center pt-4 px-4">
                     <div>
                         <form method="GET" action="{{ route('admin.barang.index') }}">
                             <input type="hidden" name="search" value="{{ request('search') }}">
                             <input type="hidden" name="filter_letak" value="{{ request('filter_letak') }}">
                             <input type="hidden" name="filter_jenis" value="{{ request('filter_jenis') }}">
                             <input type="hidden" name="filter_kondisi" value="{{ request('filter_kondisi') }}">
-                            <label for="perPage" class="mr-2">Tampilkan:</label>
-                            <select name="perPage" id="perPage" onchange="this.form.submit()" class="rounded border border-gray-300">
+                            <label for="perPage" class="mr-2 text-sm">Tampilkan:</label>
+                            <select name="perPage" id="perPage" onchange="this.form.submit()" class="rounded border border-gray-300 text-sm">
                                 <option value="10" {{ request('perPage') == 10 ? 'selected' : '' }}>10</option>
                                 <option value="20" {{ request('perPage') == 20 ? 'selected' : '' }}>20</option>
                                 <option value="30" {{ request('perPage') == 30 ? 'selected' : '' }}>30</option>

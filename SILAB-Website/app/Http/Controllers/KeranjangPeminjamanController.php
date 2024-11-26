@@ -12,7 +12,7 @@ class KeranjangPeminjamanController extends Controller
 {
     public function index()
     {
-        $keranjangItems = KeranjangPeminjaman::where('user_id', Auth::id())->get();
+        $keranjangItems = KeranjangPeminjaman::where('user_id', Auth::id())->with('barang')->get();
         return view('peminjam.keranjang', compact('keranjangItems'));
     }
 
