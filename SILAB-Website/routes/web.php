@@ -6,9 +6,9 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\KeranjangPeminjamanController;
+use App\Http\Controllers\NotifikasiController;
 
 Route::get('/', [BarangController::class, 'welcomeCard'])->name('welcome');
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -37,6 +37,7 @@ Route::middleware(['auth', 'role:peminjam'])->prefix('peminjam')->name('peminjam
     Route::post('/keranjang/finalisasi', [KeranjangPeminjamanController::class, 'finalisasi'])->name('keranjang.finalisasi');
     Route::post('/peminjaman/ajukan', [PeminjamanController::class, 'ajukan'])->name('peminjaman.ajukan');
     Route::get('/riwayat-peminjaman', [PeminjamanController::class, 'riwayat'])->name('peminjaman.riwayat');
+    Route::get('/notifikasi', [NotifikasiController::class, 'index'])->name('notifikasi.index');
 });
 
 require __DIR__.'/auth.php';

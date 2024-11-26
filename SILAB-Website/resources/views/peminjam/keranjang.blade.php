@@ -1,8 +1,9 @@
 <x-app-layout>
     <x-navbar-header-user/>
-    <a class="btn btn-primary font-[Poppins] text-xl text-unnes-blue font-bold pt-10 pl-5" href="{{ route('peminjam.dashboard') }}">
-        <i class="fa-solid fa-arrow-left"></i>Kembali</a>
-    <div class="container items-start mx-auto px-32 py-1 grid grid-cols-2 gap-6 ">
+<div class="flex-none mt-12 pt-4">
+    <a class="font-[Poppins] text-lg text-unnes-blue font-bold pt-10 pl-3 pb-5 hover:text-unnes-blue/80" href="{{ route('peminjam.dashboard') }}">
+        <i class="fa-solid fa-arrow-left"></i>Keranjang</a>
+    <div class="container items-start mx-auto px-32 py-1 grid grid-cols-2 gap-6">
         <div class="flex flex-col items-center col-span-1 bg-white border-2 border-gray-300 rounded-lg shadow-black px-5 py-5">
             <div id="controls-carousel" class="relative w-72 pt-3" data-carousel="static">
                 <!-- Carousel wrapper -->
@@ -40,7 +41,7 @@
                 </button>
             </div>
             <div class="w-full p-4">
-            <h1 class="text-2xl font-bold pt-5 font-[Poppins] text-center mb-4">Keranjang Peminjaman</h1>
+            <h1 class="text-lg font-bold pt-3 font-[Poppins] text-center mb-2">Keranjang Peminjaman</h1>
                 <table class="table w-full h-32 mb-4">
                     <thead>
                         <tr class="text-center">
@@ -60,7 +61,7 @@
                                 <form action="{{ route('peminjam.keranjang.hapus', $item->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger text-white bg-red-600 hover:bg-red-600/80 px-3 rounded-full">Hapus</button>
+                                    <button type="submit" class="btn btn-danger text-white bg-red-600/90 hover:bg-red-700 text-sm px-3 rounded-full">Hapus</button>
                                 </form>
                             </td>
                         </tr>
@@ -72,41 +73,34 @@
             <!-- Author: FormBold Team -->
         <div class="flex-initial p-4  col-span-1 mx-auto w-full max-w-[550px] bg-white border-2 border-gray-300 rounded-lg shadow-black px-5 py-5">
                 <form>
-                    <div class="mb-5">
+                    <div class="mb-3">
                         <label for="name" class="mb-3 block text-base font-medium text-[#07074D]">
                             Nama Lengkap
                         </label>
                         <input type="text" name="name" id="name" placeholder="Masukkan Nama Lengkap"
                             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
                     </div>
-                    <div class="mb-5">
+                    <div class="mb-3">
                         <label for="address" class="mb-3 block text-base font-medium text-[#07074D]">
                             Alamat
                         </label>
                         <input type="text" name="address" id="address" placeholder="Masukkan Alamat"
                             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
                     </div>
-                    <div class="mb-5">
+                    <div class="mb-3">
                         <label for="phone" class="mb-3 block text-base font-medium text-[#07074D]">
                             Nomor Telepon
                         </label>
                         <input type="text" name="phone" id="phone" placeholder="Masukkan Nomor Telepon"
                             class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
                     </div>
-                    <div class="mb-5">
-                        <label for="email" class="mb-3 block text-base font-medium text-[#07074D]">
-                            Alamat Email
-                        </label>
-                        <input type="email" name="email" id="email" placeholder="Masukkan Alamat Email"
-                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-                    </div>
-                    <div class="mb-6">
+                    <div class="mb-4">
                         <label for="document" class="block text-base font-medium text-[#07074D] mb-1">Surat Tugas</label>
                         <input type="file" id="document" name="document" accept="pdf/*" class="w-full border-[#e0e0e0] bg-white text-base font-medium text-[#6B7280]">
                     </div>
                     <div class="-mx-3 flex flex-wrap">
                         <div class="w-full px-3 sm:w-1/2">
-                            <div class="mb-5">
+                            <div class="mb-3">
                                 <label for="date" class="mb-3 block text-base font-medium text-[#07074D]">
                                     Tanggal Peminjaman
                                 </label>
@@ -115,7 +109,7 @@
                             </div>
                         </div>
                         <div class="w-full px-3 sm:w-1/2">
-                            <div class="mb-5">
+                            <div class="mb-3">
                                 <label for="date" class="mb-3 block text-base font-medium text-[#07074D]">
                                     Tanggal Pengembalian
                                 </label>
@@ -128,10 +122,11 @@
                     <div>
                         <form action="{{ route('peminjam.keranjang.finalisasi') }}" method="POST">
                             @csrf
-                            <button type="submit" class="btn btn-success hover:shadow-form w-full rounded-md bg-unnes-blue hover:bg-unnes-blue/80 py-3 px-8 text-center text-base font-semibold text-white outline-none">Finalisasi Peminjaman</button>
+                            <button type="submit" class="btn btn-success hover:shadow-form w-full rounded-md bg-unnes-blue hover:bg-unnes-blue/80 px-8 text-center text-base font-semibold text-white outline-none">Finalisasi Peminjaman</button>
                         </form>
                     </div>
                 </form>
         </div>
     </div>
+</div>
 </x-app-layout>

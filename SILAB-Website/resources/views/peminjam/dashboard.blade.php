@@ -1,29 +1,29 @@
 <x-app-layout>
     <x-navbar-header-user/>
-        <section class="flex flex-col justify-center w-full">
+        <section class="flex flex-col justify-center w-full mt-24">
             <h1 class="font-[Poppins] text-unnes-blue text-2xl font-bold flex justify-center pb-3 filter group-hover:invert">Menu Layanan</h1>
             <div class="flex justify-center space-x-3 pb-5 gap-3">
-                <div class="btn btn-primary w-80 h-32 flex flex-row border-2 border-unnes-yellow rounded-lg shadow-md">
+                <div class="w-80 h-32 flex flex-row border-2 border-unnes-yellow rounded-lg shadow-md">
                     <div class="w-[20%] bg-unnes-yellow flex justify-center items-center">
                         <img class="h-32 bg-unnes-yellow" src="{{ asset('assets/Icon Keranjang.svg') }}" alt="Icon Keranjang">
                     </div>
-                    <div class="font-[Poppins] text-2xl flex-1 text-center hover:text-gray-700">
+                    <div class="font-[Poppins] text-lg flex-1 text-center hover:text-gray-700">
                         <a href="{{ route('peminjam.keranjang.index') }}">Keranjang</a>
                     </div>
                 </div>
-                <div class="btn btn-primary w-80 h-32 flex flex-row border-2 border-unnes-yellow rounded-lg shadow-md">
+                <div class="w-80 h-32 flex flex-row border-2 border-unnes-yellow rounded-lg shadow-md">
                     <div class="w-[20%] bg-unnes-yellow flex justify-center items-center">
                         <img class="h-12 w-auto bg-unnes-yellow" src="{{ asset('assets/icon-pinjam.png') }}" alt="Icon Barang Dipinjam">
                     </div>
-                    <div class="font-[Poppins] text-2xl flex-1 text-center hover:text-gray-700">Riwayat Peminjaman
+                    <div class="font-[Poppins] text-lg flex-1 text-center hover:text-gray-700">Riwayat Peminjaman
                         {{-- <a href="{{ route('peminjam.barangpinjam.index') }}">Barang Dipinjam</a> --}}
                     </div>
                 </div>
-                <div class="btn btn-primary w-80 h-32 flex flex-row border-2 border-unnes-yellow rounded-lg shadow-md">
+                <div class="w-80 h-32 flex flex-row border-2 border-unnes-yellow rounded-lg shadow-md">
                     <div class="w-[20%] bg-unnes-yellow flex justify-center items-center">
                         <img class="h-12 w-auto bg-unnes-yellow" src="{{ asset('assets/return-icon.png') }}" alt="Icon Pengembalian">
                     </div>
-                    <div class="font-[Poppins] text-2xl flex-1 text-center hover:text-gray-700">Pengembalian
+                    <div class="font-[Poppins] text-lg flex-1 text-center hover:text-gray-700">Pengembalian
                         {{-- <a href="{{ route('peminjam.pengembalian.index') }}">Pengembalian</a> --}}
                     </div>
                 </div>
@@ -33,7 +33,6 @@
                 {{-- <a href="{{ route('peminjam.keranjang.index') }}" class="btn btn-primary">Lihat Keranjang</a> --}}
             </div>
         </section>
-<<<<<<< HEAD
         <script>
             document.getElementById('searchButton').addEventListener('click', function() {
                 const query = document.getElementById('searchInput').value;
@@ -55,7 +54,3 @@
             }
         </script>
 </x-app-layout>
-=======
-
-</x-app-layout>
->>>>>>> a99528c22b1fc5189c039d7386f956176dc46868

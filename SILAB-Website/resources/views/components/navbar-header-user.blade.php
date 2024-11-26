@@ -14,6 +14,11 @@
         @if (Route::has('login'))
             <nav class="flex gap-2">
                 @auth
+                    <button class="text-2xl w-10 h-10 pt-2 pr-5">
+                        <a href="{{ route('peminjam.notifikasi.index') }}">
+                            <i class="fa-solid fa-bell"></i>
+                        </a>
+                    </button>
                     <button id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start"class="text-white w-12 h-12 rounded-full font-medium text-base flex items-center justify-center {{ $randomColor }}">
                         {{ $initials }}
                     </button>
@@ -27,17 +32,14 @@
                             <a href="#" class="block px-4 py-2 hover:bg-gray-100">Dashboard</a>
                         </li>
                         </ul>
-                        <div class="py-2 px-4">
-                                <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    <i class="nav-icon fas fa-sign-out-alt"></i>
-                                    <p>
-                                        {{ __('Logout') }}
-                                    </p>
-                                </a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
-                            </div>
+                        <div class="py-2 px-3 hover:bg-gray-100">
+                            <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <i class="nav-icon fas fa-sign-out-alt"></i>{{ __('Logout') }}
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </div>
                     </div>
                 @else
                     <a href="{{ route('login') }}" class="bg-unnes-blue text-white px-4 py-2 rounded-full hover:bg-[#c3d1e6] hover:text-black text-md">
