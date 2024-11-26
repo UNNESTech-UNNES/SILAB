@@ -19,9 +19,9 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [HomeController::class, 'indexAdmin'])->name('dashboard');
     Route::get('/peminjaman', [PeminjamanController::class, 'index'])->name('peminjaman.index');
+    Route::get('/peminjaman/riwayat', [PeminjamanController::class, 'riwayat'])->name('peminjaman.riwayat');
     Route::post('/peminjaman/setujui/{id}', [PeminjamanController::class, 'setujui'])->name('peminjaman.setujui');
     Route::post('/peminjaman/tolak/{id}', [PeminjamanController::class, 'tolak'])->name('peminjaman.tolak');
-    
     Route::resource('barang', BarangController::class);
 });
 
@@ -36,7 +36,8 @@ Route::middleware(['auth', 'role:peminjam'])->prefix('peminjam')->name('peminjam
     Route::delete('/keranjang/hapus/{id}', [KeranjangPeminjamanController::class, 'hapus'])->name('keranjang.hapus');
     Route::post('/keranjang/finalisasi', [KeranjangPeminjamanController::class, 'finalisasi'])->name('keranjang.finalisasi');
     Route::post('/peminjaman/ajukan', [PeminjamanController::class, 'ajukan'])->name('peminjaman.ajukan');
-    Route::get('/riwayat-peminjaman', [PeminjamanController::class, 'riwayat'])->name('peminjaman.riwayat');
+    Route::get('/riwayat-peminjaman', [PeminjamanController::class, 'riwayatPeminjam'])->name('peminjaman.riwayat');
+    Route::get('/barang-dipinjam', [PeminjamanController::class, 'dipinjam'])->name('peminjaman.pengembalian');
     Route::get('/notifikasi', [NotifikasiController::class, 'index'])->name('notifikasi.index');
 });
 

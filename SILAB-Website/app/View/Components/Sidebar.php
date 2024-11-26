@@ -44,7 +44,7 @@ class Sidebar extends Component
                 ],
                 [
                     'name' => 'Riwayat Peminjaman',
-                    'route' => 'admin.peminjaman.index',
+                    'route' => 'admin.peminjaman.riwayat',
                     'icon' => 'fas fa-history'
                 ]
             ]
