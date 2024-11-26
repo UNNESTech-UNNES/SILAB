@@ -1,9 +1,13 @@
 <x-app-layout>
     <x-navbar-header-user/>
+<<<<<<< HEAD
     <div class="container flex mx-auto px-32 pb-8 pt-24">
+=======
+    <div class="container flex mx-auto px-32 py-8 mt-16">
+>>>>>>> b54b129aa8da7d997dc9cb5f2affa9739c3405fe
         <div id="default-carousel" class="relative w-full" data-carousel="slide">
             <!-- Carousel wrapper -->
-            <div class="relative rounded-3xl overflow-hidden h-[307px]">
+            <div class="relative rounded-3xl overflow-hidden h-96">
                 <!-- Item 1 -->
                 <div class="hidden duration-700 ease-in-out" data-carousel-item>
                     <img src="assets/slide 1.png" class="absolute block -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
