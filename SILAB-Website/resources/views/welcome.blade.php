@@ -1,10 +1,6 @@
 <x-app-layout>
     <x-navbar-header-user/>
-<<<<<<< HEAD
     <div class="container flex mx-auto px-32 pb-8 pt-24">
-=======
-    <div class="container flex mx-auto px-32 py-8 mt-16">
->>>>>>> b54b129aa8da7d997dc9cb5f2affa9739c3405fe
         <div id="default-carousel" class="relative w-full" data-carousel="slide">
             <!-- Carousel wrapper -->
             <div class="relative rounded-3xl overflow-hidden h-96">
@@ -25,7 +21,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
-
 
     <section class="bg-white">
         <div class="container mx-auto flex items-center flex-wrap">
