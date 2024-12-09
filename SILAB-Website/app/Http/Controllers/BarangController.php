@@ -169,7 +169,7 @@ class BarangController extends Controller
             // Render partial view untuk AJAX request
             return view('components.barang-items', ['barangs' => $barangs])->render();
         }
-
+        
         return view('peminjam.dashboard', ['barangs' => $barangs]);
     }
 
