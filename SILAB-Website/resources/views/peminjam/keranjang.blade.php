@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-navbar-header-user />
     <div class="mt-24">
-    <a class="font-[Poppins] text-xl text-unnes-blue font-bold pt-10 pl-5" href="{{ route('peminjam.dashboard') }}">
+    <a class="font-[Poppins] text-lg text-unnes-blue font-bold px-52 py-8 hover:text-unnes-blue/80" href="{{ route('peminjam.dashboard') }}">
         <i class="fa-solid fa-arrow-left"></i> Kembali
     </a>
     <div class="container items-start mx-auto px-32 py-1 grid grid-cols-2 gap-6">
@@ -121,7 +121,7 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="bg-unnes-blue text-white text-sm rounded-lg px-4 py-2 mb-4 inline-block">
+                <button type="submit" class="bg-unnes-blue text-white text-sm rounded-lg px-4 py-2 mb-4 inline-block hover:bg-unnes-blue/80">
                     Finalisasi Peminjaman
                 </button>
             </form>

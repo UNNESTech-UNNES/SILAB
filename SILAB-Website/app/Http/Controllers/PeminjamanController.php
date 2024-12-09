@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Peminjaman;
 use App\Models\Barang;
-use Illuminate\Http\Request;
 
 class PeminjamanController extends Controller
 {
