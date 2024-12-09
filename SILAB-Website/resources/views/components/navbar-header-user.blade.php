@@ -14,7 +14,7 @@
         @if (Route::has('login'))
             <nav class="flex gap-2">
                 @auth
-                    <button class="text-2xl w-10 h-10 pt-2 pr-5">
+                    <button class="text-2xl w-10 h-10 pt-2 pr-5 hover:text-unnes-yellow">
                         <a href="{{ route('peminjam.notifikasi.index') }}">
                             <i class="fa-solid fa-bell"></i>
                         </a>
@@ -52,7 +52,7 @@
                         </a>
                     @endif
                 @endauth
-                <ion-icon onclick="onToggleMenu(this)" name="menu-outline" class="text-2xl cursor-pointer md:hidden"></ion-icon>
+                {{-- <ion-icon onclick="onToggleMenu(this)" name="menu-outline" class="text-2xl cursor-pointer md:hidden"></ion-icon> --}}
             </nav>
         @endif
     </div>
