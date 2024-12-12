@@ -20,4 +20,13 @@ class Barang extends Model
     {
         return $query->where('status', 'tersedia');
     }
+    
+    public function scopeForRole($query, $role)
+    {
+        if (str_contains($role, 'peminjam-')) {
+            $jenis = strtoupper(str_replace('peminjam-', '', $role));
+            return $query->where('jenis_barang', $jenis);
+        }
+        return $query;
+    }
 }

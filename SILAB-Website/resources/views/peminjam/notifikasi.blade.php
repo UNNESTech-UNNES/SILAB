@@ -4,6 +4,10 @@
         <a class="font-[Poppins] text-lg text-unnes-blue font-bold pt-10 pl-3 hover:text-unnes-blue/80" href="{{ route('peminjam.dashboard') }}">
             <i class="fa-solid fa-arrow-left"></i>Notifikasi</a>        
     </div>
+    {{-- <div class="container flex mx-auto px-32 py-8 mt-12 pt-4">
+        <a class="font-[Poppins] text-lg text-unnes-blue font-bold pt-10 pl-3 hover:text-unnes-blue/80" href="{{ route('peminjam.dashboard') }}">
+            <i class="fa-solid fa-arrow-left"></i>Notifikasi</a>        
+    </div>
     <!-- component -->
     <header class="container flex flex-col mx-auto shadow-md items-center justify-center px-32">
     <!-- logo -->
@@ -31,5 +35,17 @@
             <a href="">Lihat Detail</a>
         </button>
     </div>
-</div>
+</div> --}}
+<h1 class="text-center text-2xl font-bold my-6">Notifikasi</h1>
+    <ul>
+        @foreach($notifikasi as $notif)
+            <li>
+                {{ $notif->message }} - {{ $notif->is_read ? 'Terbaca' : 'Belum Terbaca' }}
+                <form action="{{ route('notifikasi.markAsRead', $notif->id) }}" method="POST">
+                    @csrf
+                    <button type="submit">Tandai sebagai terbaca</button>
+                </form>
+            </li>
+        @endforeach
+    </ul>
 </x-app-layout>

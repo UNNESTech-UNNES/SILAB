@@ -88,12 +88,14 @@
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $item->kondisi_barang }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $item->status }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <a href="{{ route('admin.barang.edit', $item->id) }}" class="bg-unnes-blue text-white rounded px-2 py-1">Edit</a>
-                                    <form action="{{ route('admin.barang.destroy', $item->id) }}" method="POST" class="inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="bg-red-500 text-white rounded px-2 py-1">Hapus</button>
-                                    </form>
+                                    <div class="flex items-center justify-center space-x-2">
+                                        <a href="{{ route('admin.barang.edit', $item->id) }}" class="bg-unnes-blue text-white rounded h-8 w-8 flex items-center justify-center"><i class="fa-solid fa-pen-to-square"></i></a>
+                                        <form action="{{ route('admin.barang.destroy', $item->id) }}" method="POST" class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="bg-red-500 text-white rounded h-8 w-8"><i class="fa-solid fa-trash"></i></button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach

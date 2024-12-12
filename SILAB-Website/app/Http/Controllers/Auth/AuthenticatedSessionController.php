@@ -25,25 +25,19 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
+        $request->session()->regenerate();
+    
+        $user = Auth::user();
+        
+        if ($user->hasRole('admin')) {
+            return redirect()->intended(route('admin.dashboard'));
+        } elseif ($user->hasRole('peminjam')) {
+            return redirect()->intended(route('peminjam.dashboard'));
+        } elseif ($user->hasRole('pemilik') || str_starts_with($user->getRoleNames()->first(), 'pemilik-')) {
+            return redirect()->intended(route('pemilik.dashboard'));
+        }
 
-    $request->session()->regenerate();
-
-    // Dapatkan pengguna yang sedang login
-    $user = Auth::user();
-
-    // Periksa peran pengguna dan arahkan ke dashboard yang sesuai
-    if ($user->role === 'admin') {
-        return redirect()->intended(route('admin.dashboard'));
-    } elseif ($user->role === 'peminjam') {
-        return redirect()->intended(route('peminjam.dashboard'));
-    } elseif ($user->role === 'pemilik') {
-        return redirect()->intended(route('pemilik.dashboard'));
-    }
-
-    // Default redirect jika role tidak dikenali
-    return redirect()->intended(route('/'), 302, ['role' => $user->role]);
-
-    // return redirect()->intended(route('dashboard'));
+        return redirect()->intended('/');
     }
 
     /**
