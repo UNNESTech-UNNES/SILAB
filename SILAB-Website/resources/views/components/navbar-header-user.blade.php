@@ -10,51 +10,66 @@
             @endphp
         @endauth
     </div>
-    <div>
+    <div class="flex-grow flex justify-center pr-32">
         @if (Route::has('login'))
-            <nav class="flex gap-2">
+            <nav class="flex gap-16 items-center">
                 @auth
-                    <button class="text-2xl w-10 h-10 pt-2 pr-5 hover:text-unnes-yellow">
-                        <a href="{{ route('peminjam.notifikasi.index') }}">
-                            <i class="fa-solid fa-bell"></i>
+                    <button class="text-md pt-2 font-[Poppins] font-semibold hover:text-slate-400">
+                        <a href="{{ route('peminjam.keranjang.index') }}">Keranjang
+                            {{-- <i class="fa-solid fa-cart-shopping"></i> --}}
                         </a>
                     </button>
-                    <button id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start"class="text-white w-12 h-12 rounded-full font-medium text-base flex items-center justify-center {{ $randomColor }}">
-                        {{ $initials }}
-                    </button>
-                    <div id="userDropdown" class="z-10 text-sm text-gray-900 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
-                        <div class="px-4 py-3">
-                        <div>{{ Auth::user()->name }}</div>
-                        <div class="font-medium truncate">{{ Auth::user()->email }}</div>
-                        </div>
-                        <ul class="py-2" aria-labelledby="avatarButton">
-                        <li>
-                            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Dashboard</a>
-                        </li>
-                        </ul>
-                        <div class="py-2 px-3 hover:bg-gray-100">
-                            <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                <i class="nav-icon fas fa-sign-out-alt"></i>{{ __('Logout') }}
-                            </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-                        </div>
-                    </div>
-                @else
-                    <a href="{{ route('login') }}" class="bg-unnes-blue text-white px-4 py-2 rounded-full hover:bg-[#c3d1e6] hover:text-black text-md">
-                        Login
-                    </a>
-
-                    @if (Route::has('register'))
-                        <a href="{{ route('register') }}" class="border-2 border-unnes-blue bg-white text-unnes-blue px-4 py-2 rounded-full hover:bg-unnes-blue hover:text-white text-md">
-                            Register
+                    <button class="text-md pt-2 font-[Poppins] font-semibold hover:text-slate-400">
+                        <a href="{{ route('peminjam.peminjaman.riwayat') }}">Riwayat
+                            {{-- <i class="fa-solid fa-clock-rotate-left"></i> --}}
                         </a>
-                    @endif
+                    </button>
+                    <button class="text-md pt-2 font-[Poppins] font-semibold hover:text-slate-400">
+                        <a href="{{ route('peminjam.notifikasi.index') }}">Notifikasi
+                            {{-- <i class="fa-solid fa-bell"></i> --}}
+                        </a>
+                    </button>
                 @endauth
-                {{-- <ion-icon onclick="onToggleMenu(this)" name="menu-outline" class="text-2xl cursor-pointer md:hidden"></ion-icon> --}}
             </nav>
         @endif
+    </div>
+    <div>
+        @auth
+            <button id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start"class="text-white w-12 h-12 rounded-full font-medium text-base flex items-center justify-center {{ $randomColor }}">
+                {{ $initials }}
+            </button>
+            <div id="userDropdown" class="z-10 text-sm text-gray-900 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+            <div class="px-4 py-3"><a href="">
+            <div>{{ Auth::user()->name }}</div>
+            <div class="font-medium truncate">{{ Auth::user()->email }}</div>
+            </a>
+            </div>
+            <ul class="py-2" aria-labelledby="avatarButton">
+            <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-300">Dashboard</a>
+            </li>
+            </ul>
+            <div class="py-2 px-3 hover:bg-red-500 rounded-b-md">
+                <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="nav-icon fas fa-sign-out-alt"></i>{{ __('Logout') }}
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
+            </div>
+        </div>
+    @else
+        <a href="{{ route('login') }}" class="bg-unnes-blue text-white px-4 py-2 rounded-full hover:bg-[#c3d1e6] hover:text-black text-md">
+            Login
+        </a>
+
+        @if (Route::has('register'))
+            <a href="{{ route('register') }}" class="border-2 border-unnes-b font-semibold px-4 py-2 rounded-full hover:bg-unnes-blue hover:text-white text-md">
+                Register
+            </a>
+        @endif
+    @endauth
+                {{-- <ion-icon onclick="onToggleMenu(this)" name="menu-outline" class="text-2xl cursor-pointer md:hidden"></ion-icon> --}}
     </div>
 </header>
 

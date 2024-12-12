@@ -4,8 +4,8 @@
         <a class="font-[Poppins] text-lg text-unnes-blue font-bold pt-10 pl-3 hover:text-unnes-blue/80" href="{{ route('peminjam.dashboard') }}">
             <i class="fa-solid fa-arrow-left"></i>Kembali</a>        
     </div>
-    <div class="container flex flex-col mx-auto shadow-md items-center justify-center px-32 w-[1250px]">
-        <h1 class="text-2xl font-bold pt-5 font-[Poppins] text-center mb-3 text-unnes-blue">Riwayat Peminjaman</h1>
+    <div class="container flex flex-col mx-auto items-center justify-center px-32 w-[1250px]">
+        <h1 class="text-2xl font-bold pt-5 font-[Poppins] text-center mb-3 text-unnes-blue">RIWAYAT PEMINJAMAN</h1>
     </div>
     <div class="text-md font-bold font-[Poppins] text-end my-3 mx-60 text-gray-400 bg-white" href="...">Bersihkan semua</div>
     <div class="container flex rounded-lg shadow-lg justify-start px-3 mx-auto w-[1250px] overflow-hidden hover:-translate-y-1 transition mt-5">

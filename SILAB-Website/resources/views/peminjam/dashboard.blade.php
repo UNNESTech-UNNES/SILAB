@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-navbar-header-user/>
         <section class="container mx-auto px-32 flex flex-col justify-center pt-24">
-            <h1 class="font-[Poppins] text-unnes-blue text-2xl font-bold flex justify-center filter group-hover:invert pb-5">MENU</h1>
+            {{-- <h1 class="font-[Poppins] text-unnes-blue text-2xl font-bold flex justify-center filter group-hover:invert pb-5">MENU</h1>
             <div class="container mx-auto flex flex-wrap justify-center gap-8 pb-5">
                 <a href="{{ route('peminjam.keranjang.index') }}">
                     <div class="w-80 h-24 flex flex-row border-2 border-slate-200 rounded-lg shadow-md hover:bg-slate-200">
@@ -31,7 +31,7 @@
                         </div>
                     </div>
                 </a>
-            </div>
+            </div> --}}
             <div class="container mx-auto flex items-center flex-wrap">
                 <x-list-barang :barangs="$barangs"/>
             </div>
