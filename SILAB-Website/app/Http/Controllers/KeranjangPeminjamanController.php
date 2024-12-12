@@ -66,7 +66,7 @@ class KeranjangPeminjamanController extends Controller
             'nama' => 'required|string|max:255',
             'alamat' => 'required|string|max:255',
             'nomor_handphone' => 'required|string|max:15',
-            'surat_tugas' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'surat_tugas' => 'required|mimes:jpeg,png,jpg,pdf,doc,docx|max:2048',
             'tanggal_dipinjam' => 'required|date',
             'tanggal_dikembalikan' => 'required|date|after_or_equal:tanggal_dipinjam',
         ]);

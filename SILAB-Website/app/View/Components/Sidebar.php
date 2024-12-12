@@ -28,6 +28,11 @@ class Sidebar extends Component
             'icon' => 'fas fa-tachometer-alt'
         ],
         [
+            'name' => 'Notifikasi',
+            'route' => 'admin.notifikasi.index',
+            'icon' => 'fas fa-bell'
+        ],
+        [
             'name' => 'Inventaris Barang',
             'route' => 'admin.barang.index',
             'icon' => 'fas fa-box'
@@ -51,7 +56,7 @@ class Sidebar extends Component
         ],
         [
             'name' => 'Manajemen User',
-            'route' => 'admin.peminjaman.index',
+            'route' => 'admin.users.index',
             'icon' => 'fas fa-users',
         ]
     ];

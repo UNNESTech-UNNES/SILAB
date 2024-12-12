@@ -1,74 +1,32 @@
 <x-main-layout>
-
-    <div class="container">
-        <h1>Manajemen Akses Pengguna</h1>
-
-        @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
-        
-        <table>
-            <thead>
-                <tr>
-                    <th>Nama</th>
-                    <th>Status</th>
-                    <th>Aksi</th>
-                    <th>Izin</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($users as $user)
-                <tr>
-                    <td>{{ $user->name }}</td>
-                    <td>{{ $user->is_active ? 'Aktif' : 'Nonaktif' }}</td>
-                    <td>
-                        <form action="{{ route('admin.toggle.active', $user->id) }}" method="POST">
-                            @csrf
-                            <button type="submit">{{ $user->is_active ? 'Nonaktifkan' : 'Aktifkan' }}</button>
-                        </form>
-                    </td>
-                    <td>
-                        <form action="{{ route('admin.update.permissions', $user->id) }}" method="POST">
-                            @csrf
-                            <label>
-                                <input type="checkbox" name="permissions[can_borrow]" value="1" {{ isset($user->permissions['can_borrow']) ? 'checked' : '' }}> Pinjam
-                            </label>
-                            <label>
-                                <input type="checkbox" name="permissions[can_manage]" value="1" {{ isset($user->permissions['can_manage']) ? 'checked' : '' }}> Kelola
-                            </label>
-                            <button type="submit">Perbarui Izin</button>
-                        </form>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-        <h1>Daftar Pengguna</h1>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nama</th>
-                    <th>Email</th>
-                    <th>Peran</th>
-                    <th>Perizinan</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($users as $user)
-                <tr>
-                    <td>{{ $user->id }}</td>
-                    <td>{{ $user->name }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>{{ $user->role }}</td>
-                    <td>{{ $user->permissions }}</td>
-                    <td>
-                        <a href="{{ route('admin.dashboard', $user->id) }}" class="btn btn-primary">Kelola</a>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+    <div class="px-6">
+        <h1 class="text-2xl text-center font-bold pb-4 text-unnes-blue">Manajemen User</h1>
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <div class="overflow-x-auto">
+                <div class="container mx-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="text-white">
+                        <tr class="bg-unnes-blue">
+                            <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Nama</th>
+                            <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Email</th>
+                            <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Role</th>
+                            <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @foreach($users as $user)
+                            <tr class="text-sm hover:bg-slate-100">
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $user->name }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $user->email }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $user->getRoleNames()->first() }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <a href="{{ route('admin.users.edit', $user) }}" class="bg-unnes-blue text-white rounded h-8 w-8 flex items-center justify-center"><i class="fa-solid fa-pen-to-square"></i></a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-</x-main-layout>
+</x-ma-layout>

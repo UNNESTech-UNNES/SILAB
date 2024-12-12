@@ -1,10 +1,10 @@
-@props(['barangs'])
+@props(['barangs', 'title'=>'DAFTAR BARANG'])
 
 <div class="container mx-auto px-32 gap-6 flex-col flex pb-32">
     {{-- Fitur Pencarian --}}
     <div class="flex flex-col justify-center w-full">
         <div class="w-full text-center">
-            <h2 class="font-[Poppins] text-unnes-blue text-2xl font-extrabold">DAFTAR BARANG</h2>
+            <h2 class="font-[Poppins] text-unnes-blue text-2xl font-extrabold">{{ $title }}</h2>
         </div>
         <p class="text-md text-slate-400 text-center">Sistem Inventaris dan Peminjaman Barang Laboratorium</p>
         <div class="relative flex items-center pt-4 h-max">

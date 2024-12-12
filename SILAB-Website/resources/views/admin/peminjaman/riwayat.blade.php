@@ -1,7 +1,7 @@
 <x-main-layout>
-    <div class="container mx-auto px-4 pb-4">
+    <div class="container mx-auto px-4">
         <h1 class="text-2xl text-center font-bold pb-4 text-unnes-blue">RIWAYAT PEMINJAMAN BARANG</h1>
-        <div class="bg-white shadow-md rounded-lg pb-6 overflow-hidden">
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full min-w-full divide-y divide-gray-200">
                     <thead class="bg-white">

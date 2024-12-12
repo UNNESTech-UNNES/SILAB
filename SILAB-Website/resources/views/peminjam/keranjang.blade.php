@@ -8,7 +8,8 @@
         <!-- Keranjang Section -->
         <div class="flex flex-col items-center col-span-1 bg-white border-2 border-gray-300 rounded-lg shadow-black px-5 py-5">
             <h1 class="text-2xl font-bold pt-5 font-[Poppins] text-center mb-4">Keranjang Peminjaman</h1>
-            <div id="controls-carousel" class="relative w-full rounded-md" data-carousel="static">
+            @if($keranjangItems->isNotEmpty())
+            <div id="controls-carousel" class="relative w-full rounded-md bg-red-300" data-carousel="static">
                 <!-- Carousel wrapper -->
                 <div class="relative w-full h-64 overflow-hidden rounded-lg">
                     @foreach($keranjangItems as $item)
@@ -41,6 +42,7 @@
                     </span>
                 </button>
             </div>
+            @endif
             <table class="table w-full h-32 mb-4">
                 <thead>
                     <tr class="text-center">

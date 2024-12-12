@@ -135,15 +135,28 @@ class BarangController extends Controller
 
     private function getBarangData($search = null, $filter = null)
     {
-        $query = DB::table('barangs')
-            ->select(
-                'nama_barang',
-                'letak_barang',
-                DB::raw('MIN(gambar) as gambar'),
-                DB::raw('COUNT(*) as total'),
-                DB::raw('SUM(CASE WHEN status != "dipinjam" OR status IS NULL THEN 1 ELSE 0 END) as available_quantity')
-            )
-            ->groupBy('nama_barang', 'letak_barang');
+        $query = DB::table('barangs');
+
+        // Filter berdasarkan role pemilik
+        if (auth()->check()) {
+            $userRoles = auth()->user()->getRoleNames();
+            foreach ($userRoles as $role) {
+                if (str_contains($role, 'pemilik-')) {
+                    $jenis = strtoupper(str_replace('pemilik-', '', $role));
+                    $query->where('jenis_barang', $jenis);
+                    break;
+                }
+            }
+        }
+
+        $query->select(
+            'nama_barang',
+            'letak_barang',
+            DB::raw('MIN(gambar) as gambar'),
+            DB::raw('COUNT(*) as total'),
+            DB::raw('SUM(CASE WHEN status != "dipinjam" OR status IS NULL THEN 1 ELSE 0 END) as available_quantity')
+        )
+        ->groupBy('nama_barang', 'letak_barang');
 
         // Terapkan filter pencarian jika ada
         if (!empty($search)) {
@@ -169,8 +182,33 @@ class BarangController extends Controller
             // Render partial view untuk AJAX request
             return view('components.barang-items', ['barangs' => $barangs])->render();
         }
-
+        
         return view('peminjam.dashboard', ['barangs' => $barangs]);
+    }
+
+    public function showCardPemilik(Request $request)
+    {
+        $search = $request->get('search');
+        $filter = $request->get('filter');
+        
+        $barangs = $this->getBarangData($search, $filter);
+
+        if (auth()->check()) {
+            $userRoles = auth()->user()->getRoleNames();
+            foreach ($userRoles as $role) {
+                if (str_contains($role, 'pemilik-')) {
+                    $jenis = strtoupper(str_replace('pemilik-', '', $role));
+                    $title = "Dashboard Pemilik " . $jenis;
+                    break;
+                }
+            }
+        }
+
+        if ($request->ajax()) {
+            return view('components.barang-items', ['barangs' => $barangs])->render();
+        }
+        
+            return view('pemilik.dashboard', compact('barangs', 'title'));
     }
 
     public function welcomeCard(Request $request)
