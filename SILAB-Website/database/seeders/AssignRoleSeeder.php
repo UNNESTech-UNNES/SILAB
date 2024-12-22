@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 
 class AssignRoleSeeder extends Seeder
 {
-    public function run()
+        public function run()
     {
         // Assign role admin ke user pertama (biasanya superadmin)
         $adminUser = User::first();

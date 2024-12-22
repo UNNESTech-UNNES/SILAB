@@ -35,4 +35,5 @@
             navLinks.classList.toggle('top-[9%]');
         }
     </script>
+    <x-footer-user/>
 </x-app-layout>

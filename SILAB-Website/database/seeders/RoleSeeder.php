@@ -8,8 +8,7 @@ use Spatie\Permission\Models\Role;
 class RoleSeeder extends Seeder
 {
     public function run()
-    {
-        // Role admin dan peminjam
+    {  // Role admin dan peminjam
         Role::updateOrCreate(['name' => 'admin']);
         Role::updateOrCreate(['name' => 'peminjam']);
         // Role untuk setiap jenis pemilik
@@ -18,6 +17,9 @@ class RoleSeeder extends Seeder
         Role::updateOrCreate(['name' => 'pemilik-facetro']);
         Role::updateOrCreate(['name' => 'pemilik-silab']);
         Role::updateOrCreate(['name' => 'pemilik-lms']);
+        Role::updateOrCreate(['name' => 'pemilik-sentis']);
         Role::updateOrCreate(['name' => 'pemilik-remosto']);
+        Role::updateOrCreate(['name' => 'pemilik-melodi']);
+      
     }
 }

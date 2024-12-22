@@ -65,7 +65,7 @@
                     <x-primary-button class="group relative w-full justify-center items-center flex bg-unnes-blue hover:bg-unnes-blue/80">
                         {{ __('Log in') }}
                     </x-primary-button>
-                    <a class="text-sm text-gray-600 hover:bg-unnes-blue/80" href="{{ route('register') }}">
+                    <a class="text-sm text-gray-600 hover:text-unnes-blue" href="{{ route('register') }}">
                         {{ __('Belum Punya Akun?') }}
                     </a>
                 </div>

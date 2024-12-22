@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-navbar-header-user />
     <div class="mt-24">
-    <a class="font-[Poppins] text-lg text-unnes-blue font-bold px-52 py-8 hover:text-unnes-blue/80" href="{{ route('peminjam.dashboard') }}">
+    <a class="font-[Poppins] text-lg text-unnes-blue font-bold px-52 py-8 hover:text-unnes-blue/60" href="{{ route('peminjam.dashboard') }}">
         <i class="fa-solid fa-arrow-left"></i> Kembali
     </a>
     <div class="container items-start mx-auto px-32 py-1 grid grid-cols-2 gap-6">
@@ -9,7 +9,7 @@
         <div class="flex flex-col items-center col-span-1 bg-white border-2 border-gray-300 rounded-lg shadow-black px-5 py-5">
             <h1 class="text-2xl font-bold pt-5 font-[Poppins] text-center mb-4">Keranjang Peminjaman</h1>
             @if($keranjangItems->isNotEmpty())
-            <div id="controls-carousel" class="relative w-full rounded-md bg-red-300" data-carousel="static">
+            <div id="controls-carousel" class="relative w-full rounded-md bg-white" data-carousel="static">
                 <!-- Carousel wrapper -->
                 <div class="relative w-full h-64 overflow-hidden rounded-lg">
                     @foreach($keranjangItems as $item)
@@ -123,7 +123,7 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="bg-unnes-blue text-white text-sm rounded-lg px-4 py-2 mb-4 inline-block hover:bg-unnes-blue/80">
+                <button type="submit" class="bg-unnes-blue text-white text-sm rounded-lg px-4 py-2 mb-4 inline-block hover:bg-unnes-blue/80 w-full ">
                     Finalisasi Peminjaman
                 </button>
             </form>
