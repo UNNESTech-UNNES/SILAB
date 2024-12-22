@@ -10,7 +10,6 @@
                     <img src="{{ asset('assets/Logo Silab.svg') }}" alt="Logo Silab" class="mx-auto h-20">
                 </a>
             </div>
-
             <div class="w-full sm:max-w-md mt-6 overflow-hidden sm:rounded-lg shadow-lg">
                 {{ $slot }}
             </div>

@@ -1,8 +1,8 @@
 <x-app-layout>
     <x-navbar-header-user/>
     <div class="container flex mx-auto px-32 py-8 mt-12 pt-4">
-        <a class="font-[Poppins] text-lg text-unnes-blue font-bold pt-10 pl-3 hover:text-unnes-blue/80" href="{{ route('peminjam.dashboard') }}">
-            <i class="fa-solid fa-arrow-left"></i>Notifikasi</a>        
+        <a class="font-[Poppins] text-lg text-unnes-blue font-bold pt-10 pl-3 hover:text-unnes-blue/60" href="{{ route('peminjam.dashboard') }}">
+            <i class="fa-solid fa-arrow-left"></i>Kembali</a>        
     </div>
     {{-- <div class="container flex mx-auto px-32 py-8 mt-12 pt-4">
         <a class="font-[Poppins] text-lg text-unnes-blue font-bold pt-10 pl-3 hover:text-unnes-blue/80" href="{{ route('peminjam.dashboard') }}">
@@ -39,11 +39,11 @@
 <h1 class="text-center text-2xl font-bold my-6">Notifikasi</h1>
     <ul>
         @foreach($notifikasi as $notif)
-            <li>
+            <li class="flex text-lg font-['Roboto'] mx-40 py-4 px-5 justify-between border-2 shadow-lg rounded-lg font-semibold">
                 {{ $notif->message }} - {{ $notif->is_read ? 'Terbaca' : 'Belum Terbaca' }}
                 <form action="{{ route('notifikasi.markAsRead', $notif->id) }}" method="POST">
                     @csrf
-                    <button type="submit">Tandai sebagai terbaca</button>
+                    <button type="submit" class="font-[Poppins] text-sm ml-5 font-semibold rounded-lg px-2 py-1 text-green-800 bg-green-200 hover:bg-green-400">Tandai sebagai terbaca</button>
                 </form>
             </li>
         @endforeach
