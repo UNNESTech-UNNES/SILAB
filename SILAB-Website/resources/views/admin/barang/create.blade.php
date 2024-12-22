@@ -1,50 +1,50 @@
 <x-main-layout>
-    <div class="container px-4">
-        <h1 class="text-2xl text-center font-bold pb-4 text-unnes-blue">TAMBAH BARANG</h1>
-        <form action="{{ route('admin.barang.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow">
+            <h2 class="text-2xl font-bold mb-6 text-unnes-blue">Tambah Barang Baru</h2>
             
-            <!-- Nama Barang -->
-            <div class="mb-4">
-                <label for="nama_barang" class="block text-sm font-medium text-gray-700">Nama Barang</label>
-                <input type="text" class="text-sm w-full form-control rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring focus:ring-blue-500" name="nama_barang" id="nama_barang" required>
-            </div>
+            <form action="{{ route('admin.barang.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Nama Barang</label>
+                    <input type="text" name="nama_barang" class="w-full px-3 py-2 border rounded" required>
+                </div>
 
-            <!-- Jenis Barang -->
-            <div class="mb-4">
-                <label for="jenis_barang" class="block text-sm font-medium text-gray-700">Jenis Barang</label>
-                <select class="text-sm w-full form-control rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring focus:ring-blue-500" name="jenis_barang" id="jenis_barang" required>
-                    <option value="MEDUNES">MEDUNES</option>
-                    <option value="SILAB">SILAB</option>
-                    <option value="SPARKA">SPARKA</option>
-                    <option value="MELODY">MELODY</option>
-                    <option value="FACETRO">FACETRO</option>
-                    <option value="SENTIS">SENTIS</option>
-                </select>
-            </div>
-        
-            <!-- Letak Barang -->
-            <div class="mb-4">
-                <label for="letak_barang" class="block text-sm font-medium text-gray-700">Letak Barang</label>
-                <input type="text" class="text-sm w-full form-control rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring focus:ring-blue-500" name="letak_barang" id="letak_barang" required>
-            </div>
-        
-            <!-- Kondisi Barang -->
-            <div class="mb-4">
-                <label for="kondisi_barang" class="block text-sm font-medium text-gray-700">Kondisi Barang</label>
-                <select class="text-sm w-full form-control rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring focus:ring-blue-500" name="kondisi_barang" id="kondisi_barang" required>
-                    <option value="Baik">Baik</option>
-                    <option value="Rusak">Rusak</option>
-                </select>
-            </div>
-        
-            <!-- Gambar -->
-            <div class="mb-4 text-sm">
-                <label for="gambar" class="block text-sm font-medium text-gray-700">Gambar</label>
-                <input type="file" class="bg-white text-sm block w-full border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500" name="gambar" id="gambar">
-            </div>
-        
-            <button type="submit" class="bg-unnes-blue text-white text-sm rounded-lg px-4 py-2 mb-4 inline-block">Simpan</button>
-        </form>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Jenis Barang</label>
+                    <input type="text" name="jenis_barang" class="w-full px-3 py-2 border rounded" required>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Letak Barang</label>
+                    <input type="text" name="letak_barang" class="w-full px-3 py-2 border rounded" required>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Kondisi Barang</label>
+                    <select name="kondisi_barang" class="w-full px-3 py-2 border rounded" required>
+                        <option value="baik">Baik</option>
+                        <option value="rusak">Rusak</option>
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Jumlah</label>
+                    <input type="number" name="jumlah" min="1" value="1" class="w-full px-3 py-2 border rounded" required>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Gambar</label>
+                    <input type="file" name="gambar" class="w-full">
+                </div>
+
+                <div class="flex justify-end">
+                    <button type="submit" class="bg-unnes-blue text-white px-4 py-2 rounded hover:bg-blue-600">
+                        Simpan
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </x-main-layout>

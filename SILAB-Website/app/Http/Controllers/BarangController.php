@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Barang;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class BarangController extends Controller
 {
@@ -58,32 +59,38 @@ class BarangController extends Controller
             'jenis_barang' => 'required|string|max:255',
             'letak_barang' => 'required|string|max:255',
             'kondisi_barang' => 'required|string|max:255',
+            'jumlah' => 'required|integer|min:1',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $path = $request->file('gambar') ? $request->file('gambar')->store('images', 'public') : null;
 
-        // Simpan data barang tanpa kode_barang
-        $barang = Barang::create([
-            'nama_barang' => $request->nama_barang,
-            'jenis_barang' => $request->jenis_barang,
-            'letak_barang' => $request->letak_barang,
-            'gambar' => $path,
-            'kondisi_barang' => $request->kondisi_barang,
-        ]);
+        // Loop sebanyak jumlah yang diinginkan
+        for ($i = 0; $i < $request->jumlah; $i++) {
+            // Simpan data barang
+            $barang = Barang::create([
+                'nama_barang' => $request->nama_barang,
+                'jenis_barang' => $request->jenis_barang,
+                'letak_barang' => $request->letak_barang,
+                'gambar' => $path,
+                'kondisi_barang' => $request->kondisi_barang,
+                'status' => 'tersedia'
+            ]);
 
-        // Buat kode_barang dengan menggabungkan id
-        $kode_barang = substr($request->nama_barang, 0, 3) . '-' . 
-                    substr($request->jenis_barang, 0, 3) . '-' . 
-                    substr($request->letak_barang, 0, 3) . '-' . 
-                    $barang->id;
+            // Generate kode barang unik
+            $kode_barang = substr($request->nama_barang, 0, 3) . '-' . 
+                        substr($request->jenis_barang, 0, 3) . '-' . 
+                        substr($request->letak_barang, 0, 3) . '-' . 
+                        $barang->id;
 
-        // Perbarui barang dengan kode_barang
-        $barang->update([
-            'kode_barang' => strtoupper($kode_barang),
-        ]);
+            // Update kode barang
+            $barang->update([
+                'kode_barang' => strtoupper($kode_barang),
+            ]);
+        }
 
-        return redirect()->route('admin.barang.index')->with('success', 'Barang berhasil ditambahkan.');
+        return redirect()->route('admin.barang.index')
+            ->with('success', $request->jumlah . ' barang berhasil ditambahkan.');
     }
 
     public function show(Barang $barang)
@@ -138,8 +145,8 @@ class BarangController extends Controller
         $query = DB::table('barangs');
 
         // Filter berdasarkan role pemilik
-        if (auth()->check()) {
-            $userRoles = auth()->user()->getRoleNames();
+        if (Auth::check()) {
+            $userRoles = Auth::user()->getRoleNames();
             foreach ($userRoles as $role) {
                 if (str_contains($role, 'pemilik-')) {
                     $jenis = strtoupper(str_replace('pemilik-', '', $role));
@@ -193,8 +200,8 @@ class BarangController extends Controller
         
         $barangs = $this->getBarangData($search, $filter);
 
-        if (auth()->check()) {
-            $userRoles = auth()->user()->getRoleNames();
+        if (Auth::check()) {
+            $userRoles = Auth::user()->getRoleNames();
             foreach ($userRoles as $role) {
                 if (str_contains($role, 'pemilik-')) {
                     $jenis = strtoupper(str_replace('pemilik-', '', $role));

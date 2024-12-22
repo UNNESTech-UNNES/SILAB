@@ -9,6 +9,7 @@ use App\Http\Controllers\KeranjangPeminjamanController;
 use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PemilikController;
+use App\Http\Controllers\AdminController;
 
 Route::get('/', [BarangController::class, 'welcomeCard'])->name('welcome');
 

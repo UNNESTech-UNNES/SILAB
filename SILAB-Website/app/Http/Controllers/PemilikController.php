@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PemilikController extends Controller
 {
@@ -11,8 +12,8 @@ class PemilikController extends Controller
     {
         // Dapatkan jenis pemilik dari role user
         $jenis = null;
-        if (auth()->check()) {
-            $userRoles = auth()->user()->getRoleNames();
+        if (Auth::check()) {
+            $userRoles = Auth::user()->getRoleNames();
             foreach ($userRoles as $role) {
                 if (str_contains($role, 'pemilik-')) {
                     $jenis = strtoupper(str_replace('pemilik-', '', $role));
