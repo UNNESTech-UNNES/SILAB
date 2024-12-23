@@ -31,10 +31,16 @@
                     </span>
                 </td>
                 <td class="px-6 py-4 text-sm">
-                    <button onclick="openEditModal('{{ $item->id }}')" 
-                        class="bg-unnes-blue text-white rounded h-8 w-8 flex items-center justify-center">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </button>
+                    <div class="flex gap-2 justify-center">
+                        <button onclick="openEditModal('{{ $item->id }}')" 
+                            class="bg-unnes-blue text-white rounded h-8 w-8 flex items-center justify-center">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
+                        <button onclick="deleteBarang('{{ $item->id }}')"
+                            class="bg-red-500 text-white rounded h-8 w-8 flex items-center justify-center hover:bg-red-600">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
                 </td>
             </tr>
             @empty

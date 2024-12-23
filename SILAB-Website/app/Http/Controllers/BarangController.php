@@ -128,8 +128,18 @@ class BarangController extends Controller
 
     public function destroy(Barang $barang)
     {
-        $barang->delete();
-        return redirect()->route('admin.barang.index')->with('success', 'Barang berhasil dihapus.');
+        try {
+            $barang->delete();
+            return response()->json([
+                'success' => true,
+                'message' => 'Barang berhasil dihapus'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menghapus barang'
+            ], 500);
+        }
     }
 
     private function getBarangData($search = null, $filter = null)
