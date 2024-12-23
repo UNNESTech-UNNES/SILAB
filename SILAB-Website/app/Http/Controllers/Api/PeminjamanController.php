@@ -75,4 +75,17 @@ class PeminjamanController extends Controller
             'data' => $riwayat
         ]);
     }
+
+    public function getPeminjamanAktif()
+    {
+        $peminjaman = Peminjaman::where('user_id', Auth::user()->id)
+            ->whereIn('status', ['disetujui', 'dipinjam'])
+            ->orderBy('tanggal_pengembalian', 'asc')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $peminjaman
+        ]);
+    }
 } 
