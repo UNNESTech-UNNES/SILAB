@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Barang;
 use App\Models\Peminjaman;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
-class HomeController extends Controller
+class AdminController extends Controller
 {
-    public function indexAdmin()
+    public function dashboard()
     {
+        // Rekapitulasi barang
         $rekapBarang = Barang::select(
             'nama_barang',
             'letak_barang',
@@ -26,21 +26,11 @@ class HomeController extends Controller
         $segeraKembali = Peminjaman::where('status', 'disetujui')
             ->get()
             ->map(function ($peminjaman) {
-                $peminjaman->sisa_hari = Carbon::parse($peminjaman->tanggal_pengembalian)->diffInDays(now());
+                $peminjaman->sisa_hari = floor(Carbon::parse($peminjaman->tanggal_pengembalian)->diffInDays(now(), false));
                 return $peminjaman;
             })
             ->sortBy('sisa_hari');
 
         return view('admin.dashboard', compact('rekapBarang', 'segeraKembali'));
     }
-
-    public function indexPemilik()
-    {
-        return view('pemilik.dashboard');
-    }
-
-    public function indexPeminjam()
-    {
-        return view('peminjam.dashboard');
-    }
-}
+} 

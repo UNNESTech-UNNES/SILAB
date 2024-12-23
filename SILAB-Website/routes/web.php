@@ -9,6 +9,7 @@ use App\Http\Controllers\KeranjangPeminjamanController;
 use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PemilikController;
+use App\Http\Controllers\AdminController;
 
 Route::get('/', [BarangController::class, 'welcomeCard'])->name('welcome');
 
@@ -25,7 +26,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/peminjaman/riwayat', [PeminjamanController::class, 'riwayat'])->name('peminjaman.riwayat');
     Route::post('/peminjaman/setujui/{id}', [PeminjamanController::class, 'setujui'])->name('peminjaman.setujui');
     Route::post('/peminjaman/tolak/{id}', [PeminjamanController::class, 'tolak'])->name('peminjaman.tolak');
-    Route::resource('barang', BarangController::class);
+    Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
+    Route::get('/barang/table', [BarangController::class, 'getTableData'])->name('barang.table');
+    Route::post('/barang/store', [BarangController::class, 'store'])->name('barang.store');
+    Route::get('/barang/{barang}/edit', [BarangController::class, 'getEditForm'])->name('barang.edit');
+    Route::patch('/barang/{barang}', [BarangController::class, 'updateAjax'])->name('barang.update');
     Route::get('/notifikasi', [NotifikasiController::class, 'adminIndex'])->name('notifikasi.index');
     Route::get('/notifikasi/create', [NotifikasiController::class, 'createMessage'])->name('notifikasi.create');
     Route::post('/notifikasi/store', [NotifikasiController::class, 'storeMessage'])->name('notifikasi.store-message');
@@ -34,6 +39,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
 Route::middleware(['auth', 'role:pemilik-medunes|pemilik-sparka|pemilik-facetro|pemilik-silab|pemilik-lms|pemilik-remosto'])->prefix('pemilik')->name('pemilik.')->group(function () {
     Route::get('/dashboard', [PemilikController::class, 'index'])->name('dashboard');
+    Route::post('/barang', [PemilikController::class, 'store'])->name('barang.store');
+    Route::patch('/barang/{barang}/toggle-borrow', [PemilikController::class, 'toggleBorrow'])->name('barang.toggle-borrow');
 });
 
 Route::middleware(['auth', 'role:peminjam'])->prefix('peminjam')->name('peminjam.')->group(function () {

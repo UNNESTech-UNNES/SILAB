@@ -2,46 +2,43 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Barang;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class BarangController extends Controller
 {
     public function index(Request $request)
     {
-        $perPage = $request->get('perPage', 10);
-        $barang = Barang::paginate($perPage);
-    
         $query = Barang::query();
 
-        // Pencarian berdasarkan nama barang
         if ($request->filled('search')) {
-            $query->where('nama_barang', 'like', '%' . $request->search . '%');
+            $query->where('nama_barang', 'like', '%' . $request->search . '%')
+                  ->orWhere('kode_barang', 'like', '%' . $request->search . '%');
         }
 
-        // Filter berdasarkan letak_barang
         if ($request->filled('filter_letak')) {
             $query->where('letak_barang', $request->filter_letak);
         }
 
-        // Filter berdasarkan jenis_barang
         if ($request->filled('filter_jenis')) {
             $query->where('jenis_barang', $request->filter_jenis);
         }
 
-        // Filter berdasarkan kondisi_barang
         if ($request->filled('filter_kondisi')) {
             $query->where('kondisi_barang', $request->filter_kondisi);
         }
 
-        $barang = $query->paginate($perPage);
-
-        // Ambil semua letak dan jenis untuk dropdown filter
+        $barang = $query->get();
         $letakBarang = Barang::select('letak_barang')->distinct()->get();
         $jenisBarang = Barang::select('jenis_barang')->distinct()->get();
         $kondisiBarang = Barang::select('kondisi_barang')->distinct()->get();
+
+        if ($request->ajax()) {
+            return view('admin.barang.table-partial', compact('barang'));
+        }
 
         return view('admin.barang.index', compact('barang', 'letakBarang', 'jenisBarang', 'kondisiBarang'));
     }
@@ -54,46 +51,48 @@ class BarangController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama_barang' => 'required|string|max:255',
-            'jenis_barang' => 'required|string|max:255',
-            'letak_barang' => 'required|string|max:255',
-            'kondisi_barang' => 'required|string|max:255',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'nama_barang' => 'required',
+            'jenis_barang' => 'required',
+            'letak_barang' => 'required',
+            'kondisi_barang' => 'required',
+            'jumlah' => 'required|integer|min:1',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        $path = $request->file('gambar') ? $request->file('gambar')->store('images', 'public') : null;
+        // Simpan gambar jika ada
+        $path = $request->file('gambar') ? $request->file('gambar')->store('barang', 'public') : null;
 
-        // Simpan data barang tanpa kode_barang
-        $barang = Barang::create([
-            'nama_barang' => $request->nama_barang,
-            'jenis_barang' => $request->jenis_barang,
-            'letak_barang' => $request->letak_barang,
-            'gambar' => $path,
-            'kondisi_barang' => $request->kondisi_barang,
-        ]);
+        // Generate kode barang
+        $kodePrefix = substr($request->nama_barang, 0, 3) . '-' . substr($request->jenis_barang, 0, 3);
+        $lastBarang = Barang::where('kode_barang', 'like', $kodePrefix . '%')->latest()->first();
+        $newNumber = $lastBarang ? (int)substr($lastBarang->kode_barang, -1) + 1 : 1;
 
-        // Buat kode_barang dengan menggabungkan id
-        $kode_barang = substr($request->nama_barang, 0, 3) . '-' . 
-                    substr($request->jenis_barang, 0, 3) . '-' . 
-                    substr($request->letak_barang, 0, 3) . '-' . 
-                    $barang->id;
+        // Buat barang sesuai jumlah yang diminta
+        for ($i = 0; $i < $request->jumlah; $i++) {
+            $kodeBarang = $kodePrefix . '-' . $request->letak_barang . '-' . ($newNumber + $i);
+            
+            Barang::create([
+                'kode_barang' => $kodeBarang,
+                'nama_barang' => $request->nama_barang,
+                'jenis_barang' => $request->jenis_barang,
+                'letak_barang' => $request->letak_barang,
+                'kondisi_barang' => $request->kondisi_barang,
+                'gambar' => $path,
+                'status' => 'tersedia',
+                'can_borrowed' => true
+            ]);
+        }
 
-        // Perbarui barang dengan kode_barang
-        $barang->update([
-            'kode_barang' => strtoupper($kode_barang),
-        ]);
+        if ($request->ajax()) {
+            return response()->json(['success' => true]);
+        }
 
-        return redirect()->route('admin.barang.index')->with('success', 'Barang berhasil ditambahkan.');
+        return redirect()->route('admin.barang.index')->with('success', 'Barang berhasil ditambahkan');
     }
 
     public function show(Barang $barang)
     {
         return view('admin.barang.show', compact('barang'));
-    }
-
-    public function edit(Barang $barang)
-    {
-        return view('admin.barang.edit', compact('barang'));
     }
 
     public function update(Request $request, $id) {
@@ -135,11 +134,12 @@ class BarangController extends Controller
 
     private function getBarangData($search = null, $filter = null)
     {
-        $query = DB::table('barangs');
+        $query = DB::table('barangs')
+            ->where('can_borrowed', true);
 
         // Filter berdasarkan role pemilik
-        if (auth()->check()) {
-            $userRoles = auth()->user()->getRoleNames();
+        if (Auth::check()) {
+            $userRoles = Auth::user()->roles->pluck('name');
             foreach ($userRoles as $role) {
                 if (str_contains($role, 'pemilik-')) {
                     $jenis = strtoupper(str_replace('pemilik-', '', $role));
@@ -193,8 +193,8 @@ class BarangController extends Controller
         
         $barangs = $this->getBarangData($search, $filter);
 
-        if (auth()->check()) {
-            $userRoles = auth()->user()->getRoleNames();
+        if (Auth::check()) {
+            $userRoles = Auth::user()->roles->pluck('name');
             foreach ($userRoles as $role) {
                 if (str_contains($role, 'pemilik-')) {
                     $jenis = strtoupper(str_replace('pemilik-', '', $role));
@@ -224,5 +224,58 @@ class BarangController extends Controller
         }
 
         return view('welcome', ['barangs' => $barangs]);
+    }
+
+    public function getTableData(Request $request)
+    {
+        $query = Barang::query();
+
+        if ($request->filled('search')) {
+            $query->where(function($q) use ($request) {
+                $q->where('nama_barang', 'like', '%' . $request->search . '%')
+                  ->orWhere('kode_barang', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        if ($request->filled('filter_letak')) {
+            $query->where('letak_barang', $request->filter_letak);
+        }
+
+        if ($request->filled('filter_jenis')) {
+            $query->where('jenis_barang', $request->filter_jenis);
+        }
+
+        if ($request->filled('filter_kondisi')) {
+            $query->where('kondisi_barang', $request->filter_kondisi);
+        }
+
+        $barang = $query->get();
+        return view('admin.barang.table-partial', compact('barang'));
+    }
+
+    public function getEditForm(Barang $barang)
+    {
+        return view('admin.barang.edit-form', compact('barang'));
+    }
+
+    public function updateAjax(Request $request, Barang $barang)
+    {
+        $request->validate([
+            'nama_barang' => 'required',
+            'jenis_barang' => 'required',
+            'letak_barang' => 'required',
+            'kondisi_barang' => 'required',
+        ]);
+
+        $data = $request->only(['nama_barang', 'jenis_barang', 'letak_barang', 'kondisi_barang']);
+        
+        if ($request->hasFile('gambar')) {
+            $path = $request->file('gambar')->store('barang', 'public');
+            $data['gambar'] = $path;
+        }
+
+        $barang->update($data);
+
+        return response()->json(['success' => true]);
     }
 }

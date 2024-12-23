@@ -19,6 +19,6 @@ class RoleSeeder extends Seeder
         Role::updateOrCreate(['name' => 'pemilik-lms']);
         Role::updateOrCreate(['name' => 'pemilik-sentis']);
         Role::updateOrCreate(['name' => 'pemilik-melodi']);
-      
+        Role::updateOrCreate(['name' => 'pemilik-umum']);
     }
 }

@@ -14,6 +14,11 @@ class Barang extends Model
         'kode_barang',
         'kondisi_barang',
         'status',
+        'can_borrowed',
+    ];
+
+    protected $casts = [
+        'can_borrowed' => 'boolean',
     ];
 
     public function scopeTersedia($query)
@@ -28,5 +33,10 @@ class Barang extends Model
             return $query->where('jenis_barang', $jenis);
         }
         return $query;
+    }
+
+    public function peminjaman()
+    {
+        return $this->hasMany(Peminjaman::class);
     }
 }
