@@ -1,36 +1,12 @@
 <x-app-layout>
-<<<<<<< HEAD
-    <div class="py-6 md:py-12">
-        <div class="max-w-full md:max-w-7xl mx-auto sm:px-4 md:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-4 md:p-6 text-gray-900">
-                    <h2 class="text-xl md:text-2xl font-semibold mb-4">{{ $title }}</h2>
-                    
-                    {{-- Search dan Filter --}}
-                    <div class="mb-4 flex flex-col md:flex-row gap-4">
-                        <input type="text" 
-                               id="searchInput"
-                               placeholder="Cari barang..." 
-                               class="border rounded px-3 py-1 w-full md:w-64">
-                        
-                        <select id="filterLetak" class="border rounded px-3 py-1 w-full md:w-auto">
-                            <option value="">Semua Lokasi</option>
-                            @foreach($letakBarang as $letak)
-                                <option value="{{ $letak->letak_barang }}">
-                                    Ruang {{ $letak->letak_barang }}
-                                </option>
-                            @endforeach
-                        </select>
-=======
     <x-navbar-header-user/>
-    <div class="container mx-auto px-4 py-8 mt-16">
+    <div class="container mx-auto px-4 md:px-16 lg:px-32 py-8 mt-16">
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-bold text-unnes-blue">{{ $title }}</h1>
             <button onclick="openModal()" class="bg-unnes-blue text-white px-4 py-2 rounded-lg hover:bg-unnes-blue/80 transition">
                 Tambah Barang
             </button>
         </div>
->>>>>>> bd00f2ac0e382a202d6aa252a75addfdab9a0879
 
         <!-- Filter Section -->
         <div class="bg-white p-4 rounded-lg shadow-md mb-6">

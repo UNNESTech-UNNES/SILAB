@@ -42,18 +42,6 @@
                 </x-nav-link>
                 @endif
             </nav>
-            @if(Auth::check() && Auth::user()->hasRole(['pemilik-facetro', 'pemilik-silab', 'pemilik-medunes', 'pemilik-sparka', 'pemilik-lms', 'pemilik-sentis', 'pemilik-melodi']))
-            <nav class="flex gap-4 md:gap-8 lg:gap-16 items-center">
-                <x-nav-link :href="route('peminjam.notifikasi.index')" :active="request()->routeIs('pemilik.tersedia.index')">
-                    <button class="text-sm md:text-md font-[Poppins] font-medium text-unnes-blue"> Tersedia
-                    </button>
-                </x-nav-link>
-                <x-nav-link :href="route('peminjam.notifikasi.index')" :active="request()->routeIs('pemilik.dipinjam.index')">
-                    <button class="text-sm md:text-md font-[Poppins] font-medium text-unnes-blue"> Dipinjam
-                    </button>
-                </x-nav-link>
-            </nav>
-            @endif
     </div>
     <div>
         @auth

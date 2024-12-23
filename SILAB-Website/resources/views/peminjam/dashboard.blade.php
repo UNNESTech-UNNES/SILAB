@@ -1,5 +1,4 @@
 <x-app-layout>
-<<<<<<< HEAD
         <section class="container mx-auto px-4 md:px-16 lg:px-32 flex flex-col justify-center pt-16 md:pt-24 bg-white">
             {{-- <h1 class="font-[Poppins] text-unnes-blue text-2xl font-bold flex justify-center filter group-hover:invert pb-5">MENU</h1>
             <div class="container mx-auto flex flex-wrap justify-center gap-8 pb-5">
@@ -36,14 +35,6 @@
                 <x-list-barang :barangs="$barangs"/>
             </div>
         </section>
-=======
-    <x-navbar-header-user/>
-    <section class="container mx-auto px-32 flex flex-col justify-center pt-24">
-        <div class="container mx-auto flex items-center flex-wrap">
-            <x-list-barang :barangs="$barangs"/>
-        </div>
-    </section>
->>>>>>> bd00f2ac0e382a202d6aa252a75addfdab9a0879
 
     <script>
         document.getElementById('searchButton').addEventListener('click', function() {
@@ -53,10 +44,6 @@
             } else {
                 alert('Silakan masukkan kata kunci pencarian.');
             }
-<<<<<<< HEAD
-        </script>
-        <x-footer-user/>
-=======
         });
     </script>
     <script>
@@ -109,5 +96,5 @@
             };
         }
     </script>
->>>>>>> bd00f2ac0e382a202d6aa252a75addfdab9a0879
+    <x-footer-user/>
 </x-app-layout>
