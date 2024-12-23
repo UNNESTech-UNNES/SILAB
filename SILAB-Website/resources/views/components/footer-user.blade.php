@@ -1,4 +1,4 @@
-<footer class="bg-white rounded-lg shadow m-4 dark:bg-white">
+<footer class="bg-white shadow w-full dark:bg-white fixed-bottom-0">
     <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
       <span class="text-sm text-black/70 sm:text-center dark:text-black/70 font-[Poppins]">© 2024 <a href="https://flowbite.com/" class="hover:underline">SILAB™</a>. All Rights Reserved.
     </span>

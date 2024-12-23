@@ -1,6 +1,5 @@
 <x-app-layout>
-    <x-navbar-header-user/>
-        <section class="container mx-auto px-32 flex flex-col justify-center pt-24">
+        <section class="container mx-auto px-4 md:px-16 lg:px-32 flex flex-col justify-center pt-16 md:pt-24 bg-white">
             {{-- <h1 class="font-[Poppins] text-unnes-blue text-2xl font-bold flex justify-center filter group-hover:invert pb-5">MENU</h1>
             <div class="container mx-auto flex flex-wrap justify-center gap-8 pb-5">
                 <a href="{{ route('peminjam.keranjang.index') }}">
@@ -54,4 +53,5 @@
                 navLinks.classList.toggle('top-[9%]');
             }
         </script>
+        <x-footer-user/>
 </x-app-layout>

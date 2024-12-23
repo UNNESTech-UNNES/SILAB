@@ -1,9 +1,8 @@
 <x-app-layout>
-    <x-navbar-header-user/>
-    <div class="container flex mx-auto px-32 py-8 mt-16">
+    <div class="container flex mx-auto px-12 md:px-24 lg:px-32 py-8 mt-8 md:mt-16">
         <div id="default-carousel" class="relative w-full" data-carousel="slide">
             <!-- Carousel wrapper -->
-            <div class="relative rounded-3xl overflow-hidden h-96">
+            <div class="relative sm:rounded-lg md:rounded-xl lg:rounded-3xl overflow-hidden h-64 sm:h-72 md:h-80 lg:h-96 xl:h-96">
                 <!-- Item 1 -->
                 <div class="hidden duration-700 ease-in-out" data-carousel-item>
                     <img src="assets/slide 1.png" class="absolute block -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
@@ -27,7 +26,6 @@
             <x-list-barang :barangs="$barangs"/>
         </div>
     </section>
-
     <script>
         const navLinks = document.querySelector('.nav-links');
         function onToggleMenu(e) {

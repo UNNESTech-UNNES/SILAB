@@ -1,12 +1,12 @@
 @props(['barangs', 'title'=>'DAFTAR BARANG'])
 
-<div class="container mx-auto px-32 gap-6 flex-col flex pb-32">
+<div class="w-full h-full px-12 md:px-24 lg:px-32 gap-6 flex-col flex pb-32 bg-white">
     {{-- Fitur Pencarian --}}
     <div class="flex flex-col justify-center w-full">
-        <div class="w-full text-center">
-            <h2 class="font-[Poppins] text-unnes-blue text-2xl font-extrabold">{{ $title }}</h2>
+        <div class="w-full text-center mt-10 md:mt-4">
+            <h2 class="font-[Poppins] text-unnes-blue text-lg md:text-2xl font-extrabold">{{ $title }}</h2>
         </div>
-        <p class="text-md text-slate-400 text-center">Sistem Inventaris dan Peminjaman Barang Laboratorium</p>
+        <p class=" text-sm md:text-md text-slate-400 text-center">Sistem Inventaris dan Peminjaman Barang Laboratorium</p>
         <div class="relative flex items-center pt-4 h-max">
             <div class="flex w-full">
                 <input id="searchInput" type="text" name="search" class="w-full bg-slate-100 placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md pr-3 pl-4 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow" placeholder="Cari barang..." />
@@ -18,8 +18,8 @@
     </div>
 
     {{-- Fitur Filter Ruangan --}}
-    <nav class="sticky top-0 bg-white flex-wrap">
-        <div class="container z-30 top-0 text-slate-500 text-sm">
+    <nav class="sticky top-0 bg-white">
+        <div class="container z-30 top-0 text-slate-500 flex overflow-x-scroll no-scrollbar">
             @php
                 $currentFilter = request('filter', '');
             @endphp
@@ -27,17 +27,17 @@
             <button data-filter="" class="filter-btn rounded-full border-2 px-3 py-1.5 {{ $currentFilter == '' ? 'bg-unnes-blue text-white' : 'hover:bg-unnes-blue hover:text-white' }}">All</button>
             <button data-filter="1A" class="filter-btn rounded-full border-2 px-3 py-1.5 {{ $currentFilter == '1A' ? 'bg-unnes-blue text-white' : 'hover:bg-unnes-blue hover:text-white' }}">Ruang 1A</button>
             <button data-filter="1B" class="filter-btn rounded-full border-2 px-3 py-1.5 {{ $currentFilter == '1B' ? 'bg-unnes-blue text-white' : 'hover:bg-unnes-blue hover:text-white' }}">Ruang 1B</button>
-            <button data-filter="1C" class="filter-btn rounded-full border-2 px-3 py-1.5 {{ $currentFilter == '1C' ? 'bg-unnes-blue text-white' : 'hover:bg-unnes-blue hover:text-white' }}">Ruang 1C</button>
-            <button data-filter="1D" class="filter-btn rounded-full border-2 px-3 py-1.5 {{ $currentFilter == '1D' ? 'bg-unnes-blue text-white' : 'hover:bg-unnes-blue hover:text-white' }}">Ruang 1D</button>
-            <button data-filter="2A" class="filter-btn rounded-full border-2 px-3 py-1.5 {{ $currentFilter == '2A' ? 'bg-unnes-blue text-white' : 'hover:bg-unnes-blue hover:text-white' }}">Ruang 2A</button>
-            <button data-filter="2B" class="filter-btn rounded-full border-2 px-3 py-1.5 {{ $currentFilter == '2B' ? 'bg-unnes-blue text-white' : 'hover:bg-unnes-blue hover:text-white' }}">Ruang 2B</button>
-            <button data-filter="2C" class="filter-btn rounded-full border-2 px-3 py-1.5 {{ $currentFilter == '2C' ? 'bg-unnes-blue text-white' : 'hover:bg-unnes-blue hover:text-white' }}">Ruang 2C</button>
-            <button data-filter="2D" class="filter-btn rounded-full border-2 px-3 py-1.5 {{ $currentFilter == '2D' ? 'bg-unnes-blue text-white' : 'hover:bg-unnes-blue hover:text-white' }}">Ruang 2D</button>
+            <button data-filter="2A" class="filter-btn rounded-full border-2 px-3 py-1.5 {{ $currentFilter == '1C' ? 'bg-unnes-blue text-white' : 'hover:bg-unnes-blue hover:text-white' }}">Ruang 2A</button>
+            <button data-filter="2B" class="filter-btn rounded-full border-2 px-3 py-1.5 {{ $currentFilter == '1D' ? 'bg-unnes-blue text-white' : 'hover:bg-unnes-blue hover:text-white' }}">Ruang 2B</button>
+            <button data-filter="3A" class="filter-btn rounded-full border-2 px-3 py-1.5 {{ $currentFilter == '2A' ? 'bg-unnes-blue text-white' : 'hover:bg-unnes-blue hover:text-white' }}">Ruang 3A</button>
+            <button data-filter="3B" class="filter-btn rounded-full border-2 px-3 py-1.5 {{ $currentFilter == '2B' ? 'bg-unnes-blue text-white' : 'hover:bg-unnes-blue hover:text-white' }}">Ruang 3B</button>
+            <button data-filter="4A" class="filter-btn rounded-full border-2 px-3 py-1.5 {{ $currentFilter == '2C' ? 'bg-unnes-blue text-white' : 'hover:bg-unnes-blue hover:text-white' }}">Ruang 4A</button>
+            <button data-filter="4B" class="filter-btn rounded-full border-2 px-3 py-1.5 {{ $currentFilter == '2D' ? 'bg-unnes-blue text-white' : 'hover:bg-unnes-blue hover:text-white' }}">Ruang 4B</button>
         </div>
     </nav>
 
     {{-- Card Barang --}}
-    <div id="barang-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div id="barang-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         <x-barang-items :barangs="$barangs"/>
     </div>
 </div>

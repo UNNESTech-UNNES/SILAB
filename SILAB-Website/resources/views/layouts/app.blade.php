@@ -4,10 +4,10 @@
         @include('components.links')
     </head>
     <body class="font-[Poppins] bg-white">
-            <main>
+        <x-navbar-header-user/>
+            <main class="bg-white">
                 {{ $slot }}
             </main>
-        </div>
     </body>
 
     @stack('scripts')

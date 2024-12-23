@@ -1,5 +1,4 @@
 <x-app-layout>
-    <x-navbar-header-user />
     <div class="mt-24">
     <a class="font-[Poppins] text-lg text-unnes-blue font-bold px-52 py-8 hover:text-unnes-blue/60" href="{{ route('peminjam.dashboard') }}">
         <i class="fa-solid fa-arrow-left"></i> Kembali

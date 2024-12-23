@@ -1,6 +1,6 @@
-<header class="shadow-lg flex justify-between items-center bg-white w-full py-2 fixed top-0 px-24 z-50">
+<header class="shadow-lg flex justify-between items-center bg-white w-full py-4 fixed top-0 px-4 md:px-8 lg:px-24 z-50">
     <div class="flex items-center">
-        <img class="h-12 w-auto" src="{{ asset('assets/Logo Silab.svg') }}" alt="Logo Silab">
+        <img class="h-10 w-auto md:h-10" src="{{ asset('assets/Logo Silab.svg') }}" alt="Logo Silab">
         @auth
             @php
                 $user = Auth::user();
@@ -10,7 +10,7 @@
             @endphp
         @endauth
     </div>
-    <div class="flex-grow flex justify-center pr-32">
+    <div class="flex-grow flex justify-center pr-4 md:pr-16 lg:pr-32">
     {{-- @props(['active', 'icon'])
 
             @php
@@ -23,33 +23,33 @@
                 {!! $icon !!}
                 {{ $slot }}
             </a> --}}
-            <nav class="flex gap-16 items-center">
+            <nav class="flex gap-4 md:gap-8 lg:gap-16 items-center">
                 @if (Auth::check() && Auth::user()->hasRole('peminjam'))
                 <x-nav-link :href="route('peminjam.keranjang.index')" :active="request()->routeIs('peminjam.keranjang.index')">
-                    <button class="text-md font-[Poppins] font-medium text-unnes-blue">
+                    <button class="text-sm md:text-md font-[Poppins] font-medium text-unnes-blue">
                         <i class="fa-solid fa-cart-shopping"></i> Keranjang
                     </button>
                 </x-nav-link>
                 <x-nav-link :href="route('peminjam.peminjaman.riwayat')" :active="request()->routeIs('peminjam.peminjaman.riwayat')">
-                    <button class="text-md font-[Poppins] font-medium text-unnes-blue">
+                    <button class="text-sm md:text-md font-[Poppins] font-medium text-unnes-blue">
                         <i class="fa-solid fa-clock-rotate-left"></i> Riwayat
                     </button>
                 </x-nav-link>
                 <x-nav-link :href="route('peminjam.notifikasi.index')" :active="request()->routeIs('peminjam.notifikasi.index')">
-                    <button class="text-md font-[Poppins] font-medium text-unnes-blue">
+                    <button class="text-sm md:text-md font-[Poppins] font-medium text-unnes-blue">
                         <i class="fa-solid fa-bell"></i> Notifikasi
                     </button>
                 </x-nav-link>
                 @endif
             </nav>
-            @if(Auth::check() && Auth::user()->hasRole(['pemilik-facetro', 'pemilik-silab', 'pemilik-medunes', 'pemilik-sparka', 'pemilik-lms', 'pemilik-remosto', 'pemilik-sentis', 'pemilik-melodi']))
-            <nav class="flex gap-16 items-center">
+            @if(Auth::check() && Auth::user()->hasRole(['pemilik-facetro', 'pemilik-silab', 'pemilik-medunes', 'pemilik-sparka', 'pemilik-lms', 'pemilik-sentis', 'pemilik-melodi']))
+            <nav class="flex gap-4 md:gap-8 lg:gap-16 items-center">
                 <x-nav-link :href="route('peminjam.notifikasi.index')" :active="request()->routeIs('pemilik.tersedia.index')">
-                    <button class="text-md font-[Poppins] font-medium text-unnes-blue"> Tersedia
+                    <button class="text-sm md:text-md font-[Poppins] font-medium text-unnes-blue"> Tersedia
                     </button>
                 </x-nav-link>
                 <x-nav-link :href="route('peminjam.notifikasi.index')" :active="request()->routeIs('pemilik.dipinjam.index')">
-                    <button class="text-md font-[Poppins] font-medium text-unnes-blue"> Dipinjam
+                    <button class="text-sm md:text-md font-[Poppins] font-medium text-unnes-blue"> Dipinjam
                     </button>
                 </x-nav-link>
             </nav>
@@ -81,12 +81,12 @@
             </div>
         </div>
     @else
-        <a href="{{ route('login') }}" class="bg-unnes-blue text-white px-4 py-2 rounded-full hover:bg-[#c3d1e6] hover:text-black text-md">
+        <a href="{{ route('login') }}" class="bg-unnes-blue text-white px-4 py-2 mx-2 rounded-full hover:bg-[#c3d1e6] hover:text-black text-md text-center">
             Login
         </a>
 
         @if (Route::has('register'))
-            <a href="{{ route('register') }}" class="border-2 border-unnes-b px-4 py-2 rounded-full hover:bg-unnes-blue hover:text-white text-md">
+            <a href="{{ route('register') }}" class="border-2 border-unnes-b px-4 py-2 rounded-full hover:bg-unnes-blue hover:text-white text-md ">
                 Register
             </a>
         @endif

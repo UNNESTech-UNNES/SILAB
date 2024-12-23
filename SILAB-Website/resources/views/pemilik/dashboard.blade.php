@@ -1,19 +1,18 @@
 <x-app-layout>
-    <x-navbar-header-user/>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="py-6 md:py-12">
+        <div class="max-w-full md:max-w-7xl mx-auto sm:px-4 md:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <h2 class="text-2xl font-semibold mb-4">{{ $title }}</h2>
+                <div class="p-4 md:p-6 text-gray-900">
+                    <h2 class="text-xl md:text-2xl font-semibold mb-4">{{ $title }}</h2>
                     
                     {{-- Search dan Filter --}}
-                    <div class="mb-4 flex gap-4">
+                    <div class="mb-4 flex flex-col md:flex-row gap-4">
                         <input type="text" 
                                id="searchInput"
                                placeholder="Cari barang..." 
-                               class="border rounded px-3 py-1 w-64">
+                               class="border rounded px-3 py-1 w-full md:w-64">
                         
-                        <select id="filterLetak" class="border rounded px-3 py-1">
+                        <select id="filterLetak" class="border rounded px-3 py-1 w-full md:w-auto">
                             <option value="">Semua Lokasi</option>
                             @foreach($letakBarang as $letak)
                                 <option value="{{ $letak->letak_barang }}">

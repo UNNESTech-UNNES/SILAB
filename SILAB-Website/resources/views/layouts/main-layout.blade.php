@@ -5,7 +5,7 @@
 </head>
 <body class="font-['Poppins']"
     x-data="{ sidebarOpen: true }" 
-    class="bg-gray-100 font-sans antialiased"
+    class="bg-white font-sans antialiased"
 >
     <div class="min-h-screen flex shadow-lg">
         <!-- Sidebar -->
@@ -54,7 +54,7 @@
             </nav>
 
             <!-- Content Wrapper -->
-            <main class="flex-1 overflow-y-auto p-6 bg-gray-50">
+            <main class="flex-1 overflow-y-auto p-6 bg-white">
                 <div class="container mx-auto">
                     {{ $slot }}
                 </div>

@@ -1,5 +1,4 @@
 <x-app-layout>
-    <x-navbar-header-user/>
     <div class="container flex mx-auto px-32 py-8 mt-12 pt-4">
         <a class="font-[Poppins] text-lg text-unnes-blue font-bold pt-10 pl-3 hover:text-unnes-blue/60" href="{{ route('peminjam.dashboard') }}">
             <i class="fa-solid fa-arrow-left"></i>Kembali</a>        
