@@ -23,14 +23,14 @@ class AdminController extends Controller
         ->get();
 
         // Barang yang harus segera dikembalikan
-        $segеrаKembali = Peminjaman::where('status', 'disetujui')
+        $segeraKembali = Peminjaman::where('status', 'disetujui')
             ->get()
             ->map(function ($peminjaman) {
-                $peminjaman->sisa_hari = Carbon::parse($peminjaman->tanggal_pengembalian)->diffInDays(now());
+                $peminjaman->sisa_hari = floor(Carbon::parse($peminjaman->tanggal_pengembalian)->diffInDays(now(), false));
                 return $peminjaman;
             })
             ->sortBy('sisa_hari');
 
-        return view('admin.dashboard', compact('rekapBarang', 'segеrаKembali'));
+        return view('admin.dashboard', compact('rekapBarang', 'segeraKembali'));
     }
 } 

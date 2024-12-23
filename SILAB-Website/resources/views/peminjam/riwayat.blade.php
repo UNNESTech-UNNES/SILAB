@@ -2,59 +2,91 @@
     <x-navbar-header-user/>
     <div class="container flex mx-auto px-32 py-8 mt-12 pt-4">
         <a class="font-[Poppins] text-lg text-unnes-blue font-bold pt-10 pl-3 hover:text-unnes-blue/60" href="{{ route('peminjam.dashboard') }}">
-            <i class="fa-solid fa-arrow-left"></i>Kembali</a>        
+            <i class="fa-solid fa-arrow-left"></i> Kembali</a>        
     </div>
-    <div class="container flex flex-col mx-auto items-center justify-center px-32 w-[1250px]">
-        <h1 class="text-2xl font-bold pt-5 font-[Poppins] text-center mb-3 text-black">Riwayat Peminjaman</h1>
-    </div>
-    <button class="text-md font-bold font-[Poppins] text-end my-3 mx-60 text-gray-400 bg-white" href="...">Bersihkan semua</button>
-    <div class="container flex rounded-lg shadow-lg justify-start px-3 mx-auto w-[1250px] overflow-hidden hover:-translate-y-1 transition mt-5">
-        {{-- <div class="p-3 flex justify-between">
-            <img class="w-52 h-32 object-cover rounded-lg" src="{{ asset('assets/keyboardasus.jpg') }}" alt="Gambar Barang" />
-            <div class="flex flex-col mx-5 w-44 h-32">
-                <h3 class="text-black text-xl font-semibold">Keyboard ASUS</h3>
-                <div class="text-gray-500 text-xs font-semibold">Ruang 1A</div>
-                <div class="bg-red-600 rounded-lg w-16 h-4 flex justify-center gap-1 mt-12">
-                    <span class="text-white text-xs text-center">Selesai</span>
+
+    @if($riwayatPeminjaman->isEmpty())
+        <div class="container mx-auto px-32 py-10">
+            <div class="bg-white rounded-lg shadow-md p-8 text-center">
+                <div class="flex flex-col items-center gap-4">
+                    <i class="fas fa-history text-6xl text-gray-300"></i>
+                    <h2 class="text-2xl font-semibold text-gray-600">Belum Ada Riwayat</h2>
+                    <p class="text-gray-500">Anda belum pernah meminjam barang di SILAB</p>
+                    <a href="{{ route('peminjam.dashboard') }}" class="bg-unnes-blue text-white px-6 py-2 rounded-lg hover:bg-unnes-blue/80 transition">
+                        Mulai Meminjam
+                    </a>
                 </div>
             </div>
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="btn btn-danger flex ml-[750px] justify-items-end text-3xl text-gray-400 w-10 h-10" href="...">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div> --}}
-    </div>
-    {{-- <div class="container flex rounded-lg shadow-lg justify-start px-3 mx-auto w-[1250px] overflow-hidden hover:-translate-y-1 transition mt-5">
-        <div class="p-3 flex justify-between">
-            <img class=" w-52 h-32 object-cover rounded-lg" src="{{ asset('assets/monitorasus1.png') }}" alt="Gambar Barang" />
-            <div class="flex flex-col mx-5 w-44 h-32">
-                <h3 class="text-black text-xl font-semibold">Monitor ASUS</h3>
-                <div class="text-gray-500 text-xs font-semibold">Ruang 1B</div>
-                <div class="bg-red-600 rounded-lg w-16 h-4 flex justify-center gap-1 mt-12">
-                    <span class="text-white text-xs text-center">Selesai</span>
-                </div>
-            </div>
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="btn btn-danger flex ml-[750px] justify-items-end text-3xl text-gray-400 w-10 h-10" href="...">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
         </div>
-    </div> --}}
-    {{-- <div class="container flex rounded-lg shadow-lg justify-start px-3 mx-auto w-[1250px] overflow-hidden hover:-translate-y-1 transition mt-5">
-        <div class="p-3 flex justify-between">
-            <img class=" w-52 h-32 object-cover rounded-lg" src="{{ asset('assets/keyboardasus.jpg') }}" alt="Gambar Barang" />
-            <div class="flex flex-col mx-5 w-44 h-32">
-                <h3 class="text-black text-xl font-semibold">Keyboard ASUS</h3>
-                <div class="text-gray-500 text-xs font-semibold">Ruang 1A</div>
-                <div class="bg-red-600 rounded-lg w-16 h-4 flex justify-center gap-1 mt-12">
-                    <span class="text-white text-xs text-center">Selesai</span>
+    @else
+        <div class="container mx-auto px-32">
+            <h1 class="text-2xl font-bold mb-6">Riwayat Peminjaman</h1>
+
+            <!-- Sedang Dipinjam -->
+            <div class="mb-8">
+                <h2 class="text-lg font-semibold mb-4">Sedang Dipinjam</h2>
+                <div class="space-y-4">
+                    @forelse($sedangDipinjam as $item)
+                        <div class="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition">
+                            <div class="flex items-start gap-4">
+                                <img src="{{ asset('storage/' . $item->barang->gambar) }}" class="w-32 h-32 object-cover rounded-lg" alt="{{ $item->nama_barang }}">
+                                <div class="flex-grow">
+                                    <div class="flex justify-between">
+                                        <div>
+                                            <h3 class="font-semibold text-lg">{{ $item->nama_barang }}</h3>
+                                            <p class="text-gray-500 text-sm">{{ $item->kode_barang }}</p>
+                                            <p class="text-gray-500 text-sm">Ruang {{ $item->letak_barang }}</p>
+                                        </div>
+                                        <div class="text-right">
+                                            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">
+                                                Sedang Dipinjam
+                                            </span>
+                                            <p class="text-sm text-gray-500 mt-1">
+                                                Dikembalikan: {{ \Carbon\Carbon::parse($item->tanggal_pengembalian)->format('d M Y') }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <p class="text-gray-500 text-center py-4">Tidak ada barang yang sedang dipinjam</p>
+                    @endforelse
                 </div>
             </div>
-            <button class="flex ml-[750px] justify-items-end text-3xl text-gray-400 w-10 h-10">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
+
+            <!-- Riwayat Selesai -->
+            <div>
+                <h2 class="text-lg font-semibold mb-4">Riwayat Selesai</h2>
+                <div class="space-y-4">
+                    @forelse($riwayatSelesai as $item)
+                        <div class="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition">
+                            <div class="flex items-start gap-4">
+                                <img src="{{ asset('storage/' . $item->barang->gambar) }}" class="w-32 h-32 object-cover rounded-lg" alt="{{ $item->nama_barang }}">
+                                <div class="flex-grow">
+                                    <div class="flex justify-between">
+                                        <div>
+                                            <h3 class="font-semibold text-lg">{{ $item->nama_barang }}</h3>
+                                            <p class="text-gray-500 text-sm">{{ $item->kode_barang }}</p>
+                                            <p class="text-gray-500 text-sm">Ruang {{ $item->letak_barang }}</p>
+                                        </div>
+                                        <div class="text-right">
+                                            <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">
+                                                Selesai
+                                            </span>
+                                            <p class="text-sm text-gray-500 mt-1">
+                                                Dipinjam: {{ \Carbon\Carbon::parse($item->tanggal_peminjaman)->format('d M Y') }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <p class="text-gray-500 text-center py-4">Belum ada riwayat peminjaman selesai</p>
+                    @endforelse
+                </div>
+            </div>
         </div>
-    </div> --}}
+    @endif
 </x-app-layout>

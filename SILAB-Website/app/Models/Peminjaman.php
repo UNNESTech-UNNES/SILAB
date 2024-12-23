@@ -16,7 +16,7 @@ class Peminjaman extends Model
         'kode_barang',
         'nama_barang',
         'letak_barang',
-        'nama_peminjam', // Pastikan ini ada
+        'nama_peminjam',
         'alamat_peminjam',
         'nomor_handphone',
         'surat_tugas',
@@ -40,5 +40,10 @@ class Peminjaman extends Model
     public function scopeMenungguPersetujuan($query)
     {
         return $query->where('status', 'menunggu persetujuan');
+    }
+
+    public function barang()
+    {
+        return $this->belongsTo(Barang::class, 'kode_barang', 'kode_barang');
     }
 }

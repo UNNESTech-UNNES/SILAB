@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Peminjaman;
 use App\Models\Barang;
+use Illuminate\Support\Facades\Auth;
 
 class PeminjamanController extends Controller
 {
@@ -45,8 +46,28 @@ class PeminjamanController extends Controller
 
     public function riwayatPeminjam()
     {
-        $riwayatPeminjam = Peminjaman::all();
-        return view('peminjam.riwayat', compact('riwayatPeminjam'));
+        // Mengambil semua riwayat peminjaman user yang sedang login
+        $riwayatPeminjaman = Peminjaman::where('user_id', Auth::id())
+                                      ->orderBy('created_at', 'desc')
+                                      ->get();
+
+        // Mengambil peminjaman yang sedang berlangsung
+        $sedangDipinjam = Peminjaman::where('user_id', Auth::id())
+                                   ->whereIn('status', ['disetujui', 'dipinjam'])
+                                   ->orderBy('tanggal_pengembalian', 'asc')
+                                   ->get();
+
+        // Mengambil riwayat peminjaman yang sudah selesai
+        $riwayatSelesai = Peminjaman::where('user_id', Auth::id())
+                                   ->where('status', 'selesai')
+                                   ->orderBy('created_at', 'desc')
+                                   ->get();
+
+        return view('peminjam.riwayat', compact(
+            'riwayatPeminjaman',
+            'sedangDipinjam',
+            'riwayatSelesai'
+        ));
     }
 
     public function dipinjam()

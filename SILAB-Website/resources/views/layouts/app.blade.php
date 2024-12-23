@@ -7,7 +7,6 @@
             <main>
                 {{ $slot }}
             </main>
-        </div>
     </body>
 
     @stack('scripts')

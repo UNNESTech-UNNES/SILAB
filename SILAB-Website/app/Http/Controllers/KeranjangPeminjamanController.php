@@ -21,16 +21,31 @@ class KeranjangPeminjamanController extends Controller
         $request->validate([
             'nama_barang' => 'required|string',
             'letak_barang' => 'required|string',
+            'jumlah' => 'required|integer|min:1',
         ]);
 
-        $barang = Barang::where('nama_barang', $request->nama_barang)
-                        ->where('letak_barang', $request->letak_barang)
-                        ->where('status', 'tersedia')
-                        ->first();
+        $barangTersedia = Barang::where('nama_barang', $request->nama_barang)
+                               ->where('letak_barang', $request->letak_barang)
+                               ->where('status', 'tersedia')
+                               ->count();
 
-        if ($barang) {
+        if ($barangTersedia < $request->jumlah) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Jumlah barang tidak tersedia'
+            ], 400);
+        }
+
+        // Ambil barang yang akan dipinjam
+        $barangs = Barang::where('nama_barang', $request->nama_barang)
+                         ->where('letak_barang', $request->letak_barang)
+                         ->where('status', 'tersedia')
+                         ->limit($request->jumlah)
+                         ->get();
+
+        foreach ($barangs as $barang) {
             $barang->update(['status' => 'dipinjam']);
-
+            
             KeranjangPeminjaman::create([
                 'user_id' => Auth::id(),
                 'kode_barang' => $barang->kode_barang,
@@ -38,11 +53,15 @@ class KeranjangPeminjamanController extends Controller
                 'letak_barang' => $barang->letak_barang,
                 'jumlah' => 1,
             ]);
-
-            return redirect()->route('peminjam.dashboard')->with('success', 'Barang ditambahkan ke keranjang.');
         }
 
-        return redirect()->back()->with('error', 'Barang tidak tersedia.');
+        $cartCount = KeranjangPeminjaman::where('user_id', Auth::id())->count();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Barang ditambahkan ke keranjang',
+            'cartCount' => $cartCount
+        ]);
     }
 
     public function hapus($id)

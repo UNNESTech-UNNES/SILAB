@@ -1,127 +1,158 @@
 <x-main-layout>
     <div class="container mx-auto px-4 pb-4">
-        <h1 class="text-2xl text-center font-bold pb-4 text-unnes-blue">INVENTARIS BARANG LABORATORIUM</h1>
-        
-        <!-- Form Pencarian -->
-        <form method="GET" action="{{ route('admin.barang.index') }}" class="mb-4 w-full">
-            <div class="flex rounded-lg shadow-sm w-full items-center">
-                <input type="text" name="search" placeholder="Cari Nama Barang" value="{{ request('search') }}" class="text-sm w-full form-control rounded-l-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring focus:ring-blue-500">
-                <div class="relative">
-                    <button type="submit" class="bg-unnes-blue text-white rounded-r-lg px-4 py-1.5">
-                        <i class="fa fa-search"></i>
-                    </button>
-                </div>
-            </div>
-        </form>
-
-        <!-- Form Filter -->
-        <form method="GET" action="{{ route('admin.barang.index') }}" class="mb-4">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                <div>
-                    <label class="block mb-2">Letak Barang:</label>
-                    <select name="filter_letak" class="rounded-lg border border-gray-300 w-full text-sm">
-                        <option class="text-sm" value="">Semua Letak</option>
-                        @foreach($letakBarang as $letak)
-                            <option class="text-sm" value="{{ $letak->letak_barang }}" {{ request('filter_letak') == $letak->letak_barang ? 'selected' : '' }}>
-                                {{ $letak->letak_barang }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-                <div>
-                    <label class="block mb-2">Jenis Barang:</label>
-                    <select name="filter_jenis" class="rounded-lg border border-gray-300 w-full text-sm">
-                        <option class="text-sm" value="">Semua Jenis</option>
-                        @foreach($jenisBarang as $jenis)
-                            <option class="text-sm" value="{{ $jenis->jenis_barang }}" {{ request('filter_jenis') == $jenis->jenis_barang ? 'selected' : '' }}>
-                                {{ $jenis->jenis_barang }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-                <div>
-                    <label class="block mb-2">Kondisi Barang:</label>
-                    <select name="filter_kondisi" class="rounded-lg border border-gray-300 w-full text-sm">
-                        <option class="text-sm" value="">Semua Kondisi</option>
-                        @foreach($kondisiBarang as $kondisi)
-                            <option class="text-sm" value="{{ $kondisi->kondisi_barang }}" {{ request('filter_kondisi') == $kondisi->kondisi_barang ? 'selected' : '' }}>
-                                {{ $kondisi->kondisi_barang }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-            <button type="submit" class="mt-4 bg-unnes-yellow text-white rounded-lg px-4 py-2 text-sm">
-                <i class="fa fa-filter"></i> Filter
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold text-unnes-blue">INVENTARIS BARANG LABORATORIUM</h1>
+            <button onclick="openCreateModal()" class="bg-unnes-blue text-white px-4 py-2 rounded-lg hover:bg-unnes-blue/80">
+                Tambah Barang
             </button>
-        </form>
+        </div>
 
-        <a href="{{ route('admin.barang.create') }}" class="bg-unnes-blue text-white text-sm rounded-lg px-4 py-2 mb-4 inline-block">
-            <i class="fas fa-plus"></i> Tambah Barang
-        </a>
+        <!-- Filter Section -->
+        <div class="bg-white p-4 rounded-lg shadow-md mb-6">
+            <div class="grid grid-cols-4 gap-4">
+                <input type="text" id="searchInput" placeholder="Cari barang..." 
+                    class="px-4 py-2 rounded-lg border focus:ring focus:ring-unnes-blue/20">
+                
+                <select id="filterLetak" class="px-4 py-2 rounded-lg border focus:ring focus:ring-unnes-blue/20">
+                    <option value="">Semua Lokasi</option>
+                    @foreach($letakBarang as $letak)
+                        <option value="{{ $letak->letak_barang }}">{{ $letak->letak_barang }}</option>
+                    @endforeach
+                </select>
 
-        <div class="bg-white shadow-md rounded-lg pb-6 overflow-hidden">
-            <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="text-white">
-                        <tr class="bg-unnes-blue">
-                            <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Kode Barang</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Nama Barang</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Letak Barang</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Jenis Barang</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Gambar</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Kondisi Barang</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Status Barang</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        @foreach($barang as $item)
-                            <tr class="text-sm hover:bg-slate-100">
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $item->kode_barang }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $item->nama_barang }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $item->letak_barang }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $item->jenis_barang }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama_barang }}" class="w-20 h-20 object-cover">
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $item->kondisi_barang }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $item->status }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="flex items-center justify-center space-x-2">
-                                        <a href="{{ route('admin.barang.edit', $item->id) }}" class="bg-unnes-blue text-white rounded h-8 w-8 flex items-center justify-center"><i class="fa-solid fa-pen-to-square"></i></a>
-                                        <form action="{{ route('admin.barang.destroy', $item->id) }}" method="POST" class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="bg-red-500 text-white rounded h-8 w-8"><i class="fa-solid fa-trash"></i></button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-                <div class="flex justify-between items-center pt-4 px-4">
-                    <div>
-                        <form method="GET" action="{{ route('admin.barang.index') }}">
-                            <input type="hidden" name="search" value="{{ request('search') }}">
-                            <input type="hidden" name="filter_letak" value="{{ request('filter_letak') }}">
-                            <input type="hidden" name="filter_jenis" value="{{ request('filter_jenis') }}">
-                            <input type="hidden" name="filter_kondisi" value="{{ request('filter_kondisi') }}">
-                            <label for="perPage" class="mr-2 text-sm">Tampilkan:</label>
-                            <select name="perPage" id="perPage" onchange="this.form.submit()" class="rounded border border-gray-300 text-sm">
-                                <option value="10" {{ request('perPage') == 10 ? 'selected' : '' }}>10</option>
-                                <option value="20" {{ request('perPage') == 20 ? 'selected' : '' }}>20</option>
-                                <option value="30" {{ request('perPage') == 30 ? 'selected' : '' }}>30</option>
-                                <option value="50" {{ request('perPage') == 50 ? 'selected' : '' }}>50</option>
-                            </select>
-                        </form>
-                    </div>
-                    <div>
-                        {{ $barang->appends(request()->except('page'))->links() }}
-                    </div>
+                <select id="filterJenis" class="px-4 py-2 rounded-lg border focus:ring focus:ring-unnes-blue/20">
+                    <option value="">Semua Jenis</option>
+                    @foreach($jenisBarang as $jenis)
+                        <option value="{{ $jenis->jenis_barang }}">{{ $jenis->jenis_barang }}</option>
+                    @endforeach
+                </select>
+
+                <select id="filterKondisi" class="px-4 py-2 rounded-lg border focus:ring focus:ring-unnes-blue/20">
+                    <option value="">Semua Kondisi</option>
+                    @foreach($kondisiBarang as $kondisi)
+                        <option value="{{ $kondisi->kondisi_barang }}">{{ $kondisi->kondisi_barang }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <!-- Table Section -->
+        <div id="tableContainer">
+            @include('admin.barang.table-partial')
+        </div>
+    </div>
+
+    @include('admin.barang.modal-create')
+
+    <div id="modalEdit" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto h-full w-full">
+        <div class="relative top-20 mx-auto p-5 border w-[600px] shadow-lg rounded-md bg-white">
+            <div class="mt-3">
+                <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4">Edit Barang</h3>
+                <div id="modalContent">
+                    <!-- Form will be loaded here -->
+                </div>
+                <div class="flex justify-end gap-3 mt-4">
+                    <button type="button" onclick="closeEditModal()"
+                        class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
+                        Batal
+                    </button>
+                    <button type="submit" form="formEditBarang"
+                        class="px-4 py-2 bg-unnes-blue text-white rounded-md hover:bg-unnes-blue/80">
+                        Simpan
+                    </button>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        // Define global functions first
+        function openCreateModal() {
+            document.getElementById('modalCreateBarang').classList.remove('hidden');
+        }
+
+        function closeCreateModal() {
+            document.getElementById('modalCreateBarang').classList.add('hidden');
+        }
+
+        function openEditModal(barangId) {
+            fetch(`/admin/barang/${barangId}/edit`)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('modalContent').innerHTML = html;
+                    document.getElementById('modalEdit').classList.remove('hidden');
+                });
+        }
+
+        function closeEditModal() {
+            document.getElementById('modalEdit').classList.add('hidden');
+        }
+
+        async function updateTable() {
+            const params = new URLSearchParams({
+                search: document.getElementById('searchInput').value,
+                filter_letak: document.getElementById('filterLetak').value,
+                filter_jenis: document.getElementById('filterJenis').value,
+                filter_kondisi: document.getElementById('filterKondisi').value
+            });
+
+            try {
+                const response = await fetch(`/admin/barang/table?${params.toString()}`, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+                
+                const html = await response.text();
+                document.getElementById('tableContainer').innerHTML = html;
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // DOM ready event listener
+        document.addEventListener('DOMContentLoaded', function() {
+            // Setup form create submission
+            document.getElementById('formCreateBarang').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+
+                try {
+                    const response = await fetch('{{ route("admin.barang.store") }}', {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        }
+                    });
+
+                    if (response.ok) {
+                        closeCreateModal();
+                        updateTable();
+                        this.reset();
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            });
+
+            // Event listeners untuk filter
+            document.getElementById('searchInput').addEventListener('input', debounce(updateTable, 300));
+            document.getElementById('filterLetak').addEventListener('change', updateTable);
+            document.getElementById('filterJenis').addEventListener('change', updateTable);
+            document.getElementById('filterKondisi').addEventListener('change', updateTable);
+        });
+    </script>
 </x-main-layout>

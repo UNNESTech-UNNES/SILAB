@@ -4,48 +4,42 @@
         <a class="font-[Poppins] text-lg text-unnes-blue font-bold pt-10 pl-3 hover:text-unnes-blue/60" href="{{ route('peminjam.dashboard') }}">
             <i class="fa-solid fa-arrow-left"></i>Kembali</a>        
     </div>
-    {{-- <div class="container flex mx-auto px-32 py-8 mt-12 pt-4">
-        <a class="font-[Poppins] text-lg text-unnes-blue font-bold pt-10 pl-3 hover:text-unnes-blue/80" href="{{ route('peminjam.dashboard') }}">
-            <i class="fa-solid fa-arrow-left"></i>Notifikasi</a>        
-    </div>
-    <!-- component -->
-    <header class="container flex flex-col mx-auto shadow-md items-center justify-center px-32">
-    <!-- logo -->
 
-    <!-- navigation -->
-    <nav class="nav font-semibold text-lg font-[Poppins]">
-        <ul class="flex items-center justify-between w-full">
-            <li class="p-4 flex-grow w-96 mx-10 text-center border-b-2 border-unnes-blue border-opacity-0 hover:border-opacity-100 hover:text-unnes-blue/80 duration-200 cursor-pointer active">
-              <a href="">Semua</a>
-            </li>
-            <li class="p-4 flex-grow w-96 mx-10 text-center border-b-2 border-unnes-blue border-opacity-0 hover:border-opacity-100 hover:text-unnes-blue/80 duration-200 cursor-pointer">
-              <a href="">Diajukan</a>
-            </li>
-            <li class="p-4 flex-grow w-96 mx-10 text-center border-b-2 border-unnes-blue border-opacity-0 hover:border-opacity-100 hover:text-unnes-blue/80 duration-200 cursor-pointer">
-              <a href="">Diterima</a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<div class="container mx-auto flex gap-3 px-32 py-4 justify-center w-full h-full border-2 shadow-lg rounded-lg">
-    <div class="flex items-center justify-start w-full"> <!-- Menambahkan items-center untuk sejajar -->
-        <img src="{{ asset('assets/file.jpg') }}" class="w-12 h-12 ml-36 text-center">
-        <p class=" text-[#211751] text-lg font-bold font-['Roboto'] ml-5">Surat Pengajuan Peminjaman Barang</p>
-        <button class="px-4 py-2 rounded-lg flex bg-unnes-blue text-white hover:bg-unnes-blue/80 ml-[515px]"> <!-- Memindahkan tombol ke sini -->
-            <a href="">Lihat Detail</a>
-        </button>
+    <div class="container mx-auto px-32">
+        <h1 class="text-2xl font-bold mb-6 text-unnes-blue">Notifikasi</h1>
+        
+        <div class="space-y-4">
+            @foreach($notifikasi->sortByDesc('created_at') as $notif)
+                <div class="bg-white rounded-lg shadow-md p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
+                    <div class="flex items-start gap-4 flex-grow">
+                        <div class="flex-shrink-0">
+                            <div class="w-10 h-10 rounded-full bg-unnes-blue/10 flex items-center justify-center">
+                                <i class="fas fa-bell text-unnes-blue"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-gray-600">{{ $notif->message }}</p>
+                                    <p class="text-sm text-gray-400 mt-1">{{ $notif->created_at->diffForHumans() }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    @if(!$notif->is_read)
+                        <form action="{{ route('notifikasi.markAsRead', $notif->id) }}" method="POST" class="ml-4">
+                            @csrf
+                            <button type="submit" 
+                                class="text-sm px-3 py-1.5 rounded-lg text-unnes-blue bg-unnes-blue/10 hover:bg-unnes-blue/20 transition-colors">
+                                Tandai dibaca
+                            </button>
+                        </form>
+                    @else
+                        <span class="text-sm text-gray-400 ml-4">Telah dibaca</span>
+                    @endif
+                </div>
+            @endforeach
+        </div>
     </div>
-</div> --}}
-<h1 class="text-center text-2xl font-bold my-6">Notifikasi</h1>
-    <ul>
-        @foreach($notifikasi as $notif)
-            <li class="flex text-lg font-['Roboto'] mx-40 py-4 px-5 justify-between border-2 shadow-lg rounded-lg font-semibold">
-                {{ $notif->message }} - {{ $notif->is_read ? 'Terbaca' : 'Belum Terbaca' }}
-                <form action="{{ route('notifikasi.markAsRead', $notif->id) }}" method="POST">
-                    @csrf
-                    <button type="submit" class="font-[Poppins] text-sm ml-5 font-semibold rounded-lg px-2 py-1 text-green-800 bg-green-200 hover:bg-green-400">Tandai sebagai terbaca</button>
-                </form>
-            </li>
-        @endforeach
-    </ul>
 </x-app-layout>
