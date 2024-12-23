@@ -21,16 +21,19 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', [HomeController::class, 'indexAdmin'])->name('dashboard');
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/peminjaman', [PeminjamanController::class, 'index'])->name('peminjaman.index');
     Route::get('/peminjaman/riwayat', [PeminjamanController::class, 'riwayat'])->name('peminjaman.riwayat');
-    Route::post('/peminjaman/setujui/{id}', [PeminjamanController::class, 'setujui'])->name('peminjaman.setujui');
-    Route::post('/peminjaman/tolak/{id}', [PeminjamanController::class, 'tolak'])->name('peminjaman.tolak');
+    Route::post('/peminjaman/{id}/setujui', [PeminjamanController::class, 'setujui'])->name('peminjaman.setujui');
+    Route::post('/peminjaman/{id}/tolak', [PeminjamanController::class, 'tolak'])->name('peminjaman.tolak');
+    Route::post('/peminjaman/{peminjaman}/konfirmasi-pengembalian', [PeminjamanController::class, 'konfirmasiPengembalian'])
+        ->name('peminjaman.konfirmasi-pengembalian');
     Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
     Route::get('/barang/table', [BarangController::class, 'getTableData'])->name('barang.table');
     Route::post('/barang/store', [BarangController::class, 'store'])->name('barang.store');
     Route::get('/barang/{barang}/edit', [BarangController::class, 'getEditForm'])->name('barang.edit');
     Route::patch('/barang/{barang}', [BarangController::class, 'updateAjax'])->name('barang.update');
+    Route::delete('/barang/{barang}', [BarangController::class, 'destroy'])->name('barang.destroy');
     Route::get('/notifikasi', [NotifikasiController::class, 'adminIndex'])->name('notifikasi.index');
     Route::get('/notifikasi/create', [NotifikasiController::class, 'createMessage'])->name('notifikasi.create');
     Route::post('/notifikasi/store', [NotifikasiController::class, 'storeMessage'])->name('notifikasi.store-message');

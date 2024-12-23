@@ -11,7 +11,9 @@ class PeminjamanController extends Controller
     public function index()
     {
         $peminjamanList = Peminjaman::where('status', 'menunggu persetujuan')->get();
-        $barangDipinjam = Peminjaman::where('status', 'disetujui')->get();
+        $barangDipinjam = Peminjaman::where('status', 'disetujui')
+            ->orderBy('tanggal_pengembalian', 'asc')
+            ->get();
         return view('admin.peminjaman.index', compact('peminjamanList', 'barangDipinjam'));
     }
 
@@ -40,7 +42,9 @@ class PeminjamanController extends Controller
 
     public function riwayat()
     {
-        $riwayatBarang = Peminjaman::all();
+        $riwayatBarang = Peminjaman::where('status', 'selesai')
+            ->orderBy('updated_at', 'desc')
+            ->get();
         return view('admin.peminjaman.riwayat', compact('riwayatBarang'));
     }
 
@@ -73,5 +77,21 @@ class PeminjamanController extends Controller
     public function dipinjam()
     {
         return view('peminjam.pengembalian');
+    }
+
+    public function konfirmasiPengembalian(Peminjaman $peminjaman)
+    {
+        // Update status peminjaman
+        $peminjaman->update([
+            'status' => 'selesai',
+            'tanggal_dikembalikan' => now()
+        ]);
+        
+        // Update status barang menjadi tersedia
+        Barang::where('kode_barang', $peminjaman->kode_barang)
+              ->update(['status' => 'tersedia']);
+
+        return redirect()->route('admin.peminjaman.index')
+            ->with('success', 'Pengembalian barang berhasil dikonfirmasi');
     }
 }

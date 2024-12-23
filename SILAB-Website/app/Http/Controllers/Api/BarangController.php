@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Barang;
@@ -10,28 +10,30 @@ class BarangController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Barang::query();
-
-        // Filter berdasarkan role user
-        if ($request->user()->hasRole('pemilik-medunes')) {
-            $query->where('jenis_barang', 'MEDUNES');
-        } // tambahkan kondisi untuk role lainnya
-
-        // Filter pencarian
-        if ($request->has('search')) {
-            $query->where('nama_barang', 'like', '%' . $request->search . '%');
-        }
-
-        $barangs = $query->get();
+        $barang = Barang::when($request->search, function($query, $search) {
+                return $query->where('nama_barang', 'like', "%{$search}%")
+                           ->orWhere('kode_barang', 'like', "%{$search}%");
+            })
+            ->where('status', 'tersedia')
+            ->get();
 
         return response()->json([
             'success' => true,
-            'data' => $barangs
+            'data' => $barang
         ]);
     }
 
-    public function show(Barang $barang)
+    public function show($kode_barang)
     {
+        $barang = Barang::where('kode_barang', $kode_barang)->first();
+        
+        if (!$barang) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Barang tidak ditemukan'
+            ], 404);
+        }
+
         return response()->json([
             'success' => true,
             'data' => $barang

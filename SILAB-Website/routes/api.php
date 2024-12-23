@@ -17,11 +17,12 @@ Route::prefix('v1')->group(function () {
         
         // Barang Routes
         Route::get('barang', [BarangController::class, 'index']);
-        Route::get('barang/{barang}', [BarangController::class, 'show']);
+        Route::get('barang/{kode_barang}', [BarangController::class, 'show']);
         
         // Peminjaman Routes
         Route::get('peminjaman', [PeminjamanController::class, 'index']);
         Route::post('peminjaman', [PeminjamanController::class, 'store']);
         Route::get('peminjaman/riwayat', [PeminjamanController::class, 'riwayat']);
+        Route::get('peminjaman/aktif', [PeminjamanController::class, 'getPeminjamanAktif']);
     });
 });

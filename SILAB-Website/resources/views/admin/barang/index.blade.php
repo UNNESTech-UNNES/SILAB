@@ -122,6 +122,25 @@
             };
         }
 
+        function deleteBarang(barangId) {
+            if (confirm('Apakah Anda yakin ingin menghapus barang ini?')) {
+                fetch(`/admin/barang/${barangId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        updateTable();
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        }
+
         // DOM ready event listener
         document.addEventListener('DOMContentLoaded', function() {
             // Setup form create submission

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -19,36 +20,41 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Login gagal'
-            ], 401);
+            throw ValidationException::withMessages([
+                'email' => ['Kredensial yang diberikan salah.'],
+            ]);
         }
 
-        $token = $user->createToken('auth_token')->plainTextToken;
-
         return response()->json([
             'success' => true,
-            'user' => $user,
-            'token' => $token
+            'data' => [
+                'user' => $user,
+                'token' => $user->createToken('auth_token')->plainTextToken
+            ]
         ]);
     }
 
-    public function user(Request $request)
+    public function register(Request $request)
     {
-        return response()->json([
-            'success' => true,
-            'user' => $request->user()
+        $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6|confirmed'
         ]);
-    }
 
-    public function logout(Request $request)
-    {
-        $request->user()->currentAccessToken()->delete();
-        
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'peminjam'
+        ]);
+
         return response()->json([
             'success' => true,
-            'message' => 'Logout berhasil'
+            'data' => [
+                'user' => $user,
+                'token' => $user->createToken('auth_token')->plainTextToken
+            ]
         ]);
     }
 }
