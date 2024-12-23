@@ -19,7 +19,7 @@
             </div>
         @else
         <div class="mx-auto px-32">
-            <h1 class="text-2xl font-bold mb-6">Keranjang Peminjaman</h1>
+            <h1 class="text-2xl font-bold mb-6 pl-80">Keranjang Peminjaman</h1>
             <div class="container items-start  py-1 grid grid-cols-3 gap-6">
                 <!-- Keranjang Section -->
                 <div class="col-span-2">
@@ -71,8 +71,8 @@
 
                 <!-- Form Section -->
                 <div class="col-span-1">
-                    <div class="bg-white rounded-lg shadow-md p-6">
-                        <h2 class="text-lg font-semibold mb-4">Form Peminjaman</h2>
+                    <div class="bg-white rounded-lg shadow-md pt-3 p-6">
+                        <h2 class="text-lg font-semibold mb-4 text-center">Form Peminjaman</h2>
                         <form action="{{ route('peminjam.keranjang.finalisasi') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                             @csrf
                             <div class="mb-5">

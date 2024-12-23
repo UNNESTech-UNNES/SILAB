@@ -5,7 +5,7 @@
     </div>
 
     <div class="container mx-auto px-32">
-        <h1 class="text-2xl font-bold mb-6 text-unnes-blue">Notifikasi</h1>
+        <h1 class="text-2xl font-bold mb-6 text-unnes-blue text-center">Notifikasi</h1>
         
         <div class="space-y-4">
             @foreach($notifikasi->sortByDesc('created_at') as $notif)

@@ -1,6 +1,7 @@
 <header class="shadow-lg flex justify-between items-center bg-white w-full py-4 fixed top-0 px-4 md:px-8 lg:px-24 z-50">
     <div class="flex items-center">
-        <img class="h-10 w-auto md:h-10" src="{{ asset('assets/Logo Silab.svg') }}" alt="Logo Silab">
+        <img class="h-6 w-auto md:h-10" src="{{ asset('assets/Logo Silab.svg') }}" alt="Logo Silab">
+        <div class="h-6 md:h-10">
         @auth
             @php
                 $user = Auth::user();
@@ -9,8 +10,9 @@
                 $randomColor = $colors[array_rand($colors)];
             @endphp
         @endauth
+        </div>
     </div>
-    <div class="flex-grow flex justify-center pr-4 md:pr-16 lg:pr-32">
+    <div class="flex-grow flex justify-center pr-4 md:pr-16 lg:pr-28">
     {{-- @props(['active', 'icon'])
 
             @php
@@ -25,19 +27,24 @@
             </a> --}}
             <nav class="flex gap-4 md:gap-8 lg:gap-16 items-center">
                 @if (Auth::check() && Auth::user()->hasRole('peminjam'))
+                <x-nav-link :href="route('peminjam.dashboard')" :active="request()->routeIs('peminjam.dashboard')">
+                    <button class="flex items-center text-sm md:text-md font-[Poppins] font-medium">
+                        <i class="fa-solid fa-gauge mr-2"></i><span class="hidden md:block">Dashboard</span>
+                    </button>
+                </x-nav-link>
                 <x-nav-link :href="route('peminjam.keranjang.index')" :active="request()->routeIs('peminjam.keranjang.index')">
-                    <button class="text-sm md:text-md font-[Poppins] font-medium text-unnes-blue">
-                        <i class="fa-solid fa-cart-shopping"></i> Keranjang
+                    <button class="flex items-center text-sm md:text-md font-[Poppins] font-medium">
+                        <i class="fa-solid fa-cart-shopping mr-2"></i><span class="hidden md:block">Keranjang</span>
                     </button>
                 </x-nav-link>
                 <x-nav-link :href="route('peminjam.peminjaman.riwayat')" :active="request()->routeIs('peminjam.peminjaman.riwayat')">
-                    <button class="text-sm md:text-md font-[Poppins] font-medium text-unnes-blue">
-                        <i class="fa-solid fa-clock-rotate-left"></i> Riwayat
+                    <button class="flex items-center text-sm md:text-md font-[Poppins] font-medium">
+                        <i class="fa-solid fa-clock-rotate-left mr-2"></i><span class="hidden md:block">Riwayat</span>
                     </button>
                 </x-nav-link>
                 <x-nav-link :href="route('peminjam.notifikasi.index')" :active="request()->routeIs('peminjam.notifikasi.index')">
-                    <button class="text-sm md:text-md font-[Poppins] font-medium text-unnes-blue">
-                        <i class="fa-solid fa-bell"></i> Notifikasi
+                    <button class="flex items-center text-sm md:text-md font-[Poppins] font-medium">
+                        <i class="fa-solid fa-bell mr-2"></i><span class="hidden md:block">Notifikasi</span>
                     </button>
                 </x-nav-link>
                 @endif
