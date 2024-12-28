@@ -3,10 +3,10 @@
 <div class="w-full h-full gap-6 flex-col flex pb-32 bg-white">
     {{-- Fitur Pencarian --}}
     <div class="flex flex-col justify-center w-full">
-        <div class="w-full text-center">
+        <div class="w-full text-center mt-2 md:mt-4 lg:mt-6">
             <h2 class="font-[Poppins] text-unnes-blue text-lg md:text-2xl font-extrabold">{{ $title }}</h2>
         </div>
-        <p class=" text-sm md:text-md text-slate-400 text-center">Sistem Inventaris dan Peminjaman Barang Laboratorium</p>
+        <p class=" text-sm md:text-md lg:text-lg text-slate-400 text-center">Sistem Inventaris dan Peminjaman Barang Laboratorium</p>
         <div class="relative flex items-center pt-4 h-max">
             <div class="flex w-full">
                 <input id="searchInput" type="text" name="search" class="w-full bg-slate-100 placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md pr-3 pl-4 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow" placeholder="Cari barang..." />
@@ -19,7 +19,7 @@
 
     {{-- Fitur Filter Ruangan --}}
     <nav class="sticky top-0 bg-white">
-        <div class="container z-30 top-0 text-slate-500 flex overflow-x-scroll no-scrollbar">
+        <div class="container z-30 top-0 text-slate-500 flex overflow-x-scroll no-scrollbar text-sm md:text-md lg:text-lg">
             @php
                 $currentFilter = request('filter', '');
             @endphp

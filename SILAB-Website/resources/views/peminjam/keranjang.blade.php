@@ -35,12 +35,12 @@
                                     <tr class="hover:bg-gray-50">
                                         <td class="px-6 py-4">
                                             <div class="flex items-center gap-4">
-                                                <img src="{{ asset('storage/' . $item->barang->gambar) }}" class="w-16 h-16 object-cover rounded-lg" alt="{{ $item->nama_barang }}">
-                                                <span class="font-medium">{{ $item->nama_barang }}</span>
+                                                <img src="{{ asset('storage/' . $item->barang->gambar) }}" class="w-8 h-8 md:w-12 md:h-12 lg:w-16 lg:h-16 object-cover rounded-lg" alt="{{ $item->nama_barang }}">
+                                                <span class="font-medium text-sm lg:text-md">{{ $item->nama_barang }}</span>
                                             </div>
                                         </td>
-                                        <td class="px-6 py-4 text-gray-500">{{ $item->kode_barang }}</td>
-                                        <td class="px-6 py-4 text-gray-500">{{ $item->letak_barang }}</td>
+                                        <td class="px-6 py-4 text-gray-500 text-sm lg:text-md">{{ $item->kode_barang }}</td>
+                                        <td class="px-6 py-4 text-gray-500 text-sm lg:text-md">{{ $item->letak_barang }}</td>
                                         <td class="px-6 py-4 text-right">
                                             <form action="{{ route('peminjam.keranjang.hapus', $item->id) }}" method="POST">
                                                 @csrf
