@@ -1,12 +1,21 @@
 <x-app-layout>
-    <div class="container flex mx-auto px-32 py-8 mt-12 pt-4">
-        <a class="font-[Poppins] text-lg text-unnes-blue font-bold pt-10 pl-3 hover:text-unnes-blue/60" href="{{ route('peminjam.dashboard') }}">
-            <i class="fa-solid fa-arrow-left"></i>Kembali</a>        
-    </div>
-
-    <div class="container mx-auto px-32">
-        <h1 class="text-2xl font-bold mb-6 text-unnes-blue text-center">Notifikasi</h1>
-        
+    
+    <div class="container px-4 md:px-8 lg:px-32 mx-auto pt-16 md:pt-24 space-y-6">
+        <x-title-header title="NOTIFIKASI" />
+        @if($notifikasi->isEmpty())
+            <div class="container mx-auto pt-24">
+                <div class="p-8 text-center">
+                    <div class="flex flex-col items-center gap-4">
+                        <i class="fas fa-bell text-9xl text-gray-300"></i>
+                        <h2 class="text-2xl font-semibold text-gray-600">Tidak ada notifikasi</h2>
+                        <p class="text-gray-500">Anda belum memiliki notifikasi</p>
+                        <a href="{{ route('peminjam.dashboard') }}" class="bg-unnes-blue text-white px-6 py-2 rounded-lg hover:bg-unnes-blue/80 transition">
+                            Kembali ke Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+        @else
         <div class="space-y-4">
             @foreach($notifikasi->sortByDesc('created_at') as $notif)
                 <div class="bg-white rounded-lg shadow-md p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
@@ -40,5 +49,6 @@
                 </div>
             @endforeach
         </div>
+        @endif
     </div>
 </x-app-layout>

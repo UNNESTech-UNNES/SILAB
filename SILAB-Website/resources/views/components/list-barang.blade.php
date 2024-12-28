@@ -1,9 +1,9 @@
 @props(['barangs', 'title'=>'DAFTAR BARANG'])
 
-<div class="w-full h-full px-12 md:px-24 lg:px-32 gap-6 flex-col flex pb-32 bg-white">
+<div class="w-full h-full gap-6 flex-col flex pb-32 bg-white">
     {{-- Fitur Pencarian --}}
     <div class="flex flex-col justify-center w-full">
-        <div class="w-full text-center mt-10 md:mt-4">
+        <div class="w-full text-center">
             <h2 class="font-[Poppins] text-unnes-blue text-lg md:text-2xl font-extrabold">{{ $title }}</h2>
         </div>
         <p class=" text-sm md:text-md text-slate-400 text-center">Sistem Inventaris dan Peminjaman Barang Laboratorium</p>

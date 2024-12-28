@@ -7,10 +7,10 @@
                     <table class="min-w-full divide-y divide-gray-200">
                     <thead class="text-white">
                         <tr class="bg-unnes-blue">
-                            <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Nama</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Email</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Role</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Aksi</th>
+                            <th class="px-6 py-3 text-left text-sm font-medium ">Nama</th>
+                            <th class="px-6 py-3 text-left text-sm font-medium ">Email</th>
+                            <th class="px-6 py-3 text-left text-sm font-medium ">Role</th>
+                            <th class="px-6 py-3 text-left text-sm font-medium ">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">

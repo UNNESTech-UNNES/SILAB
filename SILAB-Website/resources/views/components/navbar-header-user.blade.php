@@ -76,7 +76,7 @@
             </div>
         </div>
     @else
-        <a href="{{ route('login') }}" class="bg-unnes-blue text-white px-4 py-2 mx-2 rounded-full hover:bg-[#c3d1e6] hover:text-black text-md text-center">
+        <a href="{{ route('login') }}" class="bg-unnes-blue text-white px-4 py-2 mx-2 rounded-full hover:bg-unnes-blue/70 text-md text-center">
             Login
         </a>
 

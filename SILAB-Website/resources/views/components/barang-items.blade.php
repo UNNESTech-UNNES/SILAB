@@ -41,9 +41,9 @@
                             </button>
                         </div>
                         <button type="submit" 
-                            class="flex-1 tracking-wider py-1.5 px-3 bg-unnes-blue hover:bg-[#c3d1e6] hover:text-black text-white text-sm rounded-full transition-colors duration-200"
+                            class="flex-1 py-1.5 px-3 bg-unnes-blue hover:bg-[#c3d1e6] hover:text-black text-white text-sm rounded-full transition-colors duration-200"
                             {{ $barang->available_quantity <= 0 ? 'disabled' : '' }}>
-                            <i class="fas fa-shopping-cart"></i>
+                            Tambah <i class="fas fa-shopping-cart"></i>
                         </button>
                     </div>
                 </form>

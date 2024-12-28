@@ -3,12 +3,13 @@
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-bold text-unnes-blue">INVENTARIS BARANG LABORATORIUM</h1>
             <button onclick="openCreateModal()" class="bg-unnes-blue text-white px-4 py-2 rounded-lg hover:bg-unnes-blue/80">
+                <i class="fa-solid fa-plus"></i>
                 Tambah Barang
             </button>
         </div>
 
         <!-- Filter Section -->
-        <div class="bg-white p-4 rounded-lg shadow-md mb-6">
+        <div class="bg-white mb-6">
             <div class="grid grid-cols-4 gap-4">
                 <input type="text" id="searchInput" placeholder="Cari barang..." 
                     class="px-4 py-2 rounded-lg border focus:ring focus:ring-unnes-blue/20">

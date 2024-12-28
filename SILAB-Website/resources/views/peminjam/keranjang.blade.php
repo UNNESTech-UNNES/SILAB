@@ -1,14 +1,12 @@
 <x-app-layout>
-    <div class="mt-24">
-        <a class="font-[Poppins] text-lg text-unnes-blue font-bold pl-32 py-8 hover:text-unnes-blue/60" href="{{ route('peminjam.dashboard') }}">
-            <i class="fa-solid fa-arrow-left"></i> Kembali
-        </a>
+    <div class="container px-4 md:px-8 lg:px-32 mx-auto pt-16 md:pt-24 space-y-6">
+        <x-title-header title="KERANJANG PEMINJAMAN"/>
 
         @if($keranjangItems->isEmpty())
-            <div class="container mx-auto px-32 py-10">
-                <div class="bg-white rounded-lg p-8 text-center">
+            <div class="container mx-auto pt-24">
+                <div class="p-8 text-center">
                     <div class="flex flex-col items-center gap-4">
-                        <i class="fas fa-shopping-cart text-6xl text-gray-300"></i>
+                        <i class="fas fa-shopping-cart text-9xl text-gray-300"></i>
                         <h2 class="text-2xl font-semibold text-gray-600">Keranjang Kosong</h2>
                         <p class="text-gray-500">Anda belum menambahkan barang ke keranjang</p>
                         <a href="{{ route('peminjam.dashboard') }}" class="bg-unnes-blue text-white px-6 py-2 rounded-lg hover:bg-unnes-blue/80 transition">
@@ -18,19 +16,18 @@
                 </div>
             </div>
         @else
-        <div class="mx-auto px-32">
-            <h1 class="text-2xl font-bold mb-6 pl-80">Keranjang Peminjaman</h1>
-            <div class="container items-start  py-1 grid grid-cols-3 gap-6">
+        <div class="mx-auto">
+            <div class="container items-start grid grid-cols-4 gap-6">
                 <!-- Keranjang Section -->
-                <div class="col-span-2">
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="col-span-2 bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="w-full">
                         <table class="w-full">
-                            <thead class="bg-gray-50 border-b">
+                            <thead class="bg-unnes-blue border-b">
                                 <tr>
-                                    <th class="px-6 py-4 text-left text-sm font-medium text-gray-500">Barang</th>
-                                    <th class="px-6 py-4 text-left text-sm font-medium text-gray-500">Kode</th>
-                                    <th class="px-6 py-4 text-left text-sm font-medium text-gray-500">Letak</th>
-                                    <th class="px-6 py-4 text-right text-sm font-medium text-gray-500">Aksi</th>
+                                    <th class="px-6 py-4 text-left text-md font-medium text-white">Barang</th>
+                                    <th class="px-6 py-4 text-left text-md font-medium text-white">Kode</th>
+                                    <th class="px-6 py-4 text-left text-md font-medium text-white">Letak</th>
+                                    <th class="px-6 py-4 text-right text-m font-medium text-white">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200">
@@ -58,8 +55,8 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-                        <h2 class="text-lg font-semibold mb-4">Ringkasan Peminjaman</h2>
+                    <div class="px-6 py-4 border-t border-gray-200">
+                        <h2 class="text-md font-semibold">Ringkasan Peminjaman</h2>
                         <div class="space-y-3">
                             <div class="flex justify-between text-sm">
                                 <span class="text-gray-600">Total Barang</span>
@@ -70,7 +67,7 @@
                 </div>
 
                 <!-- Form Section -->
-                <div class="col-span-1">
+                <div class="col-span-2">
                     <div class="bg-white rounded-lg shadow-md pt-3 p-6">
                         <h2 class="text-lg font-semibold mb-4 text-center">Form Peminjaman</h2>
                         <form action="{{ route('peminjam.keranjang.finalisasi') }}" method="POST" enctype="multipart/form-data" class="space-y-4">

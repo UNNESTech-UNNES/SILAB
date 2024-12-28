@@ -50,10 +50,11 @@ class PeminjamanController extends Controller
 
     public function riwayatPeminjam()
     {
-        // Mengambil semua riwayat peminjaman user yang sedang login
-        $riwayatPeminjaman = Peminjaman::where('user_id', Auth::id())
-                                      ->orderBy('created_at', 'desc')
-                                      ->get();
+        // Mengambil peminjaman yang menunggu persetujuan
+        $menungguPersetujuan = Peminjaman::where('user_id', Auth::id())
+                                        ->where('status', 'menunggu persetujuan')
+                                        ->orderBy('created_at', 'desc')
+                                        ->get();
 
         // Mengambil peminjaman yang sedang berlangsung
         $sedangDipinjam = Peminjaman::where('user_id', Auth::id())
@@ -68,7 +69,7 @@ class PeminjamanController extends Controller
                                    ->get();
 
         return view('peminjam.riwayat', compact(
-            'riwayatPeminjaman',
+            'menungguPersetujuan',
             'sedangDipinjam',
             'riwayatSelesai'
         ));
@@ -93,5 +94,31 @@ class PeminjamanController extends Controller
 
         return redirect()->route('admin.peminjaman.index')
             ->with('success', 'Pengembalian barang berhasil dikonfirmasi');
+    }
+
+    public function getRiwayatContent($tab)
+    {
+        $data = match($tab) {
+            'menunggu' => Peminjaman::where('user_id', Auth::id())
+                                   ->where('status', 'menunggu persetujuan')
+                                   ->orderBy('created_at', 'desc')
+                                   ->get(),
+            'dipinjam' => Peminjaman::where('user_id', Auth::id())
+                                   ->whereIn('status', ['disetujui', 'dipinjam'])
+                                   ->orderBy('tanggal_pengembalian', 'asc')
+                                   ->get(),
+            'selesai' => Peminjaman::where('user_id', Auth::id())
+                                  ->where('status', 'selesai')
+                                  ->orderBy('created_at', 'desc')
+                                  ->get(),
+            default => collect(),
+        };
+
+        if (request()->ajax()) {
+            return view('peminjam.partials.riwayat-content', [
+                'items' => $data,
+                'tab' => $tab
+            ])->render();
+        }
     }
 }

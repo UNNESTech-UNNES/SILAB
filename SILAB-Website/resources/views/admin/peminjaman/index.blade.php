@@ -8,7 +8,7 @@
                     </div>
                 @endif
                 <div class="flex justify-between items-center mb-4">
-                    <h1 class="text-2xl font-bold text-unnes-blue">Daftar Peminjaman</h1>
+                    <h1 class="text-2xl font-bold text-unnes-blue">DAFTAR PERMINTAAN</h1>
                     <a href="{{ route('admin.peminjaman.riwayat') }}" 
                        class="bg-unnes-blue text-white px-4 py-2 rounded-lg hover:bg-unnes-blue/80">
                         Lihat Riwayat
@@ -22,26 +22,26 @@
                         <table class="w-full border-collapse border border-gray-300">
                             <thead class="text-white">
                                 <tr class="bg-unnes-blue">
-                                    <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Kode Barang</th>
-                                    <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Nama Barang</th>
-                                    <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Nama Peminjam</th>
-                                    <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Alamat</th>
-                                    <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Nomor Handphone</th>
-                                    <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Surat Tugas</th>
-                                    <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Tanggal Peminjaman</th>
-                                    <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Tanggal Pengembalian</th>
-                                        <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Aksi</th>
+                                    <th class="px-6 py-3 text-left text-sm font-medium">Kode Barang</th>
+                                    <th class="px-6 py-3 text-left text-sm font-medium">Nama Barang</th>
+                                    <th class="px-6 py-3 text-left text-sm font-medium">Nama Peminjam</th>
+                                    <th class="px-6 py-3 text-left text-sm font-medium">Alamat</th>
+                                    <th class="px-6 py-3 text-left text-sm font-medium">Nomor Handphone</th>
+                                    <th class="px-6 py-3 text-left text-sm font-medium">Surat Tugas</th>
+                                    <th class="px-6 py-3 text-left text-sm font-medium">Tanggal Peminjaman</th>
+                                    <th class="px-6 py-3 text-left text-sm font-medium">Tanggal Pengembalian</th>
+                                        <th class="px-6 py-3 text-left text-sm font-medium">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200">
                                 @foreach($peminjamanList as $peminjaman)
                                 <tr class="hover:bg-slate-100">
-                                    <td class="px-6 py-3 text-left text-sm font-medium tracking-wider">{{ $peminjaman->kode_barang }}</td>
-                                    <td class="px-6 py-3 text-left text-sm font-medium tracking-wider">{{ $peminjaman->nama_barang }}</td>
-                                    <td class="px-6 py-3 text-left text-sm font-medium tracking-wider">{{ $peminjaman->nama_peminjam }}</td>
-                                    <td class="px-6 py-3 text-left text-sm font-medium tracking-wider">{{ $peminjaman->alamat_peminjam }}</td>
-                                    <td class="px-6 py-3 text-left text-sm font-medium tracking-wider">{{ $peminjaman->nomor_handphone }}</td>
-                                    <td class="px-6 py-3 text-left text-sm font-medium tracking-wider">
+                                    <td class="px-6 py-3 text-left text-sm font-medium ">{{ $peminjaman->kode_barang }}</td>
+                                    <td class="px-6 py-3 text-left text-sm font-medium ">{{ $peminjaman->nama_barang }}</td>
+                                    <td class="px-6 py-3 text-left text-sm font-medium ">{{ $peminjaman->nama_peminjam }}</td>
+                                    <td class="px-6 py-3 text-left text-sm font-medium ">{{ $peminjaman->alamat_peminjam }}</td>
+                                    <td class="px-6 py-3 text-left text-sm font-medium ">{{ $peminjaman->nomor_handphone }}</td>
+                                    <td class="px-6 py-3 text-left text-sm font-medium ">
                                         <div class="flex items-center justify-center space-x-2">
                                             @if(pathinfo($peminjaman->surat_tugas, PATHINFO_EXTENSION) == 'pdf')
                                                 <a href="{{ asset('storage/' . $peminjaman->surat_tugas) }}" target="_blank" class="bg-unnes-blue text-white rounded h-8 w-8 flex items-center justify-center"><i class="fa-solid fa-eye"></i></a>
@@ -51,9 +51,9 @@
                                             @endif
                                         </div>
                                     </td>
-                                    <td class="px-6 py-3 text-left text-sm font-medium tracking-wider">{{ $peminjaman->tanggal_peminjaman }}</td>
-                                    <td class="px-6 py-3 text-left text-sm font-medium tracking-wider">{{ $peminjaman->tanggal_pengembalian }}</td>
-                                    <td class="px-6 py-3 text-left text-sm font-medium tracking-wider">
+                                    <td class="px-6 py-3 text-left text-sm font-medium ">{{ $peminjaman->tanggal_peminjaman }}</td>
+                                    <td class="px-6 py-3 text-left text-sm font-medium ">{{ $peminjaman->tanggal_pengembalian }}</td>
+                                    <td class="px-6 py-3 text-left text-sm font-medium ">
                                         <div class="flex items-center justify-center space-x-2">
                                             <form action="{{ route('admin.peminjaman.setujui', $peminjaman->id) }}" method="POST" class="inline">
                                                 @csrf
@@ -81,23 +81,25 @@
                     <table class="w-full border-collapse border border-gray-300">
                         <thead class="text-white">
                             <tr class="bg-unnes-blue">
-                                <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Nama Peminjam</th>
-                                <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Nomor Handphone</th>
-                                <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Nama Barang</th>
-                                <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Tanggal Peminjaman</th>
-                                <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Tanggal Pengembalian</th>
-                                <th class="px-6 py-3 text-left text-sm font-medium tracking-wider">Aksi</th>
+                                <th class="px-6 py-3 text-left text-sm font-medium ">Kode Barang</th>
+                                <th class="px-6 py-3 text-left text-sm font-medium ">Nama Barang</th>
+                                <th class="px-6 py-3 text-left text-sm font-medium ">Nama Peminjam</th>
+                                <th class="px-6 py-3 text-left text-sm font-medium ">Nomor Handphone</th>
+                                <th class="px-6 py-3 text-left text-sm font-medium ">Tanggal Peminjaman</th>
+                                <th class="px-6 py-3 text-left text-sm font-medium ">Tanggal Pengembalian</th>
+                                <th class="px-6 py-3 text-left text-sm font-medium ">Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             @foreach ($barangDipinjam as $barang)
                             <tr class="hover:bg-slate-100">
-                                <td class="px-6 py-3 text-left text-sm font-medium tracking-wider">{{ $barang->nama_peminjam }}</td>
-                                <td class="px-6 py-3 text-left text-sm font-medium tracking-wider">{{ $barang->nomor_handphone }}</td>
-                                <td class="px-6 py-3 text-left text-sm font-medium tracking-wider">{{ $barang->nama_barang }}</td>
-                                <td class="px-6 py-3 text-left text-sm font-medium tracking-wider">{{ $barang->tanggal_peminjaman }}</td>
-                                <td class="px-6 py-3 text-left text-sm font-medium tracking-wider">{{ $barang->tanggal_pengembalian }}</td>
-                                <td class="px-6 py-3 text-left text-sm font-medium tracking-wider">
+                                <td class="px-6 py-3 text-left text-sm font-medium ">{{ $barang->kode_barang }}</td>
+                                <td class="px-6 py-3 text-left text-sm font-medium ">{{ $barang->nama_barang }}</td>
+                                <td class="px-6 py-3 text-left text-sm font-medium ">{{ $barang->nama_peminjam }}</td>
+                                <td class="px-6 py-3 text-left text-sm font-medium ">{{ $barang->nomor_handphone }}</td>
+                                <td class="px-6 py-3 text-left text-sm font-medium ">{{ $barang->tanggal_peminjaman }}</td>
+                                <td class="px-6 py-3 text-left text-sm font-medium ">{{ $barang->tanggal_pengembalian }}</td>
+                                <td class="px-6 py-3 text-left text-sm font-medium ">
                                     <form action="{{ route('admin.peminjaman.konfirmasi-pengembalian', $barang->id) }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin barang sudah dikembalikan?')">
                                         @csrf
                                         <button type="submit" class="bg-green-500 text-white rounded h-8 w-8 hover:bg-green-600">

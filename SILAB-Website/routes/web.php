@@ -44,6 +44,9 @@ Route::middleware(['auth', 'role:pemilik-medunes|pemilik-sparka|pemilik-facetro|
     Route::get('/dashboard', [PemilikController::class, 'index'])->name('dashboard');
     Route::post('/barang', [PemilikController::class, 'store'])->name('barang.store');
     Route::patch('/barang/{barang}/toggle-borrow', [PemilikController::class, 'toggleBorrow'])->name('barang.toggle-borrow');
+    Route::get('/barang/{barang}/edit', [PemilikController::class, 'edit'])->name('barang.edit');
+    Route::put('/barang/{barang}', [PemilikController::class, 'update'])->name('barang.update');
+    Route::delete('/barang/{barang}', [PemilikController::class, 'destroy'])->name('barang.destroy');
 });
 
 Route::middleware(['auth', 'role:peminjam'])->prefix('peminjam')->name('peminjam.')->group(function () {
@@ -56,7 +59,8 @@ Route::middleware(['auth', 'role:peminjam'])->prefix('peminjam')->name('peminjam
     Route::get('/riwayat-peminjaman', [PeminjamanController::class, 'riwayatPeminjam'])->name('peminjaman.riwayat');
     Route::get('/barang-dipinjam', [PeminjamanController::class, 'dipinjam'])->name('peminjaman.pengembalian');
     Route::get('/notifikasi', [NotifikasiController::class, 'index'])->name('notifikasi.index');
-
+    Route::get('riwayat/{tab}', [PeminjamanController::class, 'getRiwayatContent'])->name('riwayat.content');
 });
+
 
 require __DIR__.'/auth.php';

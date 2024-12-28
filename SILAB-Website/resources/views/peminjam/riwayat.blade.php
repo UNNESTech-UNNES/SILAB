@@ -1,91 +1,88 @@
 <x-app-layout>
-    <div class="container flex mx-auto px-32 py-8 mt-12 pt-4">
-        <a class="font-[Poppins] text-lg text-unnes-blue font-bold pt-10 pl-3 hover:text-unnes-blue/60" href="{{ route('peminjam.dashboard') }}">
-            <i class="fa-solid fa-arrow-left"></i> Kembali</a>        
+    <div class="container px-4 md:px-8 lg:px-32 mx-auto pt-16 md:pt-24 space-y-6">
+        <x-title-header title="RIWAYAT PEMINJAMAN"/>
+
+        <!-- Tab Navigation -->
+        <div class="flex border-b-2 border-gray-200 w-full justify-between">
+            <button onclick="changeTab('menunggu')" 
+                    class="tab-btn flex justify-center w-full border-b-2 pb-4 border-unnes-blue text-unnes-blue" 
+                    data-tab="menunggu">
+                Menunggu Persetujuan
+                <span class="bg-yellow-100 text-yellow-800 text-xs  font-medium px-2.5 py-1 rounded-full ml-2">
+                    {{ $menungguPersetujuan->count() }}
+                </span>
+            </button>
+            <button onclick="changeTab('dipinjam')" 
+                    class="tab-btn flex justify-center w-full text-gray-400 border-b-2 pb-4 border-transparent" 
+                    data-tab="dipinjam">
+                Sedang Dipinjam
+                <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-1 rounded-full ml-2">
+                    {{ $sedangDipinjam->count() }}
+                </span>
+            </button>
+            <button onclick="changeTab('selesai')" 
+                    class="tab-btn flex justify-center w-full text-gray-400 border-b-2 pb-4 border-transparent" 
+                    data-tab="selesai">
+                Selesai Dipinjam
+                <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-1 rounded-full ml-2">
+                    {{ $riwayatSelesai->count() }}
+                </span>
+            </button>
+        </div>
+
+        <!-- Tab Content -->
+        <div id="tab-content" class="flex flex-col w-full gap-4">
+            @include('peminjam.partials.riwayat-content', ['items' => $menungguPersetujuan, 'tab' => 'menunggu'])
+            @include('peminjam.partials.riwayat-content', ['items' => $sedangDipinjam, 'tab' => 'dipinjam'])
+            @include('peminjam.partials.riwayat-content', ['items' => $riwayatSelesai, 'tab' => 'selesai'])
+        </div>
     </div>
 
-    @if($riwayatPeminjaman->isEmpty())
-        <div class="container mx-auto px-32 py-10">
-            <div class="bg-white rounded-lg shadow-md p-8 text-center">
-                <div class="flex flex-col items-center gap-4">
-                    <i class="fas fa-history text-6xl text-gray-300"></i>
-                    <h2 class="text-2xl font-semibold text-gray-600">Belum Ada Riwayat</h2>
-                    <p class="text-gray-500">Anda belum pernah meminjam barang di SILAB</p>
-                    <a href="{{ route('peminjam.dashboard') }}" class="bg-unnes-blue text-white px-6 py-2 rounded-lg hover:bg-unnes-blue/80 transition">
-                        Mulai Meminjam
-                    </a>
-                </div>
-            </div>
-        </div>
-    @else
-        <div class="container mx-auto px-32">
-            <h1 class="text-2xl font-bold mb-6">Riwayat Peminjaman</h1>
+    @push('styles')
+    <style>
+        .tab-btn {
+            @apply px-4 py-2 text-sm font-medium border-b-2 transition-colors duration-200;
+        }
+        .active-tab {
+            @apply border-b-2 border-unnes-blue text-unnes-blue;
+        }
+    </style>
+    @endpush
 
-            <!-- Sedang Dipinjam -->
-            <div class="mb-8">
-                <h2 class="text-lg font-semibold mb-4">Sedang Dipinjam</h2>
-                <div class="space-y-4">
-                    @forelse($sedangDipinjam as $item)
-                        <div class="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition">
-                            <div class="flex items-start gap-4">
-                                <img src="{{ asset('storage/' . $item->barang->gambar) }}" class="w-32 h-32 object-cover rounded-lg" alt="{{ $item->nama_barang }}">
-                                <div class="flex-grow">
-                                    <div class="flex justify-between">
-                                        <div>
-                                            <h3 class="font-semibold text-lg">{{ $item->nama_barang }}</h3>
-                                            <p class="text-gray-500 text-sm">{{ $item->kode_barang }}</p>
-                                            <p class="text-gray-500 text-sm">Ruang {{ $item->letak_barang }}</p>
-                                        </div>
-                                        <div class="text-right">
-                                            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">
-                                                Sedang Dipinjam
-                                            </span>
-                                            <p class="text-sm text-gray-500 mt-1">
-                                                Dikembalikan: {{ \Carbon\Carbon::parse($item->tanggal_pengembalian)->format('d M Y') }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @empty
-                        <p class="text-gray-500 text-center py-4">Tidak ada barang yang sedang dipinjam</p>
-                    @endforelse
-                </div>
-            </div>
+    @push('scripts')
+    <script>
+        // Load initial content
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTabContent('menunggu');
+        });
 
-            <!-- Riwayat Selesai -->
-            <div>
-                <h2 class="text-lg font-semibold mb-4">Riwayat Selesai</h2>
-                <div class="space-y-4">
-                    @forelse($riwayatSelesai as $item)
-                        <div class="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition">
-                            <div class="flex items-start gap-4">
-                                <img src="{{ asset('storage/' . $item->barang->gambar) }}" class="w-32 h-32 object-cover rounded-lg" alt="{{ $item->nama_barang }}">
-                                <div class="flex-grow">
-                                    <div class="flex justify-between">
-                                        <div>
-                                            <h3 class="font-semibold text-lg">{{ $item->nama_barang }}</h3>
-                                            <p class="text-gray-500 text-sm">{{ $item->kode_barang }}</p>
-                                            <p class="text-gray-500 text-sm">Ruang {{ $item->letak_barang }}</p>
-                                        </div>
-                                        <div class="text-right">
-                                            <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">
-                                                Selesai
-                                            </span>
-                                            <p class="text-sm text-gray-500 mt-1">
-                                                Dipinjam: {{ \Carbon\Carbon::parse($item->tanggal_peminjaman)->format('d M Y') }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @empty
-                        <p class="text-gray-500 text-center py-4">Belum ada riwayat peminjaman selesai</p>
-                    @endforelse
-                </div>
-            </div>
-        </div>
-    @endif
+        function changeTab(tabId) {
+            // Update active tab styling
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('border-unnes-blue', 'text-unnes-blue');
+                btn.classList.add('text-gray-400', 'border-transparent');
+            });
+            
+            const activeTab = document.querySelector(`[data-tab="${tabId}"]`);
+            activeTab.classList.remove('text-gray-400', 'border-transparent');
+            activeTab.classList.add('border-unnes-blue', 'text-unnes-blue');
+
+            // Load content
+            loadTabContent(tabId);
+        }
+
+        function loadTabContent(tabId) {
+            fetch(`/peminjam/riwayat/${tabId}`, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('tab-content').innerHTML = html;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+    @endpush
 </x-app-layout>

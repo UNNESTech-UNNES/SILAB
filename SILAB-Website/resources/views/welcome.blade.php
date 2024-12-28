@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="container flex mx-auto px-12 md:px-24 lg:px-32 py-8 mt-8 md:mt-16">
+    <div class="container flex mx-auto px-4 md:px-16 lg:px-32 py-8 mt-8 md:mt-16">
         <div id="default-carousel" class="relative w-full" data-carousel="slide">
             <!-- Carousel wrapper -->
             <div class="relative sm:rounded-lg md:rounded-xl lg:rounded-3xl overflow-hidden h-64 sm:h-72 md:h-80 lg:h-96 xl:h-96">
@@ -21,7 +21,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 
-    <section class="bg-white">
+    <section class="container px-4 md:px-16 lg:px-32 mx-auto">
         <div class="container mx-auto flex items-center flex-wrap">
             <x-list-barang :barangs="$barangs"/>
         </div>
