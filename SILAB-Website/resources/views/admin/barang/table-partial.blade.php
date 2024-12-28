@@ -2,6 +2,7 @@
     <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-unnes-blue">
             <tr>
+                <th class="px-6 py-3 text-center text-sm font-medium text-white">Gambar</th>
                 <th class="px-6 py-3 text-center text-sm font-medium text-white">Kode</th>
                 <th class="px-6 py-3 text-center text-sm font-medium text-white">Nama</th>
                 <th class="px-6 py-3 text-center text-sm font-medium text-white">Jenis</th>
@@ -15,6 +16,9 @@
         <tbody class="bg-white divide-y divide-gray-200">
             @forelse($barang as $item)
             <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4 text-center text-sm">
+                    <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama_barang }}" class="w-48 h-24 object-cover rounded-md">
+                </td>
                 <td class="px-6 py-4 text-center text-sm">{{ $item->kode_barang }}</td>
                 <td class="px-6 py-4 text-center text-sm">{{ $item->nama_barang }}</td>
                 <td class="px-6 py-4 text-center text-sm">{{ $item->jenis_barang }}</td>
