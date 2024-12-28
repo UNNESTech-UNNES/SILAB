@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="container flex mx-auto px-12 md:px-24 lg:px-32 py-8 mt-8 md:mt-16">
+    <div class="container flex mx-auto px-12 md:px-24 lg:px-32 py-4 md:py-6 lg:py-8 mt-8 md:mt-16">
         <div id="default-carousel" class="relative w-full" data-carousel="slide">
             <!-- Carousel wrapper -->
             <div class="relative sm:rounded-lg md:rounded-xl lg:rounded-3xl overflow-hidden h-64 sm:h-72 md:h-80 lg:h-96 xl:h-96">

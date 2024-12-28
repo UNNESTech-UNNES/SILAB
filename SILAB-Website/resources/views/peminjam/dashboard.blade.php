@@ -96,4 +96,5 @@
             };
         }
     </script>
+    <x-footer-user/>
 </x-app-layout>

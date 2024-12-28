@@ -1,11 +1,11 @@
 <x-app-layout>
-    <div class="mt-24">
-        <a class="font-[Poppins] text-lg text-unnes-blue font-bold pl-32 py-8 hover:text-unnes-blue/60" href="{{ route('peminjam.dashboard') }}">
+    <div class="mt-12 md:mt-14 lg:mt-16 px-4 sm:px-8 lg:px-32">
+        <a class="font-[Poppins] text-lg text-unnes-blue font-bold py-8 hover:text-unnes-blue/60 block sm:inline-block" href="{{ route('peminjam.dashboard') }}">
             <i class="fa-solid fa-arrow-left"></i> Kembali
         </a>
 
         @if($keranjangItems->isEmpty())
-            <div class="container mx-auto px-32 py-10">
+            <div class="container mx-auto py-10">
                 <div class="bg-white rounded-lg p-8 text-center">
                     <div class="flex flex-col items-center gap-4">
                         <i class="fas fa-shopping-cart text-6xl text-gray-300"></i>
@@ -18,11 +18,11 @@
                 </div>
             </div>
         @else
-        <div class="mx-auto px-32">
-            <h1 class="text-2xl font-bold mb-6 pl-80">Keranjang Peminjaman</h1>
-            <div class="container items-start  py-1 grid grid-cols-3 gap-6">
+        <div class="mx-auto">
+            <h1 class="text-2xl font-bold mb-6 pl-18 md:pl-50 lg:pl-80">Keranjang Peminjaman</h1>
+            <div class="container items-start py-1 grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <!-- Keranjang Section -->
-                <div class="col-span-2">
+                <div class="lg:col-span-2">
                     <div class="bg-white rounded-lg shadow-md overflow-hidden">
                         <table class="w-full">
                             <thead class="bg-gray-50 border-b">
@@ -38,12 +38,12 @@
                                     <tr class="hover:bg-gray-50">
                                         <td class="px-6 py-4">
                                             <div class="flex items-center gap-4">
-                                                <img src="{{ asset('storage/' . $item->barang->gambar) }}" class="w-16 h-16 object-cover rounded-lg" alt="{{ $item->nama_barang }}">
-                                                <span class="font-medium">{{ $item->nama_barang }}</span>
+                                                <img src="{{ asset('storage/' . $item->barang->gambar) }}" class="w-8 h-8 md:w-12 md:h-12 lg:w-16 lg:h-16 object-cover rounded-lg" alt="{{ $item->nama_barang }}">
+                                                <span class="font-medium text-sm lg:text-md">{{ $item->nama_barang }}</span>
                                             </div>
                                         </td>
-                                        <td class="px-6 py-4 text-gray-500">{{ $item->kode_barang }}</td>
-                                        <td class="px-6 py-4 text-gray-500">{{ $item->letak_barang }}</td>
+                                        <td class="px-6 py-4 text-gray-500 text-sm lg:text-md">{{ $item->kode_barang }}</td>
+                                        <td class="px-6 py-4 text-gray-500 text-sm lg:text-md">{{ $item->letak_barang }}</td>
                                         <td class="px-6 py-4 text-right">
                                             <form action="{{ route('peminjam.keranjang.hapus', $item->id) }}" method="POST">
                                                 @csrf
@@ -70,7 +70,7 @@
                 </div>
 
                 <!-- Form Section -->
-                <div class="col-span-1">
+                <div class="lg:col-span-1">
                     <div class="bg-white rounded-lg shadow-md pt-3 p-6">
                         <h2 class="text-lg font-semibold mb-4 text-center">Form Peminjaman</h2>
                         <form action="{{ route('peminjam.keranjang.finalisasi') }}" method="POST" enctype="multipart/form-data" class="space-y-4">

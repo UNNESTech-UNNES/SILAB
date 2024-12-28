@@ -52,7 +52,7 @@
     </div>
     <div>
         @auth
-            <button id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start"class="text-white w-12 h-12 rounded-full font-medium text-base flex items-center justify-center {{ $randomColor }}">
+            <button id="avatarButton" type="button" data-dropdown-toggle="userDropdown" data-dropdown-placement="bottom-start"class="text-white w-6 h-6 md:w-8 md:h-8 lg:w-12 lg:h-12 rounded-full font-medium text-base flex items-center justify-center {{ $randomColor }}">
                 {{ $initials }}
             </button>
             <div id="userDropdown" class="z-10 text-sm text-gray-900 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
@@ -76,12 +76,12 @@
             </div>
         </div>
     @else
-        <a href="{{ route('login') }}" class="bg-unnes-blue text-white px-4 py-2 mx-2 rounded-full hover:bg-[#c3d1e6] hover:text-black text-md text-center">
+        <a href="{{ route('login') }}" class="bg-unnes-blue text-white px-4 py-2 mx-2 rounded-full hover:bg-[#c3d1e6] hover:text-black text-sm md:text-md lg:text-lg text-center">
             Login
         </a>
 
         @if (Route::has('register'))
-            <a href="{{ route('register') }}" class="border-2 border-unnes-b px-4 py-2 rounded-full hover:bg-unnes-blue hover:text-white text-md ">
+            <a href="{{ route('register') }}" class="border-2 border-unnes-b px-4 py-2 rounded-full hover:bg-unnes-blue hover:text-white text-sm md:text-md lg:text-lg text-center">
                 Register
             </a>
         @endif
