@@ -87,7 +87,7 @@
                                 <th class="px-6 py-3 text-left text-sm font-medium ">Nomor Handphone</th>
                                 <th class="px-6 py-3 text-left text-sm font-medium ">Tanggal Peminjaman</th>
                                 <th class="px-6 py-3 text-left text-sm font-medium ">Tanggal Pengembalian</th>
-                                <th class="px-6 py-3 text-left text-sm font-medium ">Aksi</th>
+                                <th class="px-6 py-3 text-left text-sm font-medium ">Tandai Kembali</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">

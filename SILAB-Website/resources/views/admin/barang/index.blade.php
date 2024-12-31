@@ -49,9 +49,53 @@
         <div class="relative top-20 mx-auto p-5 border w-[600px] shadow-lg rounded-md bg-white">
             <div class="mt-3">
                 <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4">Edit Barang</h3>
-                <div id="modalContent">
-                    <!-- Form will be loaded here -->
-                </div>
+                <form id="formEditBarang" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" id="edit_barang_id" name="id">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Nama Barang</label>
+                            <input type="text" id="edit_nama_barang" name="nama_barang" required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-unnes-blue">
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Jenis Barang</label>
+                            <select id="edit_jenis_barang" name="jenis_barang" required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-unnes-blue">
+                                <option value="UMUM">UMUM</option>
+                                <option value="SPARKA">SPARKA</option>
+                                <option value="FACETRO">FACETRO</option>
+                                <option value="SILAB">SILAB</option>
+                                <option value="LMS">LMS</option>
+                                <option value="REMOSTO">REMOSTO</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Letak Barang</label>
+                            <input type="text" id="edit_letak_barang" name="letak_barang" required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-unnes-blue">
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Kondisi Barang</label>
+                            <select id="edit_kondisi_barang" name="kondisi_barang" required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-unnes-blue">
+                                <option value="baik">Baik</option>
+                                <option value="rusak">Rusak</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-4 col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Gambar</label>
+                            <input type="file" name="gambar" accept="image/*"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-unnes-blue">
+                            <img id="edit_preview_img" src="" alt="Preview" class="hidden mt-2 max-h-32">
+                        </div>
+                    </div>
+                </form>
                 <div class="flex justify-end gap-3 mt-4">
                     <button type="button" onclick="closeEditModal()"
                         class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
@@ -78,10 +122,27 @@
 
         function openEditModal(barangId) {
             fetch(`/admin/barang/${barangId}/edit`)
-                .then(response => response.text())
-                .then(html => {
-                    document.getElementById('modalContent').innerHTML = html;
-                    document.getElementById('modalEdit').classList.remove('hidden');
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('edit_barang_id').value = barangId;
+                        document.getElementById('edit_nama_barang').value = data.barang.nama_barang;
+                        document.getElementById('edit_jenis_barang').value = data.barang.jenis_barang;
+                        document.getElementById('edit_letak_barang').value = data.barang.letak_barang;
+                        document.getElementById('edit_kondisi_barang').value = data.barang.kondisi_barang;
+                        
+                        const previewImg = document.getElementById('edit_preview_img');
+                        if (data.barang.gambar) {
+                            previewImg.src = `/storage/${data.barang.gambar}`;
+                            previewImg.classList.remove('hidden');
+                        }
+                        
+                        document.getElementById('modalEdit').classList.remove('hidden');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat memuat data barang');
                 });
         }
 
@@ -89,25 +150,42 @@
             document.getElementById('modalEdit').classList.add('hidden');
         }
 
-        async function updateTable() {
-            const params = new URLSearchParams({
-                search: document.getElementById('searchInput').value,
-                filter_letak: document.getElementById('filterLetak').value,
-                filter_jenis: document.getElementById('filterJenis').value,
-                filter_kondisi: document.getElementById('filterKondisi').value
-            });
+        function changePerPage(value) {
+            const params = new URLSearchParams(window.location.search);
+            params.set('per_page', value);
+            updateTable(1, params);
+        }
 
+        async function updateTable(page = 1) {
             try {
-                const response = await fetch(`/admin/barang/table?${params.toString()}`, {
+                const params = new URLSearchParams({
+                    search: document.getElementById('searchInput').value,
+                    filter_letak: document.getElementById('filterLetak').value,
+                    filter_jenis: document.getElementById('filterJenis').value,
+                    filter_kondisi: document.getElementById('filterKondisi').value,
+                    per_page: document.getElementById('perPage').value,
+                    page: page
+                });
+
+                const response = await fetch(`/admin/barang?${params.toString()}`, {
                     headers: {
                         'X-Requested-With': 'XMLHttpRequest'
                     }
                 });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 
                 const html = await response.text();
                 document.getElementById('tableContainer').innerHTML = html;
+
+                // Update URL tanpa reload
+                const newUrl = `${window.location.pathname}?${params.toString()}`;
+                window.history.pushState({ path: newUrl }, '', newUrl);
             } catch (error) {
                 console.error('Error:', error);
+                alert('Terjadi kesalahan saat memuat data');
             }
         }
 
@@ -142,37 +220,94 @@
             }
         }
 
-        // DOM ready event listener
+        // Pindahkan event listener form edit ke dalam DOMContentLoaded
         document.addEventListener('DOMContentLoaded', function() {
-            // Setup form create submission
-            document.getElementById('formCreateBarang').addEventListener('submit', async function(e) {
-                e.preventDefault();
-                const formData = new FormData(this);
+            const formEdit = document.getElementById('formEditBarang');
+            if (formEdit) {
+                formEdit.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    const formData = new FormData(this);
+                    const barangId = document.getElementById('edit_barang_id').value;
 
-                try {
-                    const response = await fetch('{{ route("admin.barang.store") }}', {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    try {
+                        const response = await fetch(`/admin/barang/${barangId}`, {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                                'X-HTTP-Method-Override': 'PUT'
+                            }
+                        });
+
+                        const data = await response.json();
+                        
+                        if (data.success) {
+                            closeEditModal();
+                            updateTable();
+                            alert('Barang berhasil diperbarui');
+                        } else {
+                            alert(data.message || 'Gagal memperbarui barang');
                         }
-                    });
-
-                    if (response.ok) {
-                        closeCreateModal();
-                        updateTable();
-                        this.reset();
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('Terjadi kesalahan saat memperbarui barang');
                     }
-                } catch (error) {
-                    console.error('Error:', error);
-                }
-            });
+                });
+            }
 
             // Event listeners untuk filter
-            document.getElementById('searchInput').addEventListener('input', debounce(updateTable, 300));
-            document.getElementById('filterLetak').addEventListener('change', updateTable);
-            document.getElementById('filterJenis').addEventListener('change', updateTable);
-            document.getElementById('filterKondisi').addEventListener('change', updateTable);
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('input', debounce(updateTable, 300));
+            }
+
+            const filterLetak = document.getElementById('filterLetak');
+            if (filterLetak) {
+                filterLetak.addEventListener('change', updateTable);
+            }
+
+            const filterJenis = document.getElementById('filterJenis');
+            if (filterJenis) {
+                filterJenis.addEventListener('change', updateTable);
+            }
+
+            const filterKondisi = document.getElementById('filterKondisi');
+            if (filterKondisi) {
+                filterKondisi.addEventListener('change', updateTable);
+            }
+
+            const formCreate = document.getElementById('formCreateBarang');
+            if (formCreate) {
+                formCreate.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    const formData = new FormData(this);
+
+                    try {
+                        const response = await fetch('/admin/barang', {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                                'Accept': 'application/json'
+                            }
+                        });
+
+                        const data = await response.json();
+                        
+                        if (data.success) {
+                            closeCreateModal();
+                            updateTable();
+                            this.reset();
+                            alert('Barang berhasil ditambahkan');
+                        } else {
+                            alert(data.message || 'Gagal menambahkan barang');
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('Terjadi kesalahan saat menambahkan barang');
+                    }
+                });
+            }
         });
     </script>
 </x-main-layout>

@@ -27,11 +27,11 @@
     <td class="px-6 py-4">
         <div class="flex space-x-2">
             <button onclick="editBarang('{{ $barang->id }}')" 
-                    class="text-yellow-600 hover:text-yellow-900">
+                    class="bg-unnes-blue text-white rounded h-8 w-8 flex items-center justify-center">
                 <i class="fas fa-edit"></i>
             </button>
             <button onclick="deleteBarang('{{ $barang->id }}')"
-                    class="text-red-600 hover:text-red-900">
+                    class="bg-red-500 text-white rounded h-8 w-8 flex items-center justify-center hover:bg-red-600">
                 <i class="fas fa-trash"></i>
             </button>
         </div>

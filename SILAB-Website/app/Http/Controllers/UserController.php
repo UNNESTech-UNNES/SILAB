@@ -18,36 +18,47 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        $roles = Role::all();
-        $permissions = Permission::all();
-        
-        return view('admin.users.edit', compact('user', 'roles', 'permissions'));
+        try {
+            $user->load('roles');
+            return response()->json([
+                'success' => true,
+                'user' => $user
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal memuat data user'
+            ], 500);
+        }
     }
 
     public function update(Request $request, User $user)
     {
-        $request->validate([
-            'role' => 'required|string|exists:roles,name'
-        ]);
-    
-        // Hapus semua role yang ada
-        $user->roles()->detach();
-        
-        // Assign role baru
-        $user->assignRole($request->role);
-        
-        return redirect()->route('admin.users.index')
-            ->with('success', 'Role user berhasil diperbarui');
-        
-        // Sync permissions
-        if($request->has('permissions')) {
-            $user->syncPermissions($request->permissions);
-        } else {
-            $user->syncPermissions([]);
+        try {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|unique:users,email,' . $user->id,
+                'role' => 'required|string'
+            ]);
+
+            $user->update([
+                'name' => $request->name,
+                'email' => $request->email
+            ]);
+
+            // Update role
+            $user->syncRoles([$request->role]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'User berhasil diperbarui'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal memperbarui user: ' . $e->getMessage()
+            ], 500);
         }
-        
-        return redirect()->route('admin.users.index')
-            ->with('success', 'Role user berhasil diperbarui');
     }
 }
 

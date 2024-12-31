@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Barang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -12,35 +13,51 @@ class BarangController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Barang::query();
+        try {
+            $query = Barang::query();
+            $perPage = $request->get('per_page', 10);
 
-        if ($request->filled('search')) {
-            $query->where('nama_barang', 'like', '%' . $request->search . '%')
-                  ->orWhere('kode_barang', 'like', '%' . $request->search . '%');
+            // Filter berdasarkan pencarian
+            if ($request->filled('search')) {
+                $query->where(function($q) use ($request) {
+                    $q->where('nama_barang', 'like', '%' . $request->search . '%')
+                      ->orWhere('kode_barang', 'like', '%' . $request->search . '%');
+                });
+            }
+
+            // Filter lainnya
+            if ($request->filled('filter_letak')) {
+                $query->where('letak_barang', $request->filter_letak);
+            }
+            if ($request->filled('filter_jenis')) {
+                $query->where('jenis_barang', $request->filter_jenis);
+            }
+            if ($request->filled('filter_kondisi')) {
+                $query->where('kondisi_barang', $request->filter_kondisi);
+            }
+
+            // $barang = $query->paginate($perPage)->withQueryString();
+            $letakBarang = Barang::select('letak_barang')->distinct()->get();
+            $jenisBarang = Barang::select('jenis_barang')->distinct()->get();
+            $kondisiBarang = Barang::select('kondisi_barang')->distinct()->get();
+
+            if ($request->ajax()) {
+                return view('admin.barang.table-partial', compact('barang'));
+            }
+
+            return view('admin.barang.index', compact('barang', 'letakBarang', 'jenisBarang', 'kondisiBarang'));
+
+        } catch (\Exception $e) {
+            Log::error('Error in BarangController@index: ' . $e->getMessage());
+            
+            if ($request->ajax()) {
+                return response()->json([
+                    'error' => 'Terjadi kesalahan saat memuat data'
+                ], 500);
+            }
+            
+            return back()->with('error', 'Terjadi kesalahan saat memuat data');
         }
-
-        if ($request->filled('filter_letak')) {
-            $query->where('letak_barang', $request->filter_letak);
-        }
-
-        if ($request->filled('filter_jenis')) {
-            $query->where('jenis_barang', $request->filter_jenis);
-        }
-
-        if ($request->filled('filter_kondisi')) {
-            $query->where('kondisi_barang', $request->filter_kondisi);
-        }
-
-        $barang = $query->get();
-        $letakBarang = Barang::select('letak_barang')->distinct()->get();
-        $jenisBarang = Barang::select('jenis_barang')->distinct()->get();
-        $kondisiBarang = Barang::select('kondisi_barang')->distinct()->get();
-
-        if ($request->ajax()) {
-            return view('admin.barang.table-partial', compact('barang'));
-        }
-
-        return view('admin.barang.index', compact('barang', 'letakBarang', 'jenisBarang', 'kondisiBarang'));
     }
 
     public function create()
@@ -50,80 +67,61 @@ class BarangController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nama_barang' => 'required',
-            'jenis_barang' => 'required',
-            'letak_barang' => 'required',
-            'kondisi_barang' => 'required',
-            'jumlah' => 'required|integer|min:1',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
-
-        // Simpan gambar jika ada
-        $path = $request->file('gambar') ? $request->file('gambar')->store('barang', 'public') : null;
-
-        // Generate kode barang
-        $kodePrefix = substr($request->nama_barang, 0, 3) . '-' . substr($request->jenis_barang, 0, 3);
-        $lastBarang = Barang::where('kode_barang', 'like', $kodePrefix . '%')->latest()->first();
-        $newNumber = $lastBarang ? (int)substr($lastBarang->kode_barang, -1) + 1 : 1;
-
-        // Buat barang sesuai jumlah yang diminta
-        for ($i = 0; $i < $request->jumlah; $i++) {
-            $kodeBarang = $kodePrefix . '-' . $request->letak_barang . '-' . ($newNumber + $i);
-            
-            Barang::create([
-                'kode_barang' => $kodeBarang,
-                'nama_barang' => $request->nama_barang,
-                'jenis_barang' => $request->jenis_barang,
-                'letak_barang' => $request->letak_barang,
-                'kondisi_barang' => $request->kondisi_barang,
-                'gambar' => $path,
-                'status' => 'tersedia',
-                'can_borrowed' => true
+        try {
+            $request->validate([
+                'nama_barang' => 'required',
+                'jenis_barang' => 'required',
+                'letak_barang' => 'required',
+                'kondisi_barang' => 'required',
+                'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+                'jumlah' => 'required|integer|min:1'
             ]);
-        }
 
-        if ($request->ajax()) {
-            return response()->json(['success' => true]);
-        }
+            // Generate kode barang
+            $namaPrefix = strtoupper(substr(preg_replace('/[^a-zA-Z0-9]/', '', $request->nama_barang), 0, 3));
+            $jenisPrefix = strtoupper(substr(preg_replace('/[^a-zA-Z0-9]/', '', $request->jenis_barang), 0, 3));
+            
+            // Mendapatkan nomor urut terakhir untuk kode barang dengan prefix yang sama
+            $lastBarang = Barang::where('kode_barang', 'like', $namaPrefix . '-' . $jenisPrefix . '-' . $request->letak_barang . '-%')
+                ->orderBy('kode_barang', 'desc')
+                ->first();
 
-        return redirect()->route('admin.barang.index')->with('success', 'Barang berhasil ditambahkan');
+            $newNumber = $lastBarang ? (int)substr($lastBarang->kode_barang, strrpos($lastBarang->kode_barang, '-') + 1) + 1 : 1;
+
+            // Upload gambar sekali saja
+            $gambarPath = $request->file('gambar')->store('barang', 'public');
+
+            // Buat barang sesuai jumlah yang diminta
+            for ($i = 0; $i < $request->jumlah; $i++) {
+                $kodeBarang = $namaPrefix . '-' . $jenisPrefix . '-' . $request->letak_barang . '-' . ($newNumber + $i);
+                
+                Barang::create([
+                    'kode_barang' => strtoupper($kodeBarang),
+                    'nama_barang' => $request->nama_barang,
+                    'jenis_barang' => $request->jenis_barang,
+                    'letak_barang' => $request->letak_barang,
+                    'kondisi_barang' => $request->kondisi_barang,
+                    'gambar' => $gambarPath,
+                    'status' => 'tersedia',
+                    'can_borrowed' => true
+                ]);
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Barang berhasil ditambahkan'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menambahkan barang: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     public function show(Barang $barang)
     {
         return view('admin.barang.show', compact('barang'));
-    }
-
-    public function update(Request $request, $id) {
-        // Validasi data
-        $request->validate([
-            'nama_barang' => 'required|string|max:255',
-            'jenis_barang' => 'required|string|max:255',
-            'letak_barang' => 'required|string|max:255',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-    
-        // Temukan barang berdasarkan ID
-        $barang = Barang::findOrFail($id);
-    
-        // Update data barang
-        $barang->nama_barang = $request->nama_barang;
-        $barang->jenis_barang = $request->jenis_barang;
-        $barang->letak_barang = $request->letak_barang;
-    
-        // Cek jika ada gambar yang diupload
-        if ($request->hasFile('gambar')) {
-            // Proses upload gambar
-            $path = $request->file('gambar')->store('images', 'public');
-            $barang->gambar = $path;
-        }
-    
-        // Simpan perubahan
-        $barang->save();
-    
-        // Redirect atau kembali dengan pesan sukses
-        return redirect()->route('admin.barang.index')->with('success', 'Barang berhasil diperbarui.');
     }
 
     public function destroy(Barang $barang)
@@ -236,56 +234,58 @@ class BarangController extends Controller
         return view('welcome', ['barangs' => $barangs]);
     }
 
-    public function getTableData(Request $request)
+    public function edit(Barang $barang)
     {
-        $query = Barang::query();
-
-        if ($request->filled('search')) {
-            $query->where(function($q) use ($request) {
-                $q->where('nama_barang', 'like', '%' . $request->search . '%')
-                  ->orWhere('kode_barang', 'like', '%' . $request->search . '%');
-            });
+        try {
+            return response()->json([
+                'success' => true,
+                'barang' => $barang
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal memuat data barang'
+            ], 500);
         }
-
-        if ($request->filled('filter_letak')) {
-            $query->where('letak_barang', $request->filter_letak);
-        }
-
-        if ($request->filled('filter_jenis')) {
-            $query->where('jenis_barang', $request->filter_jenis);
-        }
-
-        if ($request->filled('filter_kondisi')) {
-            $query->where('kondisi_barang', $request->filter_kondisi);
-        }
-
-        $barang = $query->get();
-        return view('admin.barang.table-partial', compact('barang'));
     }
 
-    public function getEditForm(Barang $barang)
+    public function update(Request $request, Barang $barang)
     {
-        return view('admin.barang.edit-form', compact('barang'));
-    }
+        try {
+            $request->validate([
+                'nama_barang' => 'required',
+                'jenis_barang' => 'required',
+                'letak_barang' => 'required',
+                'kondisi_barang' => 'required',
+                'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            ]);
 
-    public function updateAjax(Request $request, Barang $barang)
-    {
-        $request->validate([
-            'nama_barang' => 'required',
-            'jenis_barang' => 'required',
-            'letak_barang' => 'required',
-            'kondisi_barang' => 'required',
-        ]);
+            $data = $request->only([
+                'nama_barang', 
+                'jenis_barang', 
+                'letak_barang', 
+                'kondisi_barang'
+            ]);
+            
+            if ($request->hasFile('gambar')) {
+                if ($barang->gambar) {
+                    Storage::disk('public')->delete($barang->gambar);
+                }
+                $data['gambar'] = $request->file('gambar')->store('barang', 'public');
+            }
 
-        $data = $request->only(['nama_barang', 'jenis_barang', 'letak_barang', 'kondisi_barang']);
-        
-        if ($request->hasFile('gambar')) {
-            $path = $request->file('gambar')->store('barang', 'public');
-            $data['gambar'] = $path;
+            $barang->update($data);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Barang berhasil diperbarui'
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error updating barang: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal memperbarui barang: ' . $e->getMessage()
+            ], 500);
         }
-
-        $barang->update($data);
-
-        return response()->json(['success' => true]);
     }
 }

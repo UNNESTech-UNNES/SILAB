@@ -1,4 +1,4 @@
-<div class="bg-white shadow-md rounded-lg overflow-hidden">
+<div class="overflow-x-auto bg-white rounded-lg shadow">
     <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-unnes-blue">
             <tr>
@@ -56,4 +56,47 @@
             @endforelse
         </tbody>
     </table>
+    
+    <!-- Pagination -->
+    <div class="px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+            <span class="text-sm text-gray-700">Tampilkan</span>
+            <select id="perPage" class="border rounded-md px-2 py-1 text-sm" onchange="changePerPage(this.value)">
+                @foreach([10, 20, 30, 40] as $size)
+                    <option value="{{ $size }}" {{ request()->get('per_page', 10) == $size ? 'selected' : '' }}>
+                        {{ $size }}
+                    </option>
+                @endforeach
+            </select>
+            <span class="text-sm text-gray-700">data per halaman</span>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <span class="text-sm text-gray-700">
+                Menampilkan {{ $barang->firstItem() ?? 0 }} - {{ $barang->lastItem() ?? 0 }} dari {{ $barang->total() }} data
+            </span>
+            
+            <div class="flex rounded-lg">
+                @if($barang->currentPage() > 2)
+                    <button class="px-3 py-1 rounded-l-lg border" onclick="updateTable(1)">1</button>
+                    @if($barang->currentPage() > 3)
+                        <span class="px-3 py-1 border-t border-b">...</span>
+                    @endif
+                @endif
+
+                @foreach(range(max(1, $barang->currentPage() - 1), min($barang->lastPage(), $barang->currentPage() + 1)) as $page)
+                    <button class="px-3 py-1 border {{ $page == $barang->currentPage() ? 'bg-unnes-blue text-white' : '' }}" 
+                            onclick="updateTable({{ $page }})">{{ $page }}</button>
+                @endforeach
+
+                @if($barang->currentPage() < $barang->lastPage() - 1)
+                    @if($barang->currentPage() < $barang->lastPage() - 2)
+                        <span class="px-3 py-1 border-t border-b">...</span>
+                    @endif
+                    <button class="px-3 py-1 rounded-r-lg border" 
+                            onclick="updateTable({{ $barang->lastPage() }})">{{ $barang->lastPage() }}</button>
+                @endif
+            </div>
+        </div>
+    </div>
 </div> 
