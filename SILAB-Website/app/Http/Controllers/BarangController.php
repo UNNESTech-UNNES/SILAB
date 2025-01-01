@@ -36,7 +36,7 @@ class BarangController extends Controller
                 $query->where('kondisi_barang', $request->filter_kondisi);
             }
 
-            // $barang = $query->paginate($perPage)->withQueryString();
+            $barang = $query->paginate($perPage);
             $letakBarang = Barang::select('letak_barang')->distinct()->get();
             $jenisBarang = Barang::select('jenis_barang')->distinct()->get();
             $kondisiBarang = Barang::select('kondisi_barang')->distinct()->get();
